@@ -14,40 +14,6 @@ import os
 from pyraf import iraf
 #%%
 
-def makelist(filelist,path=None):
-    
-# =============================================================================
-#     Dado un archivo .in genera un string de texto que une cada fila en el 
-#      archivo utilizando una coma ",".
-#    El string es formateado para ser pasado como argumento en las funciones
-#    de pyraf.
-#    
-#    INPUT
-#    filelist : Archivo .in con los nombres de las imágenes.
-#    (path)   : String que indique el camino al archivo filelist. 
-#    
-#                   ---------------------------------------
-#    
-#     Given a .in file generates a text string joining every row
-#       in the file using a comma ','. 
-#    The string is formatted to be passed as a input argument of
-#       pyraf tasks.
-#    
-#    INPUT
-#    filelist : .in file with images.
-#    (path)   : String indicating path to filelist.  
-# =============================================================================
-    
-    images=np.genfromtxt(path+filelist, dtype=None) #generates a list from file
-    if path is not None:
-        imagelist=path+ (','+path).join(images) # joins in string and add path
-    else:
-        imagelist=','.join(images)  #joins in string
-    return imagelist
-#%%
-    
-
-
 def masterbias(biaslist,outfile=None,edit=False,path=None): 
 # =============================================================================
 #     Dada una lista de bias, genera un masterbias.
