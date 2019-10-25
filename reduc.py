@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Sep 19 13:06:43 2019
+
 @author: guevaran
+
+
 """
 
 #%%
@@ -10,7 +13,35 @@ import numpy as np
 import os
 from pyraf import iraf
 #%%
+# =============================================================================
+#  funciones auxiliares 
+# =============================================================================
+def chdir(newpath,save=False):  #moves to path, can save the original path
+    original=os.getcwd()
+    os.chdir(newpath)
+    if save:
+        return original
 
+        
+def hedit(images,fields,value): # edits header of files
+    iraf.hedit(images,fields=fields,value=value,add='yes'
+               ,update='yes',ver='no')
+
+
+def rm(archivo): #if exist, removes file
+    if os.path.exists(archivo):
+        os.remove(archivo)
+    
+def hselect(images,field): # returns a value of a header parameter
+    select = iraf.hselect(images,fields=field,expr='yes',Stout=1) 
+    return select
+
+def default(field,value,rm=False):  # set default values if none
+    if field is None:               # can remove the file if exist
+        field=value
+    if rm:
+        rm(field)
+#%%
 def masterbias(biaslist,outfile=None,edit=False,path=None): 
 # =============================================================================
 #     Dada una lista de bias, genera un masterbias.
@@ -34,47 +65,26 @@ def masterbias(biaslist,outfile=None,edit=False,path=None):
 #                  "zero".
 # =============================================================================
     
-#    bias=makelist(biaslist,path=path) # generates list string of files
-    
     if path is not None:
-        originalpath=os.getcwd() # saves working directory
-        os.chdir(path) #moves to path
-       
-      
+        originalpath=chdir(path,save=True)      
     
     bias='@'+biaslist # @ necesary for iraf to recognize .in files
     
     iraf.imred()    # open imred package
     iraf.ccdred()   # open ccdred package
     iraf.unlearn(iraf.zerocombine)  #erase all parameters seted before
-     
-    
-        # saves header IMAGETYP value of images
-        # if is not BIAS, edits the header.
         
-#    testing=iraf.hselect(bias,fields='IMAGETYP',expr = "yes",Stdout=1)
-#    for x in testing:  
-#        if x != 'zero':
-#            edit=True # flag for edit
-    
-    while(edit): # edits the header of all images
-        iraf.hedit(bias,fields='IMAGETYP',
-                   value='zero',add='yes',update='yes',ver='no')
-        edit=False    # flag down
+    if edit: # edits the header of all images
+        hedit(bias,'IMAGETYP','zero')
 
-    # if outfile not given, use default
-    if outfile is None:
-        outfile='Zero.fits'
-    outfile=outfile
-        # if file alredy exist, delete it 
-    if os.path.exists(outfile):
-        os.remove(outfile)
+    # if outfile not given, use default, if exist delet it
+    default(outfile,'Zero.fits',rm=True)
 
     iraf.zerocombine.output=outfile # set outfile parameter
     iraf.zerocombine.input=bias  #set input file parameter
     iraf.zerocombine() # creates masterbias
     if path is not None:
-        os.chdir(originalpath)  # goes back to original directory
+        chdir(originalpath)
 #%%
     
     
@@ -108,48 +118,36 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
 # =============================================================================
     
 #    dark= makelist(darklist,path=path) # generates list string of files
+    
     if path is not None:
-        originalpath=os.getcwd() # saves working directory
-        os.chdir(path) #moves to path
+        originalpath=chdir(path,save=True)
            
     dark='@'+darklist   
-    
     
     iraf.imred() # open imred package
     iraf.ccdred()# open ccdred package
     iraf.unlearn(iraf.darkcombine) #erase all parameters seted before
 
-
-        # saves header IMAGETYP value of images
-        # if is not DARK, edits the header.   
-#    testing=iraf.hselect(darklist,fields='IMAGETYP',expr = "yes",Stdout=1)
-#    for x in testing:
-#        if x != 'dark':
-#            edit=True
-    while(edit): # edits the header of all images
-        iraf.hedit(dark,fields='IMAGETYP',value='dark',add='yes',
-                   update='yes',ver='no')
-        edit=False # flag down
-        
-
-        # if outfile not given, use default  
-    if outfile is None:
-        outfile='Dark.fits'
-    outfile=outfile
-        # if file alredy exist, delete it 
-    if os.path.exists(outfile):
-            os.remove(outfile)
+    if edit: # edits the header of all images
+        hedit(dark,'IMAGETYP','dark')
+       
+        # if outfile not given, use default, if exist delet it  
+    default(outfile,'Dark.fits',rm=True)
+    
         # if mastbia not given, use default   
-    if mastbia is None:
-        mastbia='Zero.fits'
-    mastbia=mastbia
+    default(mastbia,'Zero.fits')
 
-    iraf.ccdpro.zero=mastbia
+
+    iraf.darkcombine.process='yes'  #corrije imagenes dark por bias
+    iraf.ccdproc.zero='yes' #indica que hay que usar el bias
+    iraf.ccdpro.zero=mastbia # indica cual es el masterbias
+    
     iraf.darkcombine.output=outfile # set outfile parameter
     iraf.darkcombine.input=dark     # set input file parameter
+      
     iraf.darkcombine() # creates masterdark
     if path is not None:
-        os.chdir(originalpath)  # goes back to original directory
+        chdir(originalpath)
 
  #%%   
  
@@ -191,28 +189,26 @@ def masterflat(flatlist,outfile=None,mastbia=None,
 # =============================================================================
     
     if path is not None:
-        originalpath=os.getcwd() # saves working directory
-        os.chdir(path) #moves to path
-        
+        originalpath=chdir(path,save=True)
+                        
     flat='@'+flatlist # para trabajar mas facil
     
     iraf.imred()    # open imred package
     iraf.ccdred()   # open ccdred package
     iraf.unlearn(iraf.flatcombine) #erase all parameters seted before
-    
-        # saves header IMAGETYP value of images
-        # if is not FLAT, edits the header.   
-#    testing=iraf.hselect(flat,fields='IMAGETYP',expr='yes',Stdout=1)
-#    for x in testing:
-#        if x != 'flat':
-#            edit=True
-    while(edit): # edits the header of all images
-        iraf.hedit(images=flat,fields='IMAGETYP',
-                   value='flat',add='yes',update='yes',ver='no')
-        edit=False        # flag down
         
+    if edit:
+        hedit(flat,'IMAGETYP','flat')          
         
     while(subsets):   # creates subsets file
+# =============================================================================
+#         OJO CON ESTO
+#        El archivo subsets que crea hace una realación 
+#        FILTER LETTER -> FILTER LETTER
+#        para imagenes tomadas en casleo no sirve
+#        pues le asignan a cada filtro un numero
+# =============================================================================
+        
         f=open('subsets','w+') 
         lista=iraf.hselect(flat,fields='FILTER',expr = "yes",Stdout=1)
         print lista
@@ -223,17 +219,15 @@ def masterflat(flatlist,outfile=None,mastbia=None,
         subsets=False # flag down
       
     
-    # if outfile not given, use default 
-    if outfile is None:       
-        outfile='Flat'
-        if os.path.exists(outfile+'.fits'):
-            os.remove(outfile+'.fits')
-    else:
-        outfile=outfile
+    # if outfile not given, use default
+    default(outfile,'Flat',rm=True) # segun el subsets va a agregar letra
+    rm(outfile+'.fits')             # por filtro,ej:FlatV.fits
                 
 #    Generate a .in file with output masterflats files, by filter    
     h=open('mflatlist.in','w+') # creates file
-
+# =============================================================================
+# uf, revisar bien esto
+# =============================================================================
     for x in filters:   # for every filter
         if os.path.exists(outfile+x+'.fits'): # if file exist
             os.remove(outfile+x+'.fits') # remove it
@@ -241,27 +235,20 @@ def masterflat(flatlist,outfile=None,mastbia=None,
     h.close() # close .in file
     
     
-       # if mastbia not given, use default     
-    if mastbia is None:
-        mastbia='Zero.fits'
-    else:
-        mastbia=mastbia
+       # if mastbia not given, use default   
+    default(mastbia,'Zero.fits')
     iraf.ccdpro.zero=mastbia
     
     # if mastdark not given, use default
-    if mastdark is None:
-        mastdark='Dark.fits'
-    else:
-        mastdark=mastdark
+    default(mastdark,'Dark.fits')
     iraf.ccdpro.dark=mastdark
-    
 
-
+    iraf.cccdproc.process='yes'
     iraf.flatcombine.output=outfile # sets output file
     iraf.flatcombine.input=flat     # sets input file
     iraf.flatcombine()              # generates masterflats
     if path is not None:
-        os.chdir(originalpath)  # goes back to original directory
+        chdir(originalpath)
     
 
 #%%
@@ -310,65 +297,48 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
 # =============================================================================
     
     if path is not None:
-        originalpath=os.getcwd() # saves working directory
-        os.chdir(path) #moves to path
+        originalpath=chdir(path,save=True)
         
     iraf.imred()     # open imred package
     iraf.ccdred()    # open ccdred package
     
     images='@'+imagelist
 
-                #saves header IMAGETYP value of images
-                # if not object edits the header
-#    test=iraf.hselect(images,fields='IMAGETYP',expr='yes',Stdout=1)
-#    if test!='object':
-#        edit=True
-                
     while edit: # edits the header changes imagetyp
-        iraf.hedit(images,fields='IMAGETYP',value='object'
-                   ,up='yes',ver='no',add='yes')
+        hedit(images,'IMAGETYP','object')
         edit=False # flag down
         
         
-                 # if mastbia not given, use default     
-    if mastbia is None:
-        mastbia='Zero.fits'
-    else:
-        mastbia=mastbia
+     # if mastbia not given, use default 
+    default(mastbia,'Zero.fits')
     iraf.ccdpro.zero=mastbia
+    iraf.ccdpro.zerocor='yes'
     
     
-                 # if Dark, set dark correction on
-                 # if mastdark not given, use default     
+    # if Dark, set dark correction on
+    # if mastdark not given, use default     
     if Dark:
-        if mastdark is None:
-            mastdark='Dark.fits'
-        else:
-            mastdark=mastdark
+        default(mastdark,'Dark.fits')
         iraf.ccdpro.dark=mastdark
         iraf.ccdpro.darkcor='yes'
         
-                #if mastflat not given, use default
-    if mastflat is None:
-        mastflat='@'+'mflatlist.in'
-    else:   
-        mastflat='@'+mastflat
-    iraf.ccdpro.flat=mastflat
+    #if mastflat not given, use default    
+    default(mastflat,'mflatlist.in')
+    iraf.ccdpro.flat='@'+mastflat
+    iraf.ccdpro.flatcor='yes'
     
-                #if output not given, use default
-    if output is None:
-        output=''
-        alist=imagelist.split(',') # list of input images
-        for y in alist:  
-            y=y[:-3]+'red.fit,'  #adds .red before .fit
-            if os.path.exists(y):  # if alredy exist, remove
-                os.remove(y)
-        output=output[:-1]  #kill last comma
+    
+     #if output not given, use default
+    default(output,'R//'+images) #segun kmi esto funca
+    alist=imagelist.split(',')
+    for x in alist:
+        rm('R'+x)
         
-        
+    iraf.ccdpro.process='yes'
     iraf.ccdpro.output=output  #set outfile
     iraf.ccdpro.images=images  # set input file
     iraf.ccdproc()    #runs ccdproc, reduces images
     if path is not None:
-        os.chdir(originalpath)  # goes back to original directory
+        chdir(originalpath)
 #%%
+     
