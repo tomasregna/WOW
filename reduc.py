@@ -269,7 +269,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
 #     (mastdark) : Nombre del archivo masterdark. Por defecto, usa "Dark.fits"
 #                   y toma el camino dado por path.
 #     (mastflat) : Nombre del archivo in que contiene los nombres de los
-#                   masterflats. Por defecto usa "flatlist.in" 
+#                   masterflats. Por defecto usa "mflatlist.in" 
 #                   y toma el camino dado por path
 #     (edit)     : Si es verdadero, edita el header de las imágenes cambiando
 #                   el tipo a "object".
@@ -289,7 +289,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
 #     (mastdark) : File that contains the msaterdark. If none uses
 #                   "Dark.fits" and uses path.
 #     (mastflat) : .in file that contains the list of masterflats. If none uses
-#                   "flatlist.in" and takes the same path as imagelist.
+#                   "mflatlist.in" and takes the same path as imagelist.
 #     (edit)     : If true, edits the header of the images, changing imagetyp
 #                   to "object".
 #     (output)   : Output of the result images. If none given, uses the same
