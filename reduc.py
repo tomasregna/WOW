@@ -222,18 +222,6 @@ def masterflat(flatlist,outfile=None,mastbia=None,
     # if outfile not given, use default
     default(outfile,'Flat',rm=True) # segun el subsets va a agregar letra
     rm(outfile+'.fits')             # por filtro,ej:FlatV.fits
-                
-#    Generate a .in file with output masterflats files, by filter    
-    h=open('mflatlist.in','w+') # creates file
-# =============================================================================
-# uf, revisar bien esto
-# =============================================================================
-    for x in filters:   # for every filter
-        if os.path.exists(outfile+x+'.fits'): # if file exist
-            os.remove(outfile+x+'.fits') # remove it
-        print >> h, outfile+x+'.fits' # write in .in file the masterflat output
-    h.close() # close .in file
-    
     
        # if mastbia not given, use default   
     default(mastbia,'Zero.fits')
@@ -244,9 +232,21 @@ def masterflat(flatlist,outfile=None,mastbia=None,
     iraf.ccdpro.dark=mastdark
 
     iraf.cccdproc.process='yes'
-    iraf.flatcombine.output=outfile # sets output file
-    iraf.flatcombine.input=flat     # sets input file
-    iraf.flatcombine()              # generates masterflats
+    
+    for x in filters:
+        if os.path.exists(outfile+x+'.fits'): # if file exist
+            os.remove(outfile+x+'.fits') # remove it
+        f=open(outfile+x+'.in', 'a+') # +a to append 
+        for im in flat:
+            if iraf.hselect(im,fields='FILTER',expr = "yes",Stdout=1) == x :
+                f.append(im) #if image filter is x, append to filter file output
+        f.close()
+        listout='@'+outfile+x+'.in' #list format for iraf
+        iraf.flatcombine.output=outfile+x+'.fits' # sets output file    
+        iraf.flatcombine.input=listout    # sets input file
+        iraf.flatcombine()              # generates masterflats
+        
+    
     if path is not None:
         chdir(originalpath)
     
