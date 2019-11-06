@@ -11,7 +11,8 @@ from pyraf import iraf
 import auxfunctions as aux
 
 #%%
-def starfinder(image,outfile=None,fwhm,sigma,zmin='INDEF',zmax='INDEF',thold,path=None):
+def starfinder(image,outfile=None,fwhm,sigma,zmin='INDEF',zmax='INDEF',
+               thold,path=None):
 # =============================================================================
 #     Dada una lista de imágenes, identifica las estrellas de campo y
 #     genera un archivo de coordenadas.
@@ -45,9 +46,9 @@ def starfinder(image,outfile=None,fwhm,sigma,zmin='INDEF',zmax='INDEF',thold,pat
 #                  image name and adds .coo extension.
 #
 # =============================================================================
-    iraf.noao()
-    iraf.digiphot() 
-    iraf.apphot()
+    iraf.noao() #loads noao
+    iraf.digiphot() #loads digiphot
+    iraf.apphot() #loads apphot
     
     iraf.unlearn(iraf.daofind)
     iraf.unlearn(iraf.datapars)
@@ -65,11 +66,18 @@ def starfinder(image,outfile=None,fwhm,sigma,zmin='INDEF',zmax='INDEF',thold,pat
     if path is not None:
         originalpath=aux.chdir(path,save=True)
         
-    if os.path.splitext(image)[-1] == '.in' : #if image input is a .in list
+
+    if (os.path.splitext(image)[-1] == '.fit' or
+        os.path.splitext(image)[-1] == '.fits'):
+        aux.default(outfile,image+'.coo',rm=True)
+        #if single image, delete pre-existing coord files and if no output is
+        #given, generate a file with default output scheme.
+    else:    #if image input is a file list
         if outfile is None :
             aux.rm(image+'.coo') #delete .in.coo list if already exists
             f=open(image+'.coo','a+')
-            for im in image:
+            imagelista=np.genfromtxt(image,dtype=None)
+            for im in imagelista:
                 f.append(im+'.coo')
                 aux.rm(im+'.coo') #delete all previous coord files if exist
             f.close()
@@ -79,13 +87,10 @@ def starfinder(image,outfile=None,fwhm,sigma,zmin='INDEF',zmax='INDEF',thold,pat
         else :
             outfile='@'+outfile #adds @ to help iraf recognize the list
         image = '@'+image
-    else:
-        aux.default(outfile,image+'.coo',rm=True)
-        #if single image, delete pre-existing coord files and if no output is
-        #given, generate a file with default output scheme.
+        
     iraf.daofind.output=outfile
     iraf.daofind.image=image
     iraf.daofind()
         #execute iraf task 'daofind' 
     if path is not None:
-        chdir(originalpath)
+        aux.chdir(originalpath)
