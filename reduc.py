@@ -134,7 +134,6 @@ def masterflat(flatlist,outfile=None,mastbia=None,
 #     INPUT    
 #    flatlist   : Archivo .in con los nombres de los archivos flat.
 #    (path)     : Carácteres que indica el camino a flatlist.
-#    (subsets)  : Si es verdadero, crea el archivo subsets.
 #    (mastbia)  : Archivo que contiene el masterbias. Por defecto usa
 #                 "Zero.fits" y toma el mismo path que el flatlist.
 #    (mastdark) : Archivo que contiene el masterdark. Por defecto usa
@@ -150,7 +149,6 @@ def masterflat(flatlist,outfile=None,mastbia=None,
 #    INPUT
 #    flatlist   : .in file with flat files names.
 #    (path)     : String that indicates the path to flatlist.
-#    (subsets)  : If true, creates subsets file.
 #    (mastbia)  : File that contains the masterbias. If none uses
 #                 "Zero.fits" and always use the same path as flatlist.
 #    (mastdark) : File that contains the msaterdark. If none uses
@@ -171,28 +169,9 @@ def masterflat(flatlist,outfile=None,mastbia=None,
         
     if edit:
         aux.hedit(flat,'IMAGETYP','flat')          
-        
-    while(subsets):   # creates subsets file
-# =============================================================================
-#         OJO CON ESTO
-#        El archivo subsets que crea hace una realación 
-#        FILTER LETTER -> FILTER LETTER
-#        para imagenes tomadas en casleo no sirve
-#        pues le asignan a cada filtro un numero
-# =============================================================================
-        
-        f=open('subsets','w+') 
-        lista=iraf.hselect(flat,fields='FILTER',expr = "yes",Stdout=1)
-        print lista
-        filters=np.unique(lista)
-        for x in filters:
-            print >> f , x,x
-        f.close()
-        subsets=False # flag down
-      
-    
+          
     # if outfile not given, use default
-    aux.default(outfile,'Flat',rm=True) # segun el subsets va a agregar letra
+    aux.default(outfile,os.path.splitext(flatlist)[0]+'.fits',rm=True) 
     aux.rm(outfile+'.fits')             # por filtro,ej:FlatV.fits
     
        # if mastbia not given, use default   
@@ -204,27 +183,14 @@ def masterflat(flatlist,outfile=None,mastbia=None,
     iraf.ccdpro.dark=mastdark
 
     iraf.cccdproc.process='yes'
-    
-    for x in filters:
-        if os.path.exists(outfile+x+'.fits'): # if file exist
-            os.remove(outfile+x+'.fits') # remove it
-        f=open(outfile+x+'.in', 'a+') # +a to append 
-        for im in flat:
-            if iraf.hselect(im,fields='FILTER',expr = "yes",Stdout=1) == x :
-                f.append(im) #if image filter is x, append to filter file output
-        f.close()
-        listout='@'+outfile+x+'.in' #list format for iraf
-        iraf.flatcombine.output=outfile+x+'.fits' # sets output file    
-        iraf.flatcombine.input=listout    # sets input file
-        iraf.flatcombine()              # generates masterflats
-        
-    
+    iraf.flatcombine.output=outfile # sets output file    
+    iraf.flatcombine.input=flat    # sets input file
+    iraf.flatcombine()              # generates masterflats
+       
     if path is not None:
         aux.chdir(originalpath)
     
-
 #%%
-    
     
 def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
             ,mastflat=None,edit=False,output=None):
@@ -240,9 +206,8 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
 #                   y toma el camino dado por path.
 #     (mastdark) : Nombre del archivo masterdark. Por defecto, usa "Dark.fits"
 #                   y toma el camino dado por path.
-#     (mastflat) : Nombre del archivo in que contiene los nombres de los
-#                   masterflats. Por defecto usa "mflatlist.in" 
-#                   y toma el camino dado por path
+#     (mastflat) : Nombre del archivo masterflat. Por defecto, usa "Flat.fits"
+#                   y toma el camino dado por path.
 #     (edit)     : Si es verdadero, edita el header de las imágenes cambiando
 #                   el tipo a "object".
 #     (output)   : Output de las imágenes reducidas. Por defecto, el output es
@@ -258,10 +223,10 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
 #     (Dark)     : If true, apply Dark correction.
 #     (mastbia)  : File that contains the masterbias. If none uses
 #                   "Zero.fits" and uses path.
-#     (mastdark) : File that contains the msaterdark. If none uses
+#     (mastdark) : File that contains the masterdark. If none uses
 #                   "Dark.fits" and uses path.
-#     (mastflat) : .in file that contains the list of masterflats. If none uses
-#                   "mflatlist.in" and takes the same path as imagelist.
+#     (mastflat) : File that contains the masterflat. If none uses
+#                   "Flat.fits" and uses path.
 #     (edit)     : If true, edits the header of the images, changing imagetyp
 #                   to "object".
 #     (output)   : Output of the result images. If none given, uses the same
@@ -295,8 +260,8 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
         iraf.ccdpro.darkcor='yes'
         
     #if mastflat not given, use default    
-    aux.default(mastflat,'mflatlist.in')
-    iraf.ccdpro.flat='@'+mastflat
+    aux.default(mastflat,'Flat.fits')
+    iraf.ccdpro.flat=mastflat
     iraf.ccdpro.flatcor='yes'
     
     
