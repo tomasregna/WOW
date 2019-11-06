@@ -124,7 +124,7 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
  #%%   
  
  
-def masterflat(flatlist,outfile=None,mastbia=None,
+def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
                mastdark=None,edit=False,path=None):
     
 # =============================================================================
@@ -136,6 +136,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,
 #    (path)     : Carácteres que indica el camino a flatlist.
 #    (mastbia)  : Archivo que contiene el masterbias. Por defecto usa
 #                 "Zero.fits" y toma el mismo path que el flatlist.
+#    (Dark)     : Si es verdadero, corrije por Dark.
 #    (mastdark) : Archivo que contiene el masterdark. Por defecto usa
 #                 "Dark.fits" y toma el mismo path que el flatlist.
 #    (outfile)  : nombre del archivo de salida. Por defecto usa "Flat".
@@ -150,6 +151,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,
 #    flatlist   : .in file with flat files names.
 #    (path)     : String that indicates the path to flatlist.
 #    (mastbia)  : File that contains the masterbias. If none uses
+#    (Dark)     : If true, apply Dark correction.
 #                 "Zero.fits" and always use the same path as flatlist.
 #    (mastdark) : File that contains the msaterdark. If none uses
 #                 "Dark.fits" and always use the same path as flatlist.  
@@ -179,8 +181,10 @@ def masterflat(flatlist,outfile=None,mastbia=None,
     iraf.ccdpro.zero=mastbia
     
     # if mastdark not given, use default
-    aux.default(mastdark,'Dark.fits')
-    iraf.ccdpro.dark=mastdark
+    if Dark is True:
+        aux.default(mastdark,'Dark.fits')
+        iraf.ccdpro.dark=mastdark
+        iraf.ccdpro.darkcor='yes'
 
     iraf.cccdproc.process='yes'
     iraf.flatcombine.output=outfile # sets output file    
