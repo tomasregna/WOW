@@ -125,7 +125,7 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
  
  
 def masterflat(flatlist,outfile=None,mastbia=None,
-               mastdark=None,edit=False,path=None,subsets=True):
+               mastdark=None,edit=False,path=None):
     
 # =============================================================================
 #      Dada una lista de flats, genera el masterflat de cada set de flat, por
