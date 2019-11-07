@@ -9,11 +9,16 @@ Created on Thu Oct 17 13:09:36 2019
 
 import os
 from pyraf import iraf
+import auxfunctions as aux
 os.system('ds9 -fifo dev/imt1 &')
 
 
 #%%
-def photom(images,coords,path=None)
+def photom(images,coords,outfile=None,path=None)
+
+    if path is not None:
+        originalpath=aux.chdir(path,save=True)
+
     iraf.noao()
     iraf.digiphot()
     iraf.apphot()
@@ -27,16 +32,27 @@ def photom(images,coords,path=None)
     iraf.fitskypars.annulus=30
     iraf.fitskypars.dannulus=5
     iraf.photpars.apertures="0.5,1:30:1"
-
-    if os.path.exists('phot.out'):
-        os.remove('phot.out')
+    iraf.phot.interac='no'
+    
+    aux.default(outfile,images+'.phot',rm=True)
     
     if (os.path.splitext(images)[-1] == '.fit' or
         os.path.splitext(images)[-1] == '.fits'):
         iraf.phot.image=images
         iraf.phot.coords=coords
-    iraf.phot.output='phot.out'
-    iraf.phot.interac='no'
+        iraf.phot.output=outfile
+    else:
+        
+        iraf.phot.image='@'+images
+        iraf.phot.coords='@'+coords
+        f=open(image+'.coo','a+')
+            imagelista=np.genfromtxt(image,dtype=None)
+            for im in imagelista:
+                f.append(im+'.coo')
+                aux.rm(im+'.coo') #delete all previous coord files if exist
+        f.close()
+    
+    
     iraf.phot()
 
 #%%
@@ -55,4 +71,7 @@ def photom(images,coords,path=None)
             test=iraf.txdump("phot.out",expr="Id == "+str(i),headers='no',Stdout=1)
             print >> f,test[0]
         f.close()
+    
+    if path is not None:
+        aux.chdir(originalpath)
 #%%
