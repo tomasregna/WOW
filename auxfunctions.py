@@ -1,13 +1,22 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov  5 11:46:29 2019
+CONTAINS:
 
-@author: intel
+chdir(newpath,save=False) moves to path, can save the original path
+
+hedit(images,fields,value) edits header of files
+
+rm(archivo) if exist, removes file 
+
+hselect(images,field) returns a value of a header parameter
+
+default(field,value,rm=False) set default value if none, can delete file
 """
 #%%
 import os
 from pyraf import iraf
+
 
 #%%
 def chdir(newpath,save=False):  #moves to path, can save the original path
@@ -18,8 +27,7 @@ def chdir(newpath,save=False):  #moves to path, can save the original path
 
         
 def hedit(images,fields,value): # edits header of files
-    iraf.hedit(images,fields=fields,value=value,add='yes'
-               ,update='yes',ver='no')
+    iraf.hedit(images=images,fields=fields,value=value,add='yes',update='yes',ver='no')
 
 
 def rm(archivo): #if exist, removes file
@@ -27,7 +35,7 @@ def rm(archivo): #if exist, removes file
         os.remove(archivo)
     
 def hselect(images,field): # returns a value of a header parameter
-    select = iraf.hselect(images,fields=field,expr='yes',Stout=1) 
+    select = iraf.hselect(images,fields=field,expr='yes',Stdout=1) 
     return select
 
 def default(field,value,rm=False):  # set default values if none
@@ -37,3 +45,4 @@ def default(field,value,rm=False):  # set default values if none
         rm(field)
 
 
+        
