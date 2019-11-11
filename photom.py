@@ -48,6 +48,10 @@ def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None)
     iraf.noao()
     iraf.digiphot()
     iraf.apphot()
+    iraf.unlearn(iraf.datapars)
+    iraf.unlearn(iraf.fitskypars)
+    iraf.unlearn(iraf.photpars)
+    iraf.unlearn(iraf.phot) #eterno resplandor de una tarea sin recuerdos
 #  serie de comandos que indican el campo del header donde ir a buscar info
     iraf.datapars.ccdread="rdnoise"
     iraf.datapars.gain="gain"
