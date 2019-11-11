@@ -5,12 +5,13 @@ import shutil as sh
 import os
 
 #%%
-def backup(dirname,path=None,bformat="tar"):
+def backup(dirname=None,path=None,bformat="tar"):
     # ==================================================================
     #  Dado un directorio con archivos, genera un backup en el home.
     #  
     #  INPUT
-    #  dirname  : Nombre del archivo comprimido que contendrá el backup.
+    #  dirname  : Nombre del archivo comprimido que contendrá el backup
+    #             (sin el formato)
     #  (path)   : Línea que indica el camino al directorio de 
     #             archivos a los cuales se hará backup.
     #  bformat  : Formato de compresión del archivo de backup.
@@ -20,7 +21,7 @@ def backup(dirname,path=None,bformat="tar"):
     #  Given a directory with files, generates a backup file at home.
     #
     #  INPUT
-    #  dirname  : Name of the compressed backup file.
+    #  dirname  : Name of the compressed backup file (without format)
     #  (path)   : String that indicates the path to the files subject to
     #             backup.
     #  bformat  : Compression format of the backup file.
@@ -38,6 +39,13 @@ def backup(dirname,path=None,bformat="tar"):
     if os.path.exists(backpath) is False:
         os.mkdir(backpath) #si no existe un directorio de backups, 
                            #crea uno
+    
+    if dirname is None:
+        dirname='backup'
+        i=0
+        while (os.path.exist(backpath+'/'+dirname+'.'+bformat)):
+            i=i+1
+            dirname='backup'+str(i)
     
     out=backpath+"/"+dirname #archivo concatenado al camino entero
     
