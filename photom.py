@@ -83,41 +83,25 @@ def photom(images,coords,anillo,danillo,outfile=None,path=None)
     iraf.phot()
 
 #%%
-    if (os.path.splitext(images)[-1] == '.fit' or
-        os.path.splitext(images)[-1] == '.fits'):
-        with open(coords) as fp:
-            for curline in fp:
+# contador de cantidad de filas en un archivo -sin contar los comentarios-
+#    if (os.path.splitext(images)[-1] == '.fit' or
+#        os.path.splitext(images)[-1] == '.fits'):
+#        with open(coords) as fp:
+#            for curline in fp:
             # check if the current line
             # starts with "#"
-                if curline.startswith("#"): #if it's a commented line
-                    continue #do nothing
-                else:         
-                    line = fp.readline() #initialize reading
-                    cnt = 1
-                    while line:
+#                if curline.startswith("#"): #if it's a commented line
+#                    continue #do nothing
+#                else:         
+#                    line = fp.readline() #initialize reading
+#                    cnt = 1
+#                    while line:
                         #print("Line {}: {}".format(cnt, line.strip()))
                         #eso puede servir para comprimir los dos for en
                         #uno solo, pero no sé como jeje... pronto pronto...
-                        line = fp.readline()
-                        cnt += 1 #count how many lines -stars- in coords file.
-        fp.close()
-        
-        for i in range(0,cnt+1): #to include last one, add one
-            name=os.path.splitext(images)[0]+'.'+str(i)+'.tab'
-            aux.rm(name)
-            f=open(name,'w+')
-            for j in range(1,32): #a partir de aca no entiendo, pero te creo que esta bien...
-                fields="Id,Rapert["+str(j)+"],Mag["+str(j)+"],Merr["+str(j
-                                 )+"],Area["+str(j)+"],Flux["+str(j
-                                 )+"],Annulus,Dannulus,MSky,Stdev,NSky,Sum["+str(j
-                                 )+"],XCenter,YCenter" 
-                iraf.txdump.fields=fields
-                test=iraf.txdump(outfile,expr="Id == "+str(i),headers='no',Stdout=1)
-                print >> f,test[0] #??? wat
-            f.close()
-    else :
-        print 'to be continued...'
-        
+ #                       line = fp.readline()
+ #                       cnt += 1 #count how many lines -stars- in coords file.
+ #       fp.close()               
     if path is not None:
         aux.chdir(originalpath)
 #%%
