@@ -14,7 +14,7 @@ import auxfunctions as aux
 
 
 #%%
-def photom(images,coords,anillo,danillo,outfile=None,path=None)
+def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None)
     # ==================================================================
     #  Dada una lista de imágenes, realiza la fotometría de apertura con
     #  la tarea phot.
@@ -24,6 +24,8 @@ def photom(images,coords,anillo,danillo,outfile=None,path=None)
     #  coords   : Archivo con las coordenadas de los objetos.
     #  anillo   : ?
     #  danillo  : ??
+    #  apertura : Apretura de los radios, ingresada como una lista,
+    #            ej: [.5]+range(1,31) 
     #  (outfile): Nombre de archivo(s) de salida.
     #  (path)   : Línea que indica el camino al directorio de archivos.
     #
@@ -46,16 +48,17 @@ def photom(images,coords,anillo,danillo,outfile=None,path=None)
     iraf.noao()
     iraf.digiphot()
     iraf.apphot()
-
+#  serie de comandos que indican el campo del header donde ir a buscar info
     iraf.datapars.ccdread="rdnoise"
     iraf.datapars.gain="gain"
     iraf.datapars.exposure="exptime"
     iraf.datapars.airmass="airmass"
 #    iraf.datapars.filter="filter"
+#    setea parámetros de la fotometría
     iraf.datapars.obstime="time-obs"
-    iraf.fitskypars.annulus=anillo
-    iraf.fitskypars.dannulus=danillo
-    iraf.photpars.apertures="0.5,1:30:1" #no quiero tocar y arruinar esto aaaaa
+    iraf.fitskypars.annulus=anillo  # radio del anillo interior (cuentas obj - cuentas d cielo)
+    iraf.fitskypars.dannulus=danillo  # radio del anillo exterior(cuentas cielo)
+    iraf.photpars.apertures= apertura # intervalo de radios a tomar
     iraf.phot.interac='no'
     
     
@@ -76,7 +79,7 @@ def photom(images,coords,anillo,danillo,outfile=None,path=None)
             f.append(os.path.splitext(im)[0]+'.phot')
             aux.rm(os.path.splitext(im)[0]+'.phot')
         f.close()
-        aux.default('@'+outfile,'@'+images+'.phot',rm=True)
+        aux.default('@'+outfile,'@'+images+'.phot',rm=True)  
         iraf.phot.output=outfile
     
     
