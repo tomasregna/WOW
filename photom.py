@@ -57,7 +57,7 @@ def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None)
     iraf.datapars.gain="gain"
     iraf.datapars.exposure="exptime"
     iraf.datapars.airmass="airmass"
-#    iraf.datapars.filter="filter"
+    iraf.datapars.filter="filtnew"
 #    setea parámetros de la fotometría
     iraf.datapars.obstime="time-obs"
     iraf.fitskypars.annulus=anillo  # radio del anillo interior (cuentas obj - cuentas d cielo)
@@ -77,14 +77,14 @@ def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None)
         
         iraf.phot.image='@'+images
         iraf.phot.coords='@'+coords
+        aux.default(outfile,images+'.phot',rm=True)
         imagelista=np.genfromtxt(images,dtype=None)
-        f=open(images+'.phot','a+')
+        f=open(outfile,'a+')
         for im in imagelista :
             f.append(os.path.splitext(im)[0]+'.phot')
             aux.rm(os.path.splitext(im)[0]+'.phot')
-        f.close()
-        aux.default('@'+outfile,'@'+images+'.phot',rm=True)  
-        iraf.phot.output=outfile
+        f.close()  
+        iraf.phot.output='@'+outfile
     
     
     iraf.phot()
