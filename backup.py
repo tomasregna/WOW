@@ -43,7 +43,7 @@ def backup(dirname=None,path=None,bformat="tar"):
     if dirname is None:
         dirname='backup'
         i=0
-        while (os.path.exist(backpath+'/'+dirname+'.'+bformat)):
+        while (os.path.exists(backpath+'/'+dirname+'.'+bformat)):
             i=i+1
             dirname='backup'+str(i)
     
