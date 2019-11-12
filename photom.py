@@ -71,13 +71,13 @@ def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None)
         os.path.splitext(images)[-1] == '.fits'):
         iraf.phot.image=images
         iraf.phot.coords=coords
-        aux.default(outfile,os.path.splitext(images)[0]+'.phot',rm=True)        
+        aux.default(outfile,os.path.splitext(images)[0]+'.phot',borrar=True)        
         iraf.phot.output=outfile
     else:
         
         iraf.phot.image='@'+images
         iraf.phot.coords='@'+coords
-        aux.default(outfile,images+'.phot',rm=True)
+        aux.default(outfile,images+'.phot',borrar=True)
         imagelista=np.genfromtxt(images,dtype=None)
         f=open(outfile,'a+')
         for im in imagelista :
