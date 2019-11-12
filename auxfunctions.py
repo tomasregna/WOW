@@ -43,6 +43,4 @@ def default(field,value,borrar=False):  # set default values if none
         field=value
     if borrar:
         rm(field)
-
-
-        
+    return(field)
