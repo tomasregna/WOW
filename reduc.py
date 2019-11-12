@@ -99,6 +99,7 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
     iraf.imred() # open imred package
     iraf.ccdred()# open ccdred package
     iraf.unlearn(iraf.darkcombine) #erase all parameters seted before
+    iraf.unlearn(iraf.ccdproc)
 
     if edit: # edits the header of all images
         aux.hedit(dark,'IMAGETYP','dark')
@@ -113,6 +114,9 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
     iraf.darkcombine.process='yes'  #corrije imagenes dark por bias
     iraf.ccdproc.zero='yes' #indica que hay que usar el bias
     iraf.ccdpro.zero=mastbia # indica cual es el masterbias
+    iraf.ccdproc.fixpix='no'
+    iraf.ccdproc.overscan='no'
+    iraf.ccdproc.trim='no' #no disponible trim, overs ni fixpix en la v1.0
     
     iraf.darkcombine.output=outfile # set outfile parameter
     iraf.darkcombine.input=dark     # set input file parameter
@@ -168,6 +172,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
     iraf.imred()    # open imred package
     iraf.ccdred()   # open ccdred package
     iraf.unlearn(iraf.flatcombine) #erase all parameters seted before
+    iraf.unlearn(iraf.ccdproc)
         
     if edit:
         aux.hedit(flat,'IMAGETYP','flat')          
@@ -187,6 +192,9 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
         iraf.ccdpro.darkcor='yes'
 
     iraf.cccdproc.process='yes'
+    iraf.ccdproc.fixpix='no'
+    iraf.ccdproc.overscan='no'
+    iraf.ccdproc.trim='no' #no disponible trim, overs ni fixpix en la v1.0
     iraf.flatcombine.output=outfile # sets output file    
     iraf.flatcombine.input=flat    # sets input file
     iraf.flatcombine()              # generates masterflats
