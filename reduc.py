@@ -50,7 +50,7 @@ def masterbias(biaslist,outfile=None,edit=False,path=None):
         aux.hedit(bias,'IMAGETYP','zero')
 
     # if outfile not given, use default, if exist delet it
-    aux.default(outfile,'Zero.fits',rm=True)
+    aux.default(outfile,'Zero.fits',borrar=True)
 
     iraf.zerocombine.output=outfile # set outfile parameter
     iraf.zerocombine.input=bias  #set input file parameter
@@ -104,7 +104,7 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
         aux.hedit(dark,'IMAGETYP','dark')
        
         # if outfile not given, use default, if exist delet it  
-    aux.default(outfile,'Dark.fits',rm=True)
+    aux.default(outfile,'Dark.fits',borrar=True)
     
         # if mastbia not given, use default   
     aux.default(mastbia,'Zero.fits')
@@ -173,7 +173,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
         aux.hedit(flat,'IMAGETYP','flat')          
           
     # if outfile not given, use default
-    aux.default(outfile,os.path.splitext(flatlist)[0]+'.fits',rm=True) 
+    aux.default(outfile,os.path.splitext(flatlist)[0]+'.fits',borrar=True) 
     aux.rm(outfile+'.fits')             # por filtro,ej:FlatV.fits
     
        # if mastbia not given, use default   
