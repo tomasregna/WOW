@@ -38,10 +38,10 @@ def hselect(images,field): # returns a value of a header parameter
     select = iraf.hselect(images,fields=field,expr='yes',Stdout=1) 
     return select
 
-def default(field,value,rm=False):  # set default values if none
+def default(field,value,borrar=False):  # set default values if none
     if field is None:               # can remove the file if exist
         field=value
-    if rm:
+    if borrar:
         rm(field)
 
 
