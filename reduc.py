@@ -250,6 +250,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
         
     iraf.imred()     # open imred package
     iraf.ccdred()    # open ccdred package
+    iraf.unlearn(iraf.ccdproc)
     
     images='@'+imagelist
 
@@ -284,6 +285,10 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
         aux.rm('R'+x)
         
     iraf.ccdpro.process='yes'
+    iraf.cccdproc.process='yes'
+    iraf.ccdproc.fixpix='no'
+    iraf.ccdproc.overscan='no'
+    iraf.ccdproc.trim='no' #no disponible trim, overs ni fixpix en la v1.0
     iraf.ccdpro.output=output  #set outfile
     iraf.ccdpro.images=images  # set input file
     iraf.ccdproc()    #runs ccdproc, reduces images
