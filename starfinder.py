@@ -69,7 +69,7 @@ def starfinder(image,outfile=None,fwhm,sigma,zmin='INDEF',zmax='INDEF',
 
     if (os.path.splitext(image)[-1] == '.fit' or
         os.path.splitext(image)[-1] == '.fits'):
-        aux.default(outfile,image+'.coo',rm=True)
+        aux.default(outfile,image+'.coo',borrar=True)
         #if single image, delete pre-existing coord files and if no output is
         #given, generate a file with default output scheme.
     else:    #if image input is a file list
