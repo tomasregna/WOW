@@ -47,9 +47,9 @@ def asciinator(intab,coltab=None,col=None,partab=None,dattab=None,path=None):
     iraf.ttools()
     iraf.unlearn(iraf.tdump) #eternal sunshine of the spotless task
     
-    aux.default(coltab,os.path.splitext(intab)[0]+'.col',rm=True)
-    aux.default(partab,os.path.splitext(intab)[0]+'.par',rm=True)
-    aux.default(dattab,os.path.splitext(intab)[0]+'.dat',rm=True)
+    aux.default(coltab,os.path.splitext(intab)[0]+'.col',borrar=True)
+    aux.default(partab,os.path.splitext(intab)[0]+'.par',borrar=True)
+    aux.default(dattab,os.path.splitext(intab)[0]+'.dat',borrar=True)
     #sets default table names, mainly adds .col, .par or .dat
     
     if col is not None:
