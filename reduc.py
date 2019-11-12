@@ -50,7 +50,7 @@ def masterbias(biaslist,outfile=None,edit=False,path=None):
         aux.hedit(bias,'IMAGETYP','zero')
 
     # if outfile not given, use default, if exist delet it
-    aux.default(outfile,'Zero.fits',borrar=True)
+    outfile=aux.default(outfile,'Zero.fits',borrar=True)
 
     iraf.zerocombine.output=outfile # set outfile parameter
     iraf.zerocombine.input=bias  #set input file parameter
@@ -104,10 +104,10 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
         aux.hedit(dark,'IMAGETYP','dark')
        
         # if outfile not given, use default, if exist delet it  
-    aux.default(outfile,'Dark.fits',borrar=True)
+    outfile=aux.default(outfile,'Dark.fits',borrar=True)
     
         # if mastbia not given, use default   
-    aux.default(mastbia,'Zero.fits')
+    mastbia=aux.default(mastbia,'Zero.fits')
 
 
     iraf.darkcombine.process='yes'  #corrije imagenes dark por bias
@@ -173,16 +173,16 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
         aux.hedit(flat,'IMAGETYP','flat')          
           
     # if outfile not given, use default
-    aux.default(outfile,os.path.splitext(flatlist)[0]+'.fits',borrar=True) 
+    outfile=aux.default(outfile,os.path.splitext(flatlist)[0]+'.fits',borrar=True) 
     aux.rm(outfile+'.fits')             # por filtro,ej:FlatV.fits
     
        # if mastbia not given, use default   
-    aux.default(mastbia,'Zero.fits')
+    mastbia=aux.default(mastbia,'Zero.fits')
     iraf.ccdpro.zero=mastbia
     
     # if mastdark not given, use default
     if Dark is True:
-        aux.default(mastdark,'Dark.fits')
+        mastdark=aux.default(mastdark,'Dark.fits')
         iraf.ccdpro.dark=mastdark
         iraf.ccdpro.darkcor='yes'
 
@@ -251,7 +251,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
         
         
      # if mastbia not given, use default 
-    aux.default(mastbia,'Zero.fits')
+    mastbia=aux.default(mastbia,'Zero.fits')
     iraf.ccdpro.zero=mastbia
     iraf.ccdpro.zerocor='yes'
     
@@ -259,18 +259,18 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     # if Dark, set dark correction on
     # if mastdark not given, use default     
     if Dark:
-        aux.default(mastdark,'Dark.fits')
+        mastdark=aux.default(mastdark,'Dark.fits')
         iraf.ccdpro.dark=mastdark
         iraf.ccdpro.darkcor='yes'
         
     #if mastflat not given, use default    
-    aux.default(mastflat,'Flat.fits')
+    mastflat=aux.default(mastflat,'Flat.fits')
     iraf.ccdpro.flat=mastflat
     iraf.ccdpro.flatcor='yes'
     
     
      #if output not given, use default
-    aux.default(output,'R//'+images) #segun kmi esto funca
+    output=aux.default(output,'R//'+images) #segun kmi esto funca
     alist=imagelist.split(',')
     for x in alist:
         aux.rm('R'+x)
