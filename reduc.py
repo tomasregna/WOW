@@ -285,7 +285,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
         aux.rm('R'+x)
         
     iraf.ccdpro.process='yes'
-    iraf.cccdproc.process='yes'
+    iraf.ccdproc.process='yes'
     iraf.ccdproc.fixpix='no'
     iraf.ccdproc.overscan='no'
     iraf.ccdproc.trim='no' #no disponible trim, overs ni fixpix en la v1.0
