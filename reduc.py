@@ -191,7 +191,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
         iraf.ccdpro.dark=mastdark
         iraf.ccdpro.darkcor='yes'
 
-    iraf.cccdproc.process='yes'
+    iraf.ccdproc.process='yes'
     iraf.ccdproc.fixpix='no'
     iraf.ccdproc.overscan='no'
     iraf.ccdproc.trim='no' #no disponible trim, overs ni fixpix en la v1.0
