@@ -186,6 +186,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
     iraf.ccdpro.zero=mastbia
     
     # if mastdark not given, use default
+    iraf.ccdpro.darkcor='no' #sets no as default
     if Dark is True:
         mastdark=aux.default(mastdark,'Dark.fits')
         iraf.ccdpro.dark=mastdark
@@ -267,6 +268,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     
     # if Dark, set dark correction on
     # if mastdark not given, use default     
+    iraf.ccdpro.darkcor='no'
     if Dark:
         mastdark=aux.default(mastdark,'Dark.fits')
         iraf.ccdpro.dark=mastdark
