@@ -14,7 +14,7 @@ import os
 from pyraf import iraf
 import auxfunctions as aux
 #%%
-def masterbias(biaslist,outfile=None,edit=False,path=None): 
+def masterbias(biaslist,outfile=None,path=None): 
 # =============================================================================
 #     Dada una lista de bias, genera un masterbias.
 #
@@ -22,8 +22,6 @@ def masterbias(biaslist,outfile=None,edit=False,path=None):
 #      biaslist  : Archivo .in con los nombres de los bias.
 #      (path)    : String que indica el camino al biaslist.
 #      (outfile) : Nombre del archivo de salida. Por defecto usa "Zero.fits".
-#      (edit)    : En caso de que sea verdadero, edita el header de las
-#                  imágenes para agregarles el tipo "zero".
 #                  
 #                   ---------------------------------------      
 #
@@ -33,8 +31,6 @@ def masterbias(biaslist,outfile=None,edit=False,path=None):
 #      biaslist  : .in file with bias names.
 #      (path)    : String containing the path to biaslist.
 #      (outfile) : Output file name. If none, uses "Zero.fits".
-#      (edit)    : If true, edits the biaslist headers changing imagetyp to
-#                  "zero".
 # =============================================================================
     
     if path is not None:
@@ -45,7 +41,13 @@ def masterbias(biaslist,outfile=None,edit=False,path=None):
     iraf.imred()    # open imred package
     iraf.ccdred()   # open ccdred package
     iraf.unlearn(iraf.zerocombine)  #erase all parameters seted before
-        
+    
+    
+    imtyp=aux.hselect(bias,'IMAGETYP')
+       for tip in imtyp:
+           if not tip.strip()=='zero'
+               edit=True
+            
     if edit: # edits the header of all images
         aux.hedit(bias,'IMAGETYP','zero')
 
@@ -61,7 +63,7 @@ def masterbias(biaslist,outfile=None,edit=False,path=None):
     
     
     
-def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
+def masterdark(darklist,outfile=None,mastbia=None,path=None):
     
 # =============================================================================
 #   Dada una lista de darks, genera un masterdark.
@@ -72,8 +74,6 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
 #     (mastbia) : Archivo que contiene el masterbias. Por defecto usa
 #                 "Zero.fits" y toma el mismo path que el darklist.
 #     (outfile) : Nombre del archivo de salida. Por defecto usa "Dark.fits"
-#     (edit)    : En caso de que sea verdadero, edita el header de las
-#                 imágenes para agregarles el tipo "dark".
 #                  
 #                   ---------------------------------------      
 #
@@ -85,8 +85,6 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
 #     (mastbia) : File that contains the masterbias. If none uses
 #                 "Zero.fits" and always use the same path as darklist.
 #     (outfile) : Output file name. If none, uses "Dark.fits".
-#     (edit)    : If true, edits the header of the images, changing imagetyp
-#                 to "dark".
 # =============================================================================
     
 #    dark= makelist(darklist,path=path) # generates list string of files
@@ -100,6 +98,11 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
     iraf.ccdred()# open ccdred package
     iraf.unlearn(iraf.darkcombine) #erase all parameters seted before
     iraf.unlearn(iraf.ccdproc)
+
+    imtyp=aux.hselect(dark,'IMAGETYP')
+       for tip in imtyp:
+           if not tip.strip()=='dark'
+               edit=True
 
     if edit: # edits the header of all images
         aux.hedit(dark,'IMAGETYP','dark')
@@ -129,7 +132,7 @@ def masterdark(darklist,outfile=None,mastbia=None,edit=False,path=None):
  
  
 def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
-               mastdark=None,edit=False,path=None):
+               mastdark=None,path=None):
     
 # =============================================================================
 #      Dada una lista de flats, genera el masterflat de cada set de flat, por
@@ -144,8 +147,6 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
 #    (mastdark) : Archivo que contiene el masterdark. Por defecto usa
 #                 "Dark.fits" y toma el mismo path que el flatlist.
 #    (outfile)  : nombre del archivo de salida. Por defecto usa "Flat".
-#    (edit)     : En caso de que sea verdadero, edita el header de las
-#                 imágenes para agregarles el tipo "flat".
 #               
 #                   ---------------------------------------      
 #
@@ -160,8 +161,6 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
 #    (mastdark) : File that contains the msaterdark. If none uses
 #                 "Dark.fits" and always use the same path as flatlist.  
 #    (outfile)  : Output file name. If none, uses "Flat".
-#    (edit)     : If true, edits the header of the images, changing imagetyp    
-#                 to "flat".
 # =============================================================================
     
     if path is not None:
@@ -173,7 +172,11 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
     iraf.ccdred()   # open ccdred package
     iraf.unlearn(iraf.flatcombine) #erase all parameters seted before
     iraf.unlearn(iraf.ccdproc)
-        
+    
+    imtyp=aux.hselect(flat,'IMAGETYP')
+       for tip in imtyp:
+           if not tip.strip()=='flat'
+               edit=True    
     if edit:
         aux.hedit(flat,'IMAGETYP','flat')          
           
@@ -206,7 +209,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
 #%%
     
 def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
-            ,mastflat=None,edit=False,output=None):
+            ,mastflat=None,output=None):
     
 # =============================================================================
 #     Dada una lista de imágenes de ciencia, las reduce.
@@ -221,8 +224,6 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
 #                   y toma el camino dado por path.
 #     (mastflat) : Nombre del archivo masterflat. Por defecto, usa "Flat.fits"
 #                   y toma el camino dado por path.
-#     (edit)     : Si es verdadero, edita el header de las imágenes cambiando
-#                   el tipo a "object".
 #     (output)   : Output de las imágenes reducidas. Por defecto, el output es
 #                   el nombre del archivo con un ".red" antes del ".fit".
 #     
@@ -240,8 +241,6 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
 #                   "Dark.fits" and uses path.
 #     (mastflat) : File that contains the masterflat. If none uses
 #                   "Flat.fits" and uses path.
-#     (edit)     : If true, edits the header of the images, changing imagetyp
-#                   to "object".
 #     (output)   : Output of the result images. If none given, uses the same
 #                   file name adding a ".red" before ".fit".             
 # =============================================================================
@@ -255,9 +254,12 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     
     images='@'+imagelist
 
-    while edit: # edits the header changes imagetyp
+    imtyp=aux.hselect(images,'IMAGETYP')
+       for tip in imtyp:
+           if not tip.strip()=='object'
+               edit=True
+    if edit: # edits the header changes imagetyp
         aux.hedit(images,'IMAGETYP','object')
-        edit=False # flag down
         
         
      # if mastbia not given, use default 
@@ -281,7 +283,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     
     
      #if output not given, use default
-    output=aux.default(output,'R//'+images) #segun kmi esto funca
+    output=aux.default(output,'R//'+images) 
     alist=imagelist.split(',')
     for x in alist:
         aux.rm('R'+x)
