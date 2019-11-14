@@ -283,10 +283,11 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     
     
      #if output not given, use default
-    output=aux.default(output,'R//'+images) 
+    letrita=aux.default(output,'R') 
+    output=letrita+'//'+images
     alist=np.genfromtxt(imagelist,dtype=None)
     for x in alist:
-        aux.rm('R'+x)
+        aux.rm(letrita+x)
         
     iraf.ccdproc.fixpix='no'
     iraf.ccdproc.overscan='no'
