@@ -117,3 +117,40 @@ def filtersep(images,path=None,field='FILTER02'):
         aux.chdir(originalpath)
 
     return listadefiltros,listadearchivos
+
+def filtersep2(images,path=None,field='FILTER02'):    
+    imagesl='@'+images
+
+    if path is not None: # moves to path, saves working directory
+        originalpath=aux.chdir(path,save=True)    
+                               
+    listafull = aux.hselect(imagesl,field)
+    imagelist= np.genfromtxt(images,dtype=None)
+    
+    j=0
+    filt=[]
+    for x in listafull:
+        filt(j)=str(x)[-2]
+        aux.hedit(imagelist(j),fields="FILTNEW",value=filt)
+        j=j+1
+    
+    listadearchivos=[]
+    for f in filt:
+        filterfile=os.path.splitext(images)[0]+f+'.in'
+        
+        listadearchivos.append(filterfile)
+        
+        h=open(filterfile,'w+')
+        
+        # para cada imagen
+        for im in imagelist:
+            #agarra el filtro
+            x=aux.hselect(im,"FILTNEW")
+            if x[0].strip() in f:  # lo compara con el filtro que estoy buscando
+                print >> h, im # si es igual lo guarda en la lista
+        h.close()
+    
+    if path is not None:
+        aux.chdir(originalpath)
+    
+    return filt,listadearchivos
