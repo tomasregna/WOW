@@ -46,19 +46,21 @@ def filtersep(images,path=None,field='FILTER02'):
     # para pasarlo como argumento en iraf 
     imagesl='@'+images
                                    
-    listafull = aux.hselect(imagesl,field) # genera lista de todos los filtros
-    
+    listafull = aux.hselect(imagesl,field) # genera lista de todos los filtros       
 #     excluyo el filtro 1 que es ningùn filtro.
-#     pero lo intercambio por lo que haya en el campo filter02
-#     de ahi tengo que excluir los filtros  4. Entonces:
+    for x in listafull: 
+        if "(1)" in x: #    excluyo los filtros free:
+            listafull.remove(x)
     
     listafull2= aux.hselect(imagesl,"FILTER01") # busco los filtros 1
+    
+    for x in listafull2:
+        for h in [1,2,4,5]:
+            if "("+str(h)+")" in x:
+                listafull2.remove(x)
     # separa individualmente x filtro
     listadefiltros = np.unique(listafull+listafull2) 
     
-#    excluyo los filtros free:
-    listadefiltros = listadefiltros [listadefiltros!='"(1) free"']
-    listadefiltros = listadefiltros [listadefiltros != '"(4) Free"'] 
 
    
       # me genero una lista de las imágenes
