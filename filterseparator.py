@@ -133,15 +133,17 @@ def filtersep2(images,path=None,field='FILTER02'):
     j=0
     filt=[]
     for x in listafull:
-        var=str(x)
-        filt[j]=var[-2]
-        aux.hedit(imagelist(j),fields="FILTNEW",value=filt)
+        var=str(x)[-2]
+        filt.append(var)
+        aux.hedit(imagelist[j],fields="FILTNEW",value=var)
         j=j+1
     
+    filt1=np.unique(filt)
+    
     listadearchivos=[]
-    for f in filt:
+    for f in filt1:
         filterfile=os.path.splitext(images)[0]+f+'.in'
-        
+        aux.rm(filterfile)
         listadearchivos.append(filterfile)
         
         h=open(filterfile,'w+')
@@ -157,7 +159,7 @@ def filtersep2(images,path=None,field='FILTER02'):
     if path is not None:
         aux.chdir(originalpath)
     
-    return filt,listadearchivos
+    return filt1,listadearchivos
         
         
     
