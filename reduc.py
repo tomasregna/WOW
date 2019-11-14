@@ -165,7 +165,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
     
     if path is not None:
         originalpath=aux.chdir(path,save=True)
-                        
+    edit=False                    
     flat='@'+flatlist # para trabajar mas facil
     
     iraf.imred()    # open imred package
