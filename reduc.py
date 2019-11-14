@@ -36,6 +36,7 @@ def masterbias(biaslist,outfile=None,path=None):
     if path is not None:
         originalpath=aux.chdir(path,save=True)      
     
+    edit=False
     bias='@'+biaslist # @ necesary for iraf to recognize .in files
     
     iraf.imred()    # open imred package
@@ -91,7 +92,8 @@ def masterdark(darklist,outfile=None,mastbia=None,path=None):
     
     if path is not None:
         originalpath=aux.chdir(path,save=True)
-           
+    
+    edit=False
     dark='@'+darklist   
     
     iraf.imred() # open imred package
@@ -247,7 +249,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     
     if path is not None:
         originalpath=aux.chdir(path,save=True)
-        
+    edit=False    
     iraf.imred()     # open imred package
     iraf.ccdred()    # open ccdred package
     iraf.unlearn(iraf.ccdproc)
