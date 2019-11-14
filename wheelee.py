@@ -11,7 +11,7 @@ import os
 import reduc
 #%%
 def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
-               mastdark=None,edit=False):
+               mastdark=None):
 # =============================================================================
 #      Dada una lista con los flats por filtro, realiza el masterflat en cada
 #      filtro de dicha lista.
@@ -25,8 +25,6 @@ def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
 #    (Dark)     : Si es verdadero, corrije por Dark.
 #    (mastdark) : Archivo que contiene el masterdark. Por defecto usa
 #                 "Dark.fits" y toma el mismo path que el flatlist.
-#    (edit)     : En caso de que sea verdadero, edita el header de las
-#                 imágenes para agregarles el tipo "flat".
 #               
 #                   ---------------------------------------      
 #
@@ -54,15 +52,15 @@ def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
     for x in filters:
         outfile=os.path.splitext(listobj[i])[0]+x+'.fits'
         f.append(outfile)
-        reduc.masterflat(listobj[i],outfile,mastbia,Dark,mastdark,edit,path)
+        reduc.masterflat(listobj[i],outfile,mastbia,Dark,mastdark,path)
         i=i+1
     f.close()
     
     if path is not None:
         aux.chdir(originalpath)
-       
+ #%%      
 def procw(filters,listobj,path=None,mastbia=None,Dark=False,
-               mastdark=None,mflatlist='mflatlist.in',edit=False,output=None):
+               mastdark=None,mflatlist='mflatlist.in',output=None):
 # =============================================================================
 #      Dada una lista con los flats por filtro, realiza el masterflat en cada
 #      filtro de dicha lista.
@@ -77,8 +75,6 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
 #    (mastdark) : Archivo que contiene el masterdark. Por defecto usa
 #                 "Dark.fits" y toma el mismo path que el flatlist.
 #    (mflatlist): Lista de master flats en cada filtro.
-#    (edit)     : En caso de que sea verdadero, edita el header de las
-#                 imágenes para agregarles el tipo "flat".
 #    (output)   : tbd
 #               
 #                   ---------------------------------------      
@@ -96,8 +92,6 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
 #    (mastdark) : File that contains the msaterdark. If none uses
 #                 "Dark.fits" and always use the same path as flatlist.  
 #    (mflatlist): Flat per filter list.
-#    (edit)     : If true, edits the header of the images, changing imagetyp    
-#                 to "flat".
 #    (output)   : tbd
 # =============================================================================  
     if path is not None:
