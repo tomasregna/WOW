@@ -6,14 +6,14 @@ Created on Sun Nov 10 21:13:03 2019
 @author: natalia
 """
 
-from astropy.table import Table
+from astropy.table import Table,Column,Row
 import auxfunctions as aux
 from astropy.io import ascii
 import numpy as np
 import os
 
 #%%
-def gentable(phouts,apertura,path=None):
+def gentable(phouts,apertura,path=None,formato='commented_header'):
 # =============================================================================
 #     Dado uno o más archivos output de la tarea phot de IRAF, con extensión
 #    ",phot" y la apertura de los radios de las isofotas genera un objeto Table 
@@ -28,6 +28,8 @@ def gentable(phouts,apertura,path=None):
 #        (path)   : camino al phouts.
 #        apertura : Apertura de los radios de las isofotas.
 #                   Deberá ser un array.
+#        formato  : formato de astropy.io.ascii
+#                       Por defecto usa commented_header 
 # =============================================================================
     
     if path is not None:
@@ -46,19 +48,21 @@ def gentable(phouts,apertura,path=None):
                 
         # imprimiendo por estrella en diferentes archivos
         for i in range(nstar):
-            name=os.path.splitext(phouts)[0]+'.'+str(i)+'.tab'
+            name=os.path.splitext(phouts)[0]+str(i+1)+'.tab'
+            basicol=t.colnames[:25] #columnas que no dependen de r_aper
+            rapcol=['SUM','AREA','FLUX','MAG','MERR','PIER','PERROR']
             aux.rm(name)
             f=open(name,'w+')
-            
+            datarows=[]
+       
             for j in range(1,len(apertura)+1): # para cada r_aper
-                basicol=t.colnames[:25] #columnas que no dependen de r_aper
                 # agrego las columnas que dependen del radio de apertura
-                col=basicol + t.colnames[25+(8*(j-1)):25+8*j]
-                
-                taux=t[col][i] # tabla auxiliar
-                
-                ascii.write(taux,f,format='no_header') #imprime a archivo
-                
+                col=basicol + t.colnames[25+(8*(j-1))+1:25+8*j]
+                datarows.append(t[col][i])
+            tabla=Table(rows=datarows, names=basicol+rapcol)
+            columna0=Column(name='RAPERT',data=apertura)
+            tabla.add_column(columna0,0)
+            ascii.write(tabla,f,format=formato)
     else:  # si es más de una tabla
             listaphot=np.genfromtxt(phouts,dtype=None)
 #             hace lo mismo pero para cada objeto en una lista.
@@ -68,12 +72,17 @@ def gentable(phouts,apertura,path=None):
                 for i in range(nstar):
                     name=os.path.splitext(ph)[0]+'.'+str(i)+'.tab'
                     aux.rm(name)
+                    basicol=t.colnames[:25]
+                    rapcol=['SUM','AREA','FLUX','MAG','MERR','PIER','PERROR']
                     f=open(name,'w+')
+                    datarows=[]
                     for j in range(1,len(apertura)+1):
-                        basicol=t.colnames[:25] 
                         col=basicol + t.colnames[25+(8*(i-1)):25+8*i]
-                        taux=t[col][i]
-                        ascii.write(taux,f,format='no_header')
+                        datarows.append(t[col][i])
+                    tabla=Table(rows=datarows, names=basicol+rapcol)
+                    columna0=Column(name='RAPERT',data=apertura)
+                    tabla.add_column(columna0,0)
+                    ascii.write(tabla,f,format=formato)
 
 
 
