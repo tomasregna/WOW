@@ -284,7 +284,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     
      #if output not given, use default
     output=aux.default(output,'R//'+images) 
-    alist=imagelist.split(',')
+    alist=np.genfromtxt(imagelist,dtype=None)
     for x in alist:
         aux.rm('R'+x)
         
