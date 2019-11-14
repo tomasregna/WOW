@@ -45,7 +45,7 @@ def masterbias(biaslist,outfile=None,path=None):
     
     imtyp=aux.hselect(bias,'IMAGETYP')
     for tip in imtyp:
-        if not tip.strip()=='zero'
+        if not tip.strip()=='zero' :
             edit=True
             
     if edit: # edits the header of all images
@@ -100,9 +100,9 @@ def masterdark(darklist,outfile=None,mastbia=None,path=None):
     iraf.unlearn(iraf.ccdproc)
 
     imtyp=aux.hselect(dark,'IMAGETYP')
-       for tip in imtyp:
-           if not tip.strip()=='dark'
-               edit=True
+    for tip in imtyp:
+        if not tip.strip()=='dark' :
+            edit=True
 
     if edit: # edits the header of all images
         aux.hedit(dark,'IMAGETYP','dark')
@@ -174,9 +174,9 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
     iraf.unlearn(iraf.ccdproc)
     
     imtyp=aux.hselect(flat,'IMAGETYP')
-       for tip in imtyp:
-           if not tip.strip()=='flat'
-               edit=True    
+    for tip in imtyp:
+        if not tip.strip()=='flat' :
+            edit=True    
     if edit:
         aux.hedit(flat,'IMAGETYP','flat')          
           
@@ -255,9 +255,9 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     images='@'+imagelist
 
     imtyp=aux.hselect(images,'IMAGETYP')
-       for tip in imtyp:
-           if not tip.strip()=='object'
-               edit=True
+    for tip in imtyp:
+        if not tip.strip()=='object' :
+            edit=True
     if edit: # edits the header changes imagetyp
         aux.hedit(images,'IMAGETYP','object')
         
