@@ -47,24 +47,21 @@ def filtersep(images,path=None,field='FILTER02'):
     imagesl='@'+images
                                    
     listafull = aux.hselect(imagesl,field) # genera lista de todos los filtros       
-
-    #     excluyo el filtro 1 que es ningùn filtro.
-
-    listaextra=[]
+#     excluyo el filtro 1 que es ningùn filtro.
+    j=0
     for x in listafull: 
         if "(1)" in x: #    excluyo los filtros free:
-            listaextra.append(x)
-    listafull=listaextra
-
+            listafull.remove(j)
+        j=j+1
+    
     listafull2= aux.hselect(imagesl,"FILTER01") # busco los filtros 1
-    
-    
-    listasisi=[]
+    j=0
     for x in listafull2:
-        if not('Free' in x or 'Libre' in x or 'free' in x or'libre' in x):
-            listasisi.append(x)    
-    print listasisi
-    listafull2=listasisi
+        for h in [1,2,4,5]:
+            if "("+str(h)+")" in x:
+                print 'santitopo'
+                listafull2.pop(j)
+        j=j+1
     # separa individualmente x filtro
     listadefiltros = np.unique(listafull+listafull2) 
    
@@ -137,8 +134,12 @@ def filtersep2(images,path=None,field='FILTER02'):
     filt=[]
     for x in listafull:
         var=str(x)[-2]
-        filt.append(var)
-        aux.hedit(imagelist[j],fields="FILTNEW",value=var)
+        if var == 'e' :
+            filt.append('U')
+            aux.hedit(imagelist[j],fields="FILTNEW",value='U')
+        else:
+            filt.append(var)
+            aux.hedit(imagelist[j],fields="FILTNEW",value=var)
         j=j+1
     
     filt1=np.unique(filt)
