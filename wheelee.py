@@ -9,6 +9,7 @@ This is a temporary script file.
 import auxfunctions as aux
 import os
 import reduc
+import numpy as np
 #%%
 def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
                mastdark=None):
@@ -60,7 +61,7 @@ def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
         aux.chdir(originalpath)
  #%%      
 def procw(filters,listobj,path=None,mastbia=None,Dark=False,
-               mastdark=None,mflatlist='mflatlist.in',output=None):
+               mastdark=None,flatin='mflatlist.in',output=None):
 # =============================================================================
 #      Dada una lista con los flats por filtro, realiza el masterflat en cada
 #      filtro de dicha lista.
@@ -97,14 +98,15 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
     if path is not None:
         originalpath=aux.chdir(path,save=True)    
     
-    listaflat=np.genfromtxt(mflatlist,dtype=None)
-    listaimag=np.genfromtxt(images,dtype=None)
-    
+    flatlist=np.genfromtxt(flatin)
+
     i=0
     for x in filters:
         #outfile=os.path.splitext(listobj[i])[0]+'.fits'
-        reduc.process(imagelist=listaimag[i],path,Dark,mastbia,mastdark
-                ,mastflat=listaflat[i],edit,output)        
+        image='@'+listobj[i]
+        flat=flatlist[i]
+#        if 
+        reduc.process(image,path,Dark,mastbia,mastdark,flat,output)        
         i=i+1
         
     if path is not None:
