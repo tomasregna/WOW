@@ -181,8 +181,8 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
         aux.hedit(flat,'IMAGETYP','flat')          
           
     # if outfile not given, use default
-    outfile=aux.default(outfile,os.path.splitext(flatlist)[0]+'.fits'
-                        ,borrar=True) 
+    outfile=aux.default(outfile,os.path.splitext(flatlist)[0]+'.fits',borrar=True) 
+    aux.rm(outfile+'.fits')             # por filtro,ej:FlatV.fits
     
        # if mastbia not given, use default   
     mastbia=aux.default(mastbia,'Zero.fits')
@@ -288,8 +288,6 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     for x in alist:
         aux.rm('R'+x)
         
-    iraf.ccdpro.process='yes'
-    iraf.ccdproc.process='yes'
     iraf.ccdproc.fixpix='no'
     iraf.ccdproc.overscan='no'
     iraf.ccdproc.trim='no' #no disponible trim, overs ni fixpix en la v1.0
