@@ -130,7 +130,7 @@ def filtersep2(images,path=None,field='FILTER02'):
     j=0
     filt=[]
     for x in listafull:
-        filt(j)=str(x)[-2]
+        filt.append(str(x)[-2])
         aux.hedit(imagelist(j),fields="FILTNEW",value=filt)
         j=j+1
     
