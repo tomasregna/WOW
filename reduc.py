@@ -209,7 +209,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
 #%%
     
 def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
-            ,mastflat=None,output=None):
+            ,mastflat=None,prefix=None):
     
 # =============================================================================
 #     Dada una lista de imágenes de ciencia, las reduce.
@@ -224,8 +224,8 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
 #                   y toma el camino dado por path.
 #     (mastflat) : Nombre del archivo masterflat. Por defecto, usa "Flat.fits"
 #                   y toma el camino dado por path.
-#     (output)   : Output de las imágenes reducidas. Por defecto, el output es
-#                   el nombre del archivo con un ".red" antes del ".fit".
+#     (prefix)   : Prefijo de las imágenes reducidas. Por defecto, el prefijo es
+#                   el nombre del archivo con un "R" antes del mismo.
 #     
 #                        ---------------------------------------      
 #            
@@ -241,8 +241,8 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
 #                   "Dark.fits" and uses path.
 #     (mastflat) : File that contains the masterflat. If none uses
 #                   "Flat.fits" and uses path.
-#     (output)   : Output of the result images. If none given, uses the same
-#                   file name adding a ".red" before ".fit".             
+#     (prefix)   : Prefix of the result images. If none given, uses the same
+#                   file name adding a "R" before the name.             
 # =============================================================================
     
     if path is not None:
@@ -283,7 +283,7 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     
     
      #if output not given, use default
-    letrita=aux.default(output,'R') 
+    letrita=aux.default(prefix,'R') 
     output=letrita+'//'+images
     alist=np.genfromtxt(imagelist,dtype=None)
     for x in alist:
