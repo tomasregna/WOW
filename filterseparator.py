@@ -48,20 +48,22 @@ def filtersep(images,path=None,field='FILTER02'):
                                    
     listafull = aux.hselect(imagesl,field) # genera lista de todos los filtros       
 #     excluyo el filtro 1 que es ningùn filtro.
+    j=0
     for x in listafull: 
         if "(1)" in x: #    excluyo los filtros free:
-            listafull.remove(x)
+            listafull.remove(j)
+        j=j+1
     
     listafull2= aux.hselect(imagesl,"FILTER01") # busco los filtros 1
-    
+    j=0
     for x in listafull2:
         for h in [1,2,4,5]:
             if "("+str(h)+")" in x:
-                listafull2.remove(x)
+                print 'santitopo'
+                listafull2.pop(j)
+        j=j+1
     # separa individualmente x filtro
     listadefiltros = np.unique(listafull+listafull2) 
-    
-
    
       # me genero una lista de las imágenes
     listaimagenes = np.genfromtxt(images,dtype=None)
@@ -118,6 +120,7 @@ def filtersep(images,path=None,field='FILTER02'):
 
     return listadefiltros,listadearchivos
 
+#%%
 def filtersep2(images,path=None,field='FILTER02'):    
     imagesl='@'+images
 
@@ -130,8 +133,9 @@ def filtersep2(images,path=None,field='FILTER02'):
     j=0
     filt=[]
     for x in listafull:
-        filt.append(str(x)[-2])
-        aux.hedit(imagelist(j),fields="FILTNEW",value=filt(j))
+        var=str(x)
+        filt[j]=var[-2]
+        aux.hedit(imagelist(j),fields="FILTNEW",value=filt)
         j=j+1
     
     listadearchivos=[]
@@ -154,3 +158,28 @@ def filtersep2(images,path=None,field='FILTER02'):
         aux.chdir(originalpath)
     
     return filt,listadearchivos
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
