@@ -181,8 +181,8 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
         aux.hedit(flat,'IMAGETYP','flat')          
           
     # if outfile not given, use default
-    outfile=aux.default(outfile,os.path.splitext(flatlist)[0]+'.fits',borrar=True) 
-    aux.rm(outfile+'.fits')             # por filtro,ej:FlatV.fits
+    outfile=aux.default(outfile,'Flat.fits',borrar=True) 
+
     
        # if mastbia not given, use default   
     mastbia=aux.default(mastbia,'Zero.fits')
