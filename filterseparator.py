@@ -131,7 +131,7 @@ def filtersep2(images,path=None,field='FILTER02'):
     filt=[]
     for x in listafull:
         filt.append(str(x)[-2])
-        aux.hedit(imagelist(j),fields="FILTNEW",value=filt)
+        aux.hedit(imagelist(j),fields="FILTNEW",value=filt(j))
         j=j+1
     
     listadearchivos=[]
