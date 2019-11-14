@@ -47,21 +47,24 @@ def filtersep(images,path=None,field='FILTER02'):
     imagesl='@'+images
                                    
     listafull = aux.hselect(imagesl,field) # genera lista de todos los filtros       
-#     excluyo el filtro 1 que es ningùn filtro.
-    j=0
+
+    #     excluyo el filtro 1 que es ningùn filtro.
+
+    listaextra=[]
     for x in listafull: 
         if "(1)" in x: #    excluyo los filtros free:
-            listafull.remove(j)
-        j=j+1
-    
+            listaextra.append(x)
+    listafull=listaextra
+
     listafull2= aux.hselect(imagesl,"FILTER01") # busco los filtros 1
-    j=0
+    
+    
+    listasisi=[]
     for x in listafull2:
-        for h in [1,2,4,5]:
-            if "("+str(h)+")" in x:
-                print 'santitopo'
-                listafull2.pop(j)
-        j=j+1
+        if not('Free' in x or 'Libre' in x or 'free' in x or'libre' in x):
+            listasisi.append(x)    
+    print listasisi
+    listafull2=listasisi
     # separa individualmente x filtro
     listadefiltros = np.unique(listafull+listafull2) 
    
