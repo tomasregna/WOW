@@ -16,6 +16,7 @@ from starfinder import starfinder
 from photom import photom
 from tablemaker import gentable
 from asciinator import asciinator
+from fullwidth import fullwidth
 #%%
 filt=True
 doflat=True
@@ -37,7 +38,8 @@ else:
         reduc.masterflat()
     reduc.process()
    
-#%%    
+#%%
+fullwidth()
 starfinder()
 
 photom()
