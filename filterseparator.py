@@ -121,7 +121,8 @@ def filtersep(images,path=None):
     return listadefiltros,listadearchivos
 
 #%%
-def filtersep2(images,path=None,field='FILTER02'):    
+def filtersep2(images,path=None):
+    field='FILTER02'
     imagesl='@'+images
 
     if path is not None: # moves to path, saves working directory
