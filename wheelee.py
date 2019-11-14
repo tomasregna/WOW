@@ -41,8 +41,6 @@ def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
 #                 "Zero.fits" and always use the same path as flatlist.
 #    (mastdark) : File that contains the msaterdark. If none uses
 #                 "Dark.fits" and always use the same path as flatlist.  
-#    (edit)     : If true, edits the header of the images, changing imagetyp    
-#                 to "flat".
 # =============================================================================
 
     if path is not None:
@@ -75,7 +73,7 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
 #    (Dark)     : Si es verdadero, corrije por Dark.
 #    (mastdark) : Archivo que contiene el masterdark. Por defecto usa
 #                 "Dark.fits" y toma el mismo path que el flatlist.
-#    (mflatlist): Lista de master flats en cada filtro.
+#    (flatin)   : Lista de master flats en cada filtro.
 #    (output)   : tbd
 #               
 #                   ---------------------------------------      
@@ -92,7 +90,7 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
 #                 "Zero.fits" and always use the same path as flatlist.
 #    (mastdark) : File that contains the msaterdark. If none uses
 #                 "Dark.fits" and always use the same path as flatlist.  
-#    (mflatlist): Flat per filter list.
+#    (flatin)   : Flat per filter list.
 #    (output)   : tbd
 # =============================================================================  
     if path is not None:
