@@ -44,9 +44,9 @@ def masterbias(biaslist,outfile=None,path=None):
     
     
     imtyp=aux.hselect(bias,'IMAGETYP')
-       for tip in imtyp:
-           if not tip.strip()=='zero'
-               edit=True
+    for tip in imtyp:
+        if not tip.strip()=='zero'
+            edit=True
             
     if edit: # edits the header of all images
         aux.hedit(bias,'IMAGETYP','zero')
