@@ -74,7 +74,8 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
 #    (mastdark) : Archivo que contiene el masterdark. Por defecto usa
 #                 "Dark.fits" y toma el mismo path que el flatlist.
 #    (flatin)   : Lista de master flats en cada filtro.
-#    (output)   : tbd
+#    (prefix)   : Prefijo que se agregará a las imágenes reducidas. Por defecto,
+#                 usa "R"
 #               
 #                   ---------------------------------------      
 #
@@ -91,7 +92,7 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
 #    (mastdark) : File that contains the msaterdark. If none uses
 #                 "Dark.fits" and always use the same path as flatlist.  
 #    (flatin)   : Flat per filter list.
-#    (output)   : tbd
+#    (prefix)   : Prefix added to the reduced image list. If none, uses "R".
 # =============================================================================  
     if path is not None:
         originalpath=aux.chdir(path,save=True)    
@@ -104,7 +105,7 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
         image='@'+listobj[i]
         flat=flatlist[i]
 #        if 
-        reduc.process(image,path,Dark,mastbia,mastdark,flat,output)        
+        reduc.process(image,path,Dark,mastbia,mastdark,flat,prefix)        
         i=i+1
         
     if path is not None:
