@@ -6,8 +6,6 @@ Created on Thu Nov 14 16:56:08 2019
 @author: guevaran
 """
 import os
-username=os.getenv('USER')
-os.chdir('/home/'+username)
 from pyraf import iraf
 import random
 import auxfunctions as aux
@@ -52,20 +50,22 @@ def skynoise(image,path=None):
     l1=int(limit[dd[0]+1:c[0]])/int(binn) # limit one of ccd / binning
     l2=int(limit[dd[1]+1:-1])/int(binn)  # limit two  of ccd/ binning
     
-    # set random numbers aux file    
+    # set random numbers aux file
+    aux.rm('ruidoceleste.coo') #delete if already exists
     output='ruidoceleste.coo'
   
     
     coords=[]
-    nrandom=int(l1/2.)
+    nrandom=int((l1**2)/100.) #quadratic growth
     f=open(output,'a+') # creates outfile
     for i in range(nrandom): # creates l1/10 random coordinates
         x=random.randint(1,l1) # random x coord, from 1 to l1
         y=random.randint(1,l2) # random y coord, from 1 to l2
         coords.append([x,y])
-        print >> f,x,y  # writes coords in file 
+        print > f,x,y  # writes coords in file 
     f.close()
 
+    iraf.unlearn(iraf.imexamine) #unlearns imexamine first
 # tuve que mandar estos comandos para que no me cambie el z1yz2 cada vez
 # que calculaba todo. Cosa de como tenia mi seteado mi iraf ( o no?)            
     iraf.imexamine.autoredraw='no' #noredraw of the image 
@@ -84,10 +84,10 @@ def skynoise(image,path=None):
         stdev.append(float(lin.split()[4]))
         maxi.append(float(lin.split()[6]))
 
-    # criterio de seleccion <2*moda no es estrella
+    # criterio de seleccion <3*moda no es estrella
     validos=[]
     for j in range(nrandom):
-            if maxi[j] < 2*moda:
+            if maxi[j] < 3*moda:
                 validos.append(stdev[j])
 
                 
