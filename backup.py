@@ -3,6 +3,7 @@
 #%%
 import shutil as sh
 import os
+from datetime import datetime
 
 #%%
 def backup(dirname=None,path=None,bformat="tar"):
@@ -39,13 +40,14 @@ def backup(dirname=None,path=None,bformat="tar"):
     if os.path.exists(backpath) is False:
         os.mkdir(backpath) #si no existe un directorio de backups, 
                            #crea uno
+    now=datetime.now()
     
     if dirname is None:
-        dirname='backup'
+        dirname=str(now.year)+str(now.day)+str(now.month)
         i=0
         while (os.path.exists(backpath+'/'+dirname+'.'+bformat)):
             i=i+1
-            dirname='backup'+str(i)
+            dirname=str(now.year)+str(now.day)+str(now.month)+'-'+str(i)
     
     out=backpath+"/"+dirname #archivo concatenado al camino entero
     
