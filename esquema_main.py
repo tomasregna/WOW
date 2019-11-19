@@ -6,49 +6,60 @@ Created on Mon Nov 11 12:39:59 2019
 @author: intel
 """
 #%%
+import os
+
+dire=os.getcwd()
+user=os.getenv('USER')
+os.chdir('/home/'+user)
 from pyraf import iraf
+os.chdir(dire)
+
 import auxfunctions as aux
 import reduc
 from backup import backup
-from filterseparator import filtersep
+from filterseparator import filtersep2
 import wheelee as wh
 from starfinder import starfinder
 from photom import photom
 from tablemaker import gentable
-from asciinator import asciinator
-from fullwidth import fullwidth
+from cieloruidoso import skynoise
 #%%
-filt=True
-doflat=True
-pytab=True
+reducir=True
+heditar=True
+filtros=True
+dodark=True
+dophot=True
+dotab=True
+
 backup()
 
 #%%
-aux.hedit()
-reduc.masterbias()
-reduc.masterdark()
+if heditar :
+    aux.hedit()
 
-if filt is True :
-    filtersep()
-    if doflat is True :
-        wh.flatw()
-    wh.proc()
-else:
-    if doflat is True :
-        reduc.masterflat()
-    reduc.process()
+#%%
+if reducir :
+    reduc.masterbias()
+    if dodark :
+        reduc.masterdark()
+
+    if filtros is True :
+        filtersep2()
+        wh.flatw(Dark=dodark)
+        wh.proc(Dark=dodark)
+    else:
+        reduc.masterflat(Dark=dodark)
+        reduc.process(Dark=dodark)
    
 #%%
-fullwidth()
-starfinder()
-
-photom()
+if dophot :
+    cielo=skynoise()
+    starfinder(sigma=cielo)
+    photom()
 
 #%%
 
-if pytab is True :
+if dotab is True :
     gentable()
-else :
-    asciinator()
     
  
