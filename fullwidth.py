@@ -5,19 +5,16 @@ Created on Thu Nov 14 15:57:23 2019
 
 @author: guevaran
 """
-
-import os
-from pyraf import iraf
 #%%
 
 def fullwidth(obser,binning=1,RF=False):
     seeing=2.5 #seeing promedio de casleo en "
-    if obser=='HSH'
+    if obser=='HSH' :
         escala= 0.5424 #  arcsec/pix
-    elif obser=='JS'
-        if not RS:
-         escala= 0.15  #  arcsec/pix
-     else:
+    elif obser=='JS':
+        if not RF:
+            escala= 0.15  #  arcsec/pix
+    else:
          escala= 0.45  #  arcsec/pix
     
     full=seeing/(escala*binning)
