@@ -23,6 +23,8 @@ from starfinder import starfinder
 from photom import photom
 from tablemaker import gentable
 from cieloruidoso import skynoise
+from fullwidth import fullwidth
+
 #%%
 reducir=True
 heditar=True
@@ -54,7 +56,8 @@ if reducir :
 #%%
 if dophot :
     cielo=skynoise()
-    starfinder(sigma=cielo)
+    fw=fullwidth()
+    starfinder(fwhm=fw,sigma=cielo)
     photom()
 
 #%%
