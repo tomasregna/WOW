@@ -1,19 +1,25 @@
 
 
-backup: Yes            # hacer backup
+backup:                # hacer backup
+ dobackup: Yes
+ dirname:
+ path:
+ bformat:              
 
 reducir:
  imobj:                # lista de imagenes de ciencia
  doreducir : Yes       # hacer la reduccion
+ path:
  imflat:               # lista de imagenes flat
  imbias:               # lista de imagenes bias
  opciones :
-    dark: No           # correccion por dark
-    imdark: ""         # lista de imagenes dark
+  dark: No             # correccion por dark
+  imdark:              # lista de imagenes dark
   
 fotometria:
  imobj:                #
  dofotometria: Yes     # hacer fotometria
+ path:
  opciones:
    buscarest: Yes      # buscar estrellas
    autofwhm: Yes       # buscar fwhm
@@ -27,6 +33,7 @@ fotometria:
   
 tabla:
  dotabla: Yes          # generar tabla
+ path:
  phouts:
  opciones:
   formato:
