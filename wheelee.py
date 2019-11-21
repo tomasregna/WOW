@@ -42,10 +42,11 @@ def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
         originalpath=aux.chdir(path,save=True)    
     
     i=0
+    aux.rm('mflatlist.in')
     f=open('mflatlist.in','w+')
     for x in filters:
         outfile=os.path.splitext(listobj[i])[0]+'.fits'
-        f.write(outfile)
+        f.write(outfile+'\n')
         reduc.masterflat(listobj[i],outfile,mastbia,Dark,mastdark,path)
         i=i+1
     f.close()
