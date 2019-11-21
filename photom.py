@@ -10,11 +10,12 @@ Created on Thu Oct 17 13:09:36 2019
 import os
 from pyraf import iraf
 import auxfunctions as aux
+import numpy as np
 #os.system('ds9 -fifo dev/imt1 &')
 
 
 #%%
-def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None)
+def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None):
     # ==================================================================
     #  Dada una lista de imágenes, realiza la fotometría de apertura con
     #  la tarea phot.

@@ -62,7 +62,7 @@ def skynoise(image,path=None):
         x=random.randint(1,l1) # random x coord, from 1 to l1
         y=random.randint(1,l2) # random y coord, from 1 to l2
         coords.append([x,y])
-        print > f,x,y  # writes coords in file 
+        print >> f,x,y  # writes coords in file 
     f.close()
 
     iraf.unlearn(iraf.imexamine) #unlearns imexamine first
