@@ -9,6 +9,8 @@ Created on Thu Nov 21 11:25:43 2019
 #%%
 
 def setmodules():
+    import sys
+    sys.path.insert(1, '/camino/al/directorio/del/trabajo')
     import os  
     dire=os.getcwd()
     user=os.getenv('USER')
