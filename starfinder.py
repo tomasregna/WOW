@@ -96,6 +96,10 @@ def multisf(imagelist,farr,sarr,thold,zmin=None,zmax=None,
         for im in listaim:
             aux.rm(im+'.coo') #delete all previous coord files if exist
             outfile.append(im+'.coo')
+    f=open('coords.in','w+')
+    for out in outfile:
+      print >> f,out
+    f.close()
     i=0
     for im in listaim:
         unisf(im,farr[i],sarr[i],thold,zmin[i],zmax[i],
