@@ -8,7 +8,7 @@ Created on Thu Nov 14 16:56:08 2019
 from pyraf import iraf
 import random
 import auxfunctions as aux
-#from scipy.stats import mode
+from scipy.stats import mode
 import numpy as np
 
 #%%
@@ -95,12 +95,12 @@ def skynoise(image,path=None):
                 validos.append(stdev[j])
 
                 
-#    sigmasky=mode(validos) # toma la moda
-#    sigmasky=sigmasky[0][0]
+    sigmasky=mode(validos) # toma la moda
+    sigmasky=sigmasky[0][0]
     
 #     tomo la media de la disperción
-    sigmasky=np.mean(validos)
-                 
+#    sigmasky=np.mean(validos)
+#    print validos             
     aux.rm(output) # mata el archivo auxiliar    
     
     if path is not None:
