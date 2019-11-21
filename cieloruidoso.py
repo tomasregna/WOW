@@ -106,3 +106,16 @@ def skynoise(image,path=None):
     if path is not None:
         aux.chdir(originalpath)
     return(sigmasky) 
+#%%
+    
+def skynoises(images,path=None):
+    '''
+    Llama a skynoise para una lista de imagenes.
+    '''
+    lista=np.genfromtxt(images,dtype=None)
+    i=0
+    sigmas=[]
+    for im in lista:
+        sigmas.append(skynoise(im,path))
+        i=i+1
+    return(sigmas)
