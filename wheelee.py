@@ -49,7 +49,7 @@ def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
     i=0
     f=open('mflatlist.in','a+')
     for x in filters:
-        outfile=os.path.splitext(listobj[i])[0]+x+'.fits'
+        outfile=os.path.splitext(listobj[i])[0]+'.fits'
         f.append(outfile)
         reduc.masterflat(listobj[i],outfile,mastbia,Dark,mastdark,path)
         i=i+1
