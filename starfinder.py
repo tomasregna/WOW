@@ -12,7 +12,7 @@ import auxfunctions as aux
 import numpy as np
 
 #%%
-def starfinder(image,fwhm,sigma,thold,zmin='INDEF',zmax='INDEF',
+def unisf(image,fwhm,sigma,thold,zmin='INDEF',zmax='INDEF',
                path=None,outfile=None):
     '''
      Dada una lista de imágenes, identifica las estrellas de campo y
@@ -75,28 +75,29 @@ def starfinder(image,fwhm,sigma,thold,zmin='INDEF',zmax='INDEF',
     if path is not None:
         aux.chdir(originalpath)
 
-#%%
-    def multistarfinder(imagelist,farr,sarr,thold,zmin=None,zmax=None,
-               path=None,outfile=None):
+#%% 
+def multisf(imagelist,farr,sarr,thold,zmin=None,zmax=None,
+            path=None,outfile=None):     
         
-        listaim=np.genfromtxt(imagelist,dtype=None)
-        
-        if zmin is None:
-            zmin=[]
-            for im in listaim:
-                zmin.append='INDEF'
-        if zmax is None:
-            zmax=[]
-            for im in listaim:
-                zmax.append('INDEF')
-        
-        if outfile is None :
-            outfile=[]
-            for im in listaim:
-                aux.rm(im+'.coo') #delete all previous coord files if exist
-                outfile.append(im+'.coo')
-        i=0
+    listaim=np.genfromtxt(imagelist,dtype=None)
+    
+    if zmin is None:
+        zmin=[]
         for im in listaim:
-            starfinder(im,farr[i],sarr[i],thold,zmin[i],zmax[i],
-               path,outfile[i])
-            i=i+1
+            zmin.append('INDEF')
+    
+    if zmax is None:
+        zmax=[]
+        for im in listaim:
+            zmax.append('INDEF')
+        
+    if outfile is None :
+        outfile=[]
+        for im in listaim:
+            aux.rm(im+'.coo') #delete all previous coord files if exist
+            outfile.append(im+'.coo')
+    i=0
+    for im in listaim:
+        unisf(im,farr[i],sarr[i],thold,zmin[i],zmax[i],
+           path,outfile[i])
+        i=i+1
