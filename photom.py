@@ -15,14 +15,15 @@ import numpy as np
 
 
 #%%
-def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None):
+def photom(images,anillo,danillo,apertura,outfile=None,path=None,coords='coords.in'):
     '''
       Dada una lista de imágenes, realiza la fotometría de apertura con
       la tarea phot.
       
       INPUT
       images   : Lista de imágenes .in o archivo .fits
-      coords   : Archivo con las coordenadas de los objetos.
+      (coords)   : Archivo con las coordenadas de los objetos, por defecto
+                       es "coords.in"
       anillo   : ?
       danillo  : ??
       apertura : Apretura de los radios, ingresada como una lista,
@@ -77,6 +78,7 @@ def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None):
     if (os.path.splitext(images)[-1] == '.fit' or
         os.path.splitext(images)[-1] == '.fits'):
         iraf.phot.image=images
+        coords=np.genfromtxt(coords,stdout=1)
         iraf.phot.coords=coords
         outfile=aux.default(outfile,os.path.splitext(images)[0]+'.phot',borrar=True)        
         iraf.phot.output=outfile
