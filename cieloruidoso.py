@@ -5,23 +5,27 @@ Created on Thu Nov 14 16:56:08 2019
 
 @author: guevaran
 """
-import os
 from pyraf import iraf
 import random
 import auxfunctions as aux
-from scipy.stats import mode
+#from scipy.stats import mode
 import numpy as np
 
 #%%
 
 def skynoise(image,path=None):
-# =============================================================================
-#     Calcula el ruido del cielo de una imagen. 
-#    
-#    INPUT
-#    image : una imagen
-#    (path): camino a image
-# =============================================================================
+    '''
+     Calcula el ruido del cielo de una imagen. 
+     Toma una moda de la imagen total con \verb|imstat|. Luego genera una lista
+     de n puntos aleatorios entre los límites de la imagen, con
+     $n=\frac{anchoCCD^2}{10}$, y corre \verb|imexa| sobre cada punto, sacando
+     la estadística. Descarta los puntos que superen en cuentas 3 veces la moda
+     y toma la media de la desviación estandar del cielo de los puntos
+     restantes. Este valor es el que devuelve como aproximación del skynoise.
+    INPUT
+    image : una imagen
+    (path): camino a imagen
+     '''
     
     if path is not None:
         originalpath=aux.chdir(path,save=True)
@@ -91,14 +95,14 @@ def skynoise(image,path=None):
                 validos.append(stdev[j])
 
                 
-    sigmasky=mode(validos) # toma la moda
-    sigmasky=sigmasky[0][0]
+#    sigmasky=mode(validos) # toma la moda
+#    sigmasky=sigmasky[0][0]
     
-#     la media de la disperción daba tmb un valor decente
-    sigmasky2=np.mean(validos)
+#     tomo la media de la disperción
+    sigmasky=np.mean(validos)
                  
     aux.rm(output) # mata el archivo auxiliar    
     
     if path is not None:
         aux.chdir(originalpath)
-    return(sigmasky,sigmasky2)  # hice unas pruebas y da mejor la media!
+    return(sigmasky) 

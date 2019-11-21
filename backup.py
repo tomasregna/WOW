@@ -7,28 +7,26 @@ from datetime import datetime
 
 #%%
 def backup(dirname=None,path=None,bformat="tar"):
-    # ==================================================================
-    #  Dado un directorio con archivos, genera un backup en el home.
-    #  
-    #  INPUT
-    #  dirname  : Nombre del archivo comprimido que contendrá el backup
-    #             (sin el formato)
-    #  (path)   : Línea que indica el camino al directorio de 
-    #             archivos a los cuales se hará backup.
-    #  bformat  : Formato de compresión del archivo de backup.
-    #
-    # ------------------------------------------------------------------
-    #
-    #  Given a directory with files, generates a backup file at home.
-    #
-    #  INPUT
-    #  dirname  : Name of the compressed backup file (without format)
-    #  (path)   : String that indicates the path to the files subject to
-    #             backup.
-    #  bformat  : Compression format of the backup file.
-    #
-    # ==================================================================
+    '''
+     Dado un directorio con archivos, genera un backup en el home.
+      
+      INPUT
+      dirname  : Nombre del archivo comprimido que contendrá el backup
+                 (sin el formato)
+      (path)   : Línea que indica el camino al directorio de 
+                 archivos a los cuales se hará backup.
+      bformat  : Formato de compresión del archivo de backup.
     
+     ------------------------------------------------------------------
+    
+      Given a directory with files, generates a backup file at home.
+    
+      INPUT
+      dirname  : Name of the compressed backup file (without format)
+      (path)   : String that indicates the path to the files subject to
+                 backup.
+      bformat  : Compression format of the backup file.
+    '''    
     if path is None:
         path=os.getcwd() #si no conoce el path, usa la posición actual
       

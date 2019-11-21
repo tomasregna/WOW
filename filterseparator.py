@@ -9,32 +9,29 @@ Created on Wed Nov  6 16:46:46 2019
 import auxfunctions as aux
 import numpy as np
 import os
-from pyraf import iraf
 
 #%%
 
 def filtersep(images,path=None):
-# =============================================================================
-#     
-#    Dada una lista de imágenes y el parámetro del header de las mismas, busca
-#    el flitro de cada imágen, las separa por filtro en listas, en archivos
-#    distintos.
-#    Devuelve una lista de todos los filtros de las imágenes.
-#    Por defecto interpreta que se están tomando datos con el telescopio
-#    de 2.15m de CASLEO, con su respectivo formato: "(N) X" donde N es un
-#    número asociado a filtro X, que se encuentra en el campo "FILTER02" del 
-#    header de la imagen. Si lo encuentra en free usa el "FILTER01". 
-#    
-#       INPUT
-#       images   : Archivo .in con los nombres de las imágenes.  
-#       (path)   : Camino al archivo images
-#        
-#       OUTPUT
-#        name       type    
-#  listadefiltros   nparray  : Lista de filtros en las imágenes.
-#  listadearchivos  list     : Lista de archivos de lista que generó la tarea. 
-#                   ---------------------------------------      
-# =============================================================================
+    '''
+    Dada una lista de imágenes y el parámetro del header de las mismas, busca
+    el flitro de cada imágen, las separa por filtro en listas, en archivos
+    distintos.
+    Devuelve una lista de todos los filtros de las imágenes.
+    Por defecto interpreta que se están tomando datos con el telescopio
+    de 2.15m de CASLEO, con su respectivo formato: "(N) X" donde N es un
+    número asociado a filtro X, que se encuentra en el campo "FILTER02" del 
+    header de la imagen. Si lo encuentra en free usa el "FILTER01". 
+    
+       INPUT
+       images   : Archivo .in con los nombres de las imágenes.  
+       (path)   : Camino al archivo images
+        
+       OUTPUT
+        name       type    
+  listadefiltros   nparray  : Lista de filtros en las imágenes.
+  listadearchivos  list     : Lista de archivos de lista que generó la tarea. 
+    '''
 
     if path is not None: # moves to path, saves working directory
         originalpath=aux.chdir(path,save=True)

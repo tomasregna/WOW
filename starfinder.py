@@ -11,41 +11,40 @@ from pyraf import iraf
 import auxfunctions as aux
 
 #%%
-def starfinder(image,outfile=None,fwhm,sigma,zmin='INDEF',zmax='INDEF',
-               thold,path=None):
-# =============================================================================
-#     Dada una lista de imágenes, identifica las estrellas de campo y
-#     genera un archivo de coordenadas.
-#
-#      INPUT
-#      image     : Archivo .in con los nombres de las imágenes, o la imagen 
-#                  simple.
-#      fwmh      : Ancho a mitad de intensidad máxima de las estrellas.
-#      sigma     : Desviación estándar del cielo.
-#      thold     : Amplitud mínima por encima del valor de fondo.
-#      (zmin)    : Valor mínimo de cuentas a considerar.
-#      (zmax)    : Valor máximo de cuentas a considerar.
-#      (path)    : String que indica el camino a la imagen.
-#      (outfile) : Nombre del archivo de salida. Por defecto usa el nombre de
-#                  la imagen y agrega un .coo .
-#                  
-#                   ---------------------------------------      
-#
-#      Given a images list, identifies field stars and generates a coordinates
-#      file.
-#    
-#      INPUT
-#      image     : .in file with the name of each image, or a single image. 
-#      fwmh      : Full width half maximum of intensity of stars.
-#      sigma     : Standard deviation of the sky.
-#      thold     : Minimum amplitude above background level.
-#      (zmin)    : Minimum counts value to consider.
-#      (zmax)    : Maximum counts value to consider.
-#      (path)    : String that indicates the path do the images.
-#      (outfile) : Name of the output file, including .coo. By default, uses 
-#                  image name and adds .coo extension.
-#
-# =============================================================================
+def starfinder(image,fwhm,sigma,zmin='INDEF',zmax='INDEF',
+               thold,path=None,outfile=None):
+    '''
+     Dada una lista de imágenes, identifica las estrellas de campo y
+     genera un archivo de coordenadas.
+
+      INPUT
+      image     : Archivo .in con los nombres de las imágenes, o la imagen 
+                  simple.
+      fwmh      : Ancho a mitad de intensidad máxima de las estrellas.
+      sigma     : Desviación estándar del cielo.
+      thold     : Amplitud mínima por encima del valor de fondo.
+      (zmin)    : Valor mínimo de cuentas a considerar.
+      (zmax)    : Valor máximo de cuentas a considerar.
+      (path)    : String que indica el camino a la imagen.
+      (outfile) : Nombre del archivo de salida. Por defecto usa el nombre de
+                  la imagen y agrega un .coo .
+                  
+                   ---------------------------------------      
+
+      Given a images list, identifies field stars and generates a coordinates
+      file.
+    
+      INPUT
+      image     : .in file with the name of each image, or a single image. 
+      fwmh      : Full width half maximum of intensity of stars.
+      sigma     : Standard deviation of the sky.
+      thold     : Minimum amplitude above background level.
+      (zmin)    : Minimum counts value to consider.
+      (zmax)    : Maximum counts value to consider.
+      (path)    : String that indicates the path do the images.
+      (outfile) : Name of the output file, including .coo. By default, uses 
+                  image name and adds .coo extension.
+    '''
     iraf.noao() #loads noao
     iraf.digiphot() #loads digiphot
     iraf.apphot() #loads apphot

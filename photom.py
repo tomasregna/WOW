@@ -16,33 +16,33 @@ import numpy as np
 
 #%%
 def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None):
-    # ==================================================================
-    #  Dada una lista de imágenes, realiza la fotometría de apertura con
-    #  la tarea phot.
-    #  
-    #  INPUT
-    #  images   : Lista de imágenes .in o archivo .fits
-    #  coords   : Archivo con las coordenadas de los objetos.
-    #  anillo   : ?
-    #  danillo  : ??
-    #  apertura : Apretura de los radios, ingresada como una lista,
-    #            ej: [.5]+range(1,31) 
-    #  (outfile): Nombre de archivo(s) de salida.
-    #  (path)   : Línea que indica el camino al directorio de archivos.
-    #
-    # ------------------------------------------------------------------
-    #
-    #  Given a image list, performs aperture photometry via phot task.
-    #
-    #  INPUT
-    #  images   : .in image list or .fits file.
-    #  coords   : file with objects' coordinates.
-    #  anillo   : ?
-    #  danillo  : ??
-    #  (outfile): Name of the output file(s).
-    #  (path)   : String that indicates the path to the files.
-    #
-    # ==================================================================
+    '''
+      Dada una lista de imágenes, realiza la fotometría de apertura con
+      la tarea phot.
+      
+      INPUT
+      images   : Lista de imágenes .in o archivo .fits
+      coords   : Archivo con las coordenadas de los objetos.
+      anillo   : ?
+      danillo  : ??
+      apertura : Apretura de los radios, ingresada como una lista,
+                ej: [.5]+range(1,31) 
+      (outfile): Nombre de archivo(s) de salida.
+      (path)   : Línea que indica el camino al directorio de archivos.
+    
+     ------------------------------------------------------------------
+    
+      Given a image list, performs aperture photometry via phot task.
+    
+      INPUT
+      images   : .in image list or .fits file.
+      coords   : file with objects' coordinates.
+      anillo   : ?
+      danillo  : ??
+      (outfile): Name of the output file(s).
+      (path)   : String that indicates the path to the files.
+    
+    '''
     if path is not None:
         originalpath=aux.chdir(path,save=True)
 

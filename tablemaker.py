@@ -6,7 +6,7 @@ Created on Sun Nov 10 21:13:03 2019
 @author: natalia
 """
 
-from astropy.table import Table,Column,Row
+from astropy.table import Table,Column
 import auxfunctions as aux
 from astropy.io import ascii
 import numpy as np
@@ -14,23 +14,23 @@ import os
 
 #%%
 def gentable(phouts,apertura,path=None,formato='commented_header'):
-# =============================================================================
-#     Dado uno o más archivos output de la tarea phot de IRAF, con extensión
-#    ",phot" y la apertura de los radios de las isofotas genera un objeto Table 
-#    de astropy y devuelve uno o más archivos de salida en formato ascii.
-#    Si se ingresan varias tablas phot tendrá que ser en formato de filelist.
-#    
-#    En la versión 1.0 devuelve una tabla por estrella por imagen con todas las
-#    columnas de phot versus radio de apertura.
-#    
-#       INPUT
-#        phouts   : Archivo .phot o lista de archivos .phot
-#        (path)   : camino al phouts.
-#        apertura : Apertura de los radios de las isofotas.
-#                   Deberá ser un array.
-#        formato  : formato de astropy.io.ascii
-#                       Por defecto usa commented_header 
-# =============================================================================
+    '''
+     Dado uno o más archivos output de la tarea phot de IRAF, con extensión
+    ",phot" y la apertura de los radios de las isofotas genera un objeto Table 
+    de astropy y devuelve uno o más archivos de salida en formato ascii.
+    Si se ingresan varias tablas phot tendrá que ser en formato de filelist.
+    
+    En la versión 1.0 devuelve una tabla por estrella por imagen con todas las
+    columnas de phot versus radio de apertura.
+    
+       INPUT
+        phouts   : Archivo .phot o lista de archivos .phot
+        (path)   : camino al phouts.
+        apertura : Apertura de los radios de las isofotas.
+                   Deberá ser un array.
+        formato  : formato de astropy.io.ascii
+                       Por defecto usa commented_header 
+    '''
     
     if path is not None:
         originalpath=aux.chdir(path,save=True)

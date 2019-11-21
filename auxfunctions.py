@@ -20,6 +20,9 @@ from pyraf import iraf
 
 #%%
 def chdir(newpath,save=False):  #moves to path, can save the original path
+    '''
+    Moves to path, can save the original path.
+    '''
     original=os.getcwd()
     os.chdir(newpath)
     if save:
@@ -27,18 +30,30 @@ def chdir(newpath,save=False):  #moves to path, can save the original path
 
         
 def hedit(images,fields,value): # edits header of files
+    '''
+    Edits header of files.
+    '''
     iraf.hedit(images=images,fields=fields,value=value,add='yes',update='yes',ver='no')
 
 
 def rm(archivo): #if exist, removes file
+    '''
+    If exist, deletes the file.
+    '''
     if os.path.exists(archivo):
         os.remove(archivo)
     
 def hselect(images,field): # returns a value of a header parameter
+    '''
+    Returns a value of a header parameter.
+    '''
     select = iraf.hselect(images,fields=field,expr='yes',Stdout=1) 
     return select
 
 def default(field,value,borrar=False):  # set default values if none
+    '''
+    Sets default value if None, can remove the file if exist.
+    '''
     if field is None:               # can remove the file if exist
         field=value
     if borrar:

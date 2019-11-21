@@ -10,28 +10,27 @@ Created on Thu Sep 19 13:06:43 2019
 
 #%%
 import numpy as np 
-import os
 from pyraf import iraf
 import auxfunctions as aux
 #%%
 def masterbias(biaslist,outfile=None,path=None): 
-# =============================================================================
-#     Dada una lista de bias, genera un masterbias.
-#
-#      INPUT
-#      biaslist  : Archivo .in con los nombres de los bias.
-#      (path)    : String que indica el camino al biaslist.
-#      (outfile) : Nombre del archivo de salida. Por defecto usa "Zero.fits".
-#                  
-#                   ---------------------------------------      
-#
-#      Given a bias list, generates a masterbias.
-#    
-#      INPUT
-#      biaslist  : .in file with bias names.
-#      (path)    : String containing the path to biaslist.
-#      (outfile) : Output file name. If none, uses "Zero.fits".
-# =============================================================================
+    '''
+     Dada una lista de bias, genera un masterbias.
+
+      INPUT
+      biaslist  : Archivo .in con los nombres de los bias.
+      (path)    : String que indica el camino al biaslist.
+      (outfile) : Nombre del archivo de salida. Por defecto usa "Zero.fits".
+                  
+                   ---------------------------------------      
+
+      Given a bias list, generates a masterbias.
+    
+      INPUT
+      biaslist  : .in file with bias names.
+      (path)    : String containing the path to biaslist.
+      (outfile) : Output file name. If none, uses "Zero.fits".
+    '''
     
     if path is not None:
         originalpath=aux.chdir(path,save=True)      
@@ -65,28 +64,27 @@ def masterbias(biaslist,outfile=None,path=None):
     
     
 def masterdark(darklist,outfile=None,mastbia=None,path=None):
+    '''
+   Dada una lista de darks, genera un masterdark.
+     
+     INPUT
+     darklist  : Archivo .in con los nombres de los darks.
+     (path)    : String que indica el camino al darklist.
+     (mastbia) : Archivo que contiene el masterbias. Por defecto usa
+                 "Zero.fits" y toma el mismo path que el darklist.
+     (outfile) : Nombre del archivo de salida. Por defecto usa "Dark.fits"
+                  
+                   ---------------------------------------      
+
+      Given a dark list, generates a masterdark.
     
-# =============================================================================
-#   Dada una lista de darks, genera un masterdark.
-#     
-#     INPUT
-#     darklist  : Archivo .in con los nombres de los darks.
-#     (path)    : String que indica el camino al darklist.
-#     (mastbia) : Archivo que contiene el masterbias. Por defecto usa
-#                 "Zero.fits" y toma el mismo path que el darklist.
-#     (outfile) : Nombre del archivo de salida. Por defecto usa "Dark.fits"
-#                  
-#                   ---------------------------------------      
-#
-#      Given a dark list, generates a masterdark.
-#    
-#     INPUT
-#     darklist  : .in file with dark files names.
-#     (path)    : String that indicates the path to darklist.
-#     (mastbia) : File that contains the masterbias. If none uses
-#                 "Zero.fits" and always use the same path as darklist.
-#     (outfile) : Output file name. If none, uses "Dark.fits".
-# =============================================================================
+     INPUT
+     darklist  : .in file with dark files names.
+     (path)    : String that indicates the path to darklist.
+     (mastbia) : File that contains the masterbias. If none uses
+                 "Zero.fits" and always use the same path as darklist.
+     (outfile) : Output file name. If none, uses "Dark.fits".
+    '''
     
 #    dark= makelist(darklist,path=path) # generates list string of files
     
@@ -134,36 +132,35 @@ def masterdark(darklist,outfile=None,mastbia=None,path=None):
  
  
 def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
-               mastdark=None,path=None):
+               mastdark=None,path=None):  
+    '''
+      Dada una lista de flats, genera el masterflat de cada set de flat, por
+      filtro.
     
-# =============================================================================
-#      Dada una lista de flats, genera el masterflat de cada set de flat, por
-#      filtro.
-#    
-#     INPUT    
-#    flatlist   : Archivo .in con los nombres de los archivos flat.
-#    (path)     : Carácteres que indica el camino a flatlist.
-#    (mastbia)  : Archivo que contiene el masterbias. Por defecto usa
-#                 "Zero.fits" y toma el mismo path que el flatlist.
-#    (Dark)     : Si es verdadero, corrije por Dark.
-#    (mastdark) : Archivo que contiene el masterdark. Por defecto usa
-#                 "Dark.fits" y toma el mismo path que el flatlist.
-#    (outfile)  : nombre del archivo de salida. Por defecto usa "Flat".
-#               
-#                   ---------------------------------------      
-#
-#     Given a list of flats, generates the masterflat of every set of flats.
-#    
-#    INPUT
-#    flatlist   : .in file with flat files names.
-#    (path)     : String that indicates the path to flatlist.
-#    (mastbia)  : File that contains the masterbias. If none uses
-#    (Dark)     : If true, apply Dark correction.
-#                 "Zero.fits" and always use the same path as flatlist.
-#    (mastdark) : File that contains the msaterdark. If none uses
-#                 "Dark.fits" and always use the same path as flatlist.  
-#    (outfile)  : Output file name. If none, uses "Flat".
-# =============================================================================
+     INPUT    
+    flatlist   : Archivo .in con los nombres de los archivos flat.
+    (path)     : Carácteres que indica el camino a flatlist.
+    (mastbia)  : Archivo que contiene el masterbias. Por defecto usa
+                 "Zero.fits" y toma el mismo path que el flatlist.
+    (Dark)     : Si es verdadero, corrije por Dark.
+    (mastdark) : Archivo que contiene el masterdark. Por defecto usa
+                 "Dark.fits" y toma el mismo path que el flatlist.
+    (outfile)  : nombre del archivo de salida. Por defecto usa "Flat".
+               
+                   ---------------------------------------      
+
+     Given a list of flats, generates the masterflat of every set of flats.
+    
+    INPUT
+    flatlist   : .in file with flat files names.
+    (path)     : String that indicates the path to flatlist.
+    (mastbia)  : File that contains the masterbias. If none uses
+    (Dark)     : If true, apply Dark correction.
+                 "Zero.fits" and always use the same path as flatlist.
+    (mastdark) : File that contains the msaterdark. If none uses
+                 "Dark.fits" and always use the same path as flatlist.  
+    (outfile)  : Output file name. If none, uses "Flat".
+    '''
     
     if path is not None:
         originalpath=aux.chdir(path,save=True)
@@ -212,40 +209,39 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
     
 def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
             ,mastflat=None,prefix=None):
-    
-# =============================================================================
-#     Dada una lista de imágenes de ciencia, las reduce.
-#     
-#     INPUT
-#     imagelist  : Archivo .in con las imágenes de ciencia.
-#     (path)     : Camino al archivo imagelist.
-#     (Dark)     : Si es verdadero, corrije por Dark.
-#     (mastbia)  : Nombre del archivo masterbias. Por defecto, usa "Zero.fits"
-#                   y toma el camino dado por path.
-#     (mastdark) : Nombre del archivo masterdark. Por defecto, usa "Dark.fits"
-#                   y toma el camino dado por path.
-#     (mastflat) : Nombre del archivo masterflat. Por defecto, usa "Flat.fits"
-#                   y toma el camino dado por path.
-#     (prefix)   : Prefijo de las imágenes reducidas. Por defecto, el prefijo es
-#                   el nombre del archivo con un "R" antes del mismo.
-#     
-#                        ---------------------------------------      
-#            
-#     Process science images, given a list of the file names.
-#     
-#     INPUT
-#     imagelist  : .in file containing the objetcs file names.
-#     (path)     : Path to imagelist.
-#     (Dark)     : If true, apply Dark correction.
-#     (mastbia)  : File that contains the masterbias. If none uses
-#                   "Zero.fits" and uses path.
-#     (mastdark) : File that contains the masterdark. If none uses
-#                   "Dark.fits" and uses path.
-#     (mastflat) : File that contains the masterflat. If none uses
-#                   "Flat.fits" and uses path.
-#     (prefix)   : Prefix of the result images. If none given, uses the same
-#                   file name adding a "R" before the name.             
-# =============================================================================
+    '''
+     Dada una lista de imágenes de ciencia, las reduce.
+     
+     INPUT
+     imagelist  : Archivo .in con las imágenes de ciencia.
+     (path)     : Camino al archivo imagelist.
+     (Dark)     : Si es verdadero, corrije por Dark.
+     (mastbia)  : Nombre del archivo masterbias. Por defecto, usa "Zero.fits"
+                   y toma el camino dado por path.
+     (mastdark) : Nombre del archivo masterdark. Por defecto, usa "Dark.fits"
+                   y toma el camino dado por path.
+     (mastflat) : Nombre del archivo masterflat. Por defecto, usa "Flat.fits"
+                   y toma el camino dado por path.
+     (prefix)   : Prefijo de las imágenes reducidas. Por defecto, el prefijo es
+                   el nombre del archivo con un "R" antes del mismo.
+     
+                        ---------------------------------------      
+            
+     Process science images, given a list of the file names.
+     
+     INPUT
+     imagelist  : .in file containing the objetcs file names.
+     (path)     : Path to imagelist.
+     (Dark)     : If true, apply Dark correction.
+     (mastbia)  : File that contains the masterbias. If none uses
+                   "Zero.fits" and uses path.
+     (mastdark) : File that contains the masterdark. If none uses
+                   "Dark.fits" and uses path.
+     (mastflat) : File that contains the masterflat. If none uses
+                   "Flat.fits" and uses path.
+     (prefix)   : Prefix of the result images. If none given, uses the same
+                   file name adding a "R" before the name.             
+    '''
     
     if path is not None:
         originalpath=aux.chdir(path,save=True)
