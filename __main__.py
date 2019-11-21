@@ -25,8 +25,11 @@ def main():
     '''
     Backup
     '''
-    if data['backup']:
-        backup()
+    if data['backup']['dobackup']:
+        dirname=data['backup']['dirname']
+        path0=data['backup']['path']
+        formato=data['backup']['bformat']
+        backup(dirname,path0,formato)
     
 #%%
     '''
@@ -34,21 +37,22 @@ def main():
     '''
     if data['reducir']['doreducir']:
         imagenes=data['reducir']['imobj']
+        path1=data['reducir']['path']
         bias=data['reducir']['imbias']
         flat=data['reducir']['imflat']
         dark=data['reducir']['opciones']['imdark']
         
-        reduc.masterbias(bias)
+        reduc.masterbias(bias,path=path1)
         if data['reducir']['opciones']['dark']:
-            reduc.masterdark(dark)
-        filters,flats=filtersep2(flat)
-        filters2,objs=filtersep2(imagenes)
+            reduc.masterdark(dark,path=path1)
+        filters,flats=filtersep2(flat,path=path1)
+        filters2,objs=filtersep2(imagenes,path=path1)
         if not filters==filters2:
             print "Los filtros de los flats y las imagenes de ciencia"
             print "no coinciden."
             print " Go home you're drunk"
-        wh.flatw(filters,flats,dark=data['reducir']['opciones']['dark'])
-        wh.procw(filters2,objs,dark=data['reducir']['opciones']['dark'])
+        wh.flatw(filters,flats,dark=data['reducir']['opciones']['dark'],path=path1)
+        wh.procw(filters2,objs,dark=data['reducir']['opciones']['dark'],path=path1)
         
 #%%  
     '''
@@ -56,20 +60,22 @@ def main():
     '''
     if data['fotometria']['dofotometria']:
         images=data['fotometria']['imobj']
+        path2=data['fotometria']['path']
         if data['fotometria']['opciones']['buscarest']:
-            cielo=skynoises(images)
+            cielo=skynoises(images,path=path2)
             tel=data['fotometria']['opciones']['telescope']
-            fw=multifull(images,tel,RF=data['fotometria']['opciones']['RF'])
+            fw=multifull(images,tel,RF=data['fotometria']['opciones']['RF'],path=path2)
             tres=data['fotometria']['opciones']['tr']
-            multifinder(images,farr=fw,sarr=cielo,tres)
+            multifinder(images,farr=fw,sarr=cielo,tres,path=path2)
             an=data['fotometria']['opciones']['annulus']
             dan=data['fotometria']['opciones']['dannulus']
             ap=data['fotometria']['opciones']['apertura']
-            photom(images,an,dan,ap)
+            photom(images,an,dan,ap,path=path2)
 #%%
     if data['tabla']['dotabla']:
+        path3=data['tabla']['path']
         gentable(data['tabla']['phouts'],data['tabla']['opciones']['apertura'],
-                 formato=data['tabla']['opciones']['formato'])
+                 formato=data['tabla']['opciones']['formato'],path=path3)
 #%%
   
 if __name__== "__main__":
