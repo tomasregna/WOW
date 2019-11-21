@@ -59,7 +59,7 @@ def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
         aux.chdir(originalpath)
  #%%      
 def procw(filters,listobj,path=None,mastbia=None,Dark=False,
-               mastdark=None,flatin='mflatlist.in',output=None):
+               mastdark=None,flatin='mflatlist.in',prefix=None):
 # =============================================================================
 #      Dada una lista con los flats por filtro, realiza el masterflat en cada
 #      filtro de dicha lista.
