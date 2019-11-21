@@ -59,11 +59,17 @@ def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None):
     iraf.datapars.exposure="exptime"
     iraf.datapars.airmass="airmass"
     iraf.datapars.filter="filtnew"
-#    setea parámetros de la fotometría
     iraf.datapars.obstime="time-obs"
+
+ #    setea parámetros de la fotometría   
     iraf.fitskypars.annulus=anillo  # radio del anillo interior (cuentas obj - cuentas d cielo)
     iraf.fitskypars.dannulus=danillo  # radio del anillo exterior(cuentas cielo)
-    iraf.photpars.apertures= apertura # intervalo de radios a tomar
+    iraf.photpars.apertures="0.5,1:30:1"
+    b=[]
+    for a in apertura:
+        b.append(str(a))
+    apert=','.join(b)
+    iraf.photpars.apertures= apert # intervalo de radios a tomar
     iraf.phot.interac='no'
     
     
@@ -72,17 +78,17 @@ def photom(images,coords,anillo,danillo,apertura,outfile=None,path=None):
         os.path.splitext(images)[-1] == '.fits'):
         iraf.phot.image=images
         iraf.phot.coords=coords
-        aux.default(outfile,os.path.splitext(images)[0]+'.phot',borrar=True)        
+        outfile=aux.default(outfile,os.path.splitext(images)[0]+'.phot',borrar=True)        
         iraf.phot.output=outfile
     else:
         
         iraf.phot.image='@'+images
         iraf.phot.coords='@'+coords
-        aux.default(outfile,images+'.phot',borrar=True)
+        outfile=aux.default(outfile,images+'.phot',borrar=True)
         imagelista=np.genfromtxt(images,dtype=None)
         f=open(outfile,'a+')
         for im in imagelista :
-            f.append(os.path.splitext(im)[0]+'.phot')
+            f.write(os.path.splitext(im)[0]+'.phot'+'\n')
             aux.rm(os.path.splitext(im)[0]+'.phot')
         f.close()  
         iraf.phot.output='@'+outfile
