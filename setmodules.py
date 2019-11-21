@@ -25,8 +25,8 @@ def setmodules():
     from backup import backup
     from filterseparator import filtersep2
     import wheelee as wh
-    from starfinder import starfinder
+    from starfinder import multifinder
     from photom import photom
     from tablemaker import gentable
-    from cieloruidoso import skynoise
+    from cieloruidoso import skynoises
     from fullwidth import fullwidth

@@ -1,0 +1,34 @@
+
+
+backup: Yes            # hacer backup
+
+reducir:
+ imobj:                # lista de imagenes de ciencia
+ doreducir : Yes       # hacer la reduccion
+ imflat:               # lista de imagenes flat
+ imbias:               # lista de imagenes bias
+ opciones :
+    dark: No           # correccion por dark
+    imdark: ""         # lista de imagenes dark
+  
+fotometria:
+ imobj:                #
+ dofotometria: Yes     # hacer fotometria
+ opciones:
+   buscarest: Yes      # buscar estrellas
+   autofwhm: Yes       # buscar fwhm
+   telescope:          # HSH o JS
+   RF: No              # si se uso un reductor focal
+   autocielo: Yes      # buscar desv estandar del cielo
+   tr:                 # treshold
+   annulus:
+   dannulus:
+   apertura:
+  
+tabla:
+ dotabla: Yes          # generar tabla
+ phouts:
+ opciones:
+  formato:
+  apertura:
+
