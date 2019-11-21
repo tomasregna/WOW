@@ -93,12 +93,12 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
     if path is not None:
         originalpath=aux.chdir(path,save=True)    
     
-    flatlist=np.genfromtxt(flatin)
+    flatlist=np.genfromtxt(flatin,dtype=None)
 
     i=0
     for x in filters:
         #outfile=os.path.splitext(listobj[i])[0]+'.fits'
-        image='@'+listobj[i]
+        image=listobj[i]
         flat=flatlist[i]
 #        if 
         reduc.process(image,path,Dark,mastbia,mastdark,flat,prefix)        
