@@ -9,24 +9,26 @@ Created on Thu Nov 21 11:25:43 2019
 #%%
 
 def setmodules():
-    import sys
-    sys.path.insert(1, '/camino/al/directorio/del/trabajo')
     import os  
     dire=os.getcwd()
     user=os.getenv('USER')
     os.chdir('/home/'+user)
+    os.makedir('/home/'+user+'/WOW')
+    import sys
     from pyraf import iraf
-    os.chdir(dire)
     import numpy as np
     import yaml 
+    sys.path.insert(1, '/home/'+user+'/WOW')
     
-    import auxfunctions as aux
-    import reduc
-    from backup import backup
-    from filterseparator import filtersep2
-    import wheelee as wh
-    from starfinder import multifinder
-    from photom import photom
-    from tablemaker import gentable
-    from cieloruidoso import skynoises
-    from fullwidth import fullwidth
+    import funciones.auxfunctions as aux
+    import reduccion.reduc
+    from funciones.backup import backup
+    from reduccion.filterseparator import filtersep2
+    import reduccion.wheelee as wh
+    from fotometria.starfinder import multifinder
+    from fotometria.photom import photom
+    from fotometria.tablemaker import gentable
+    from fotometria.cieloruidoso import skynoises
+    from fotometria.fullwidth import fullwidth
+    
+    os.chdir(dire)
