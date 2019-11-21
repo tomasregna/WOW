@@ -9,10 +9,11 @@ Created on Tue Nov  5 10:45:15 2019
 import os
 from pyraf import iraf
 import auxfunctions as aux
+import numpy as np
 
 #%%
-def starfinder(image,fwhm,sigma,zmin='INDEF',zmax='INDEF',
-               thold,path=None,outfile=None):
+def starfinder(image,fwhm,sigma,thold,zmin='INDEF',zmax='INDEF',
+               path=None,outfile=None):
     '''
      Dada una lista de imágenes, identifica las estrellas de campo y
      genera un archivo de coordenadas.
@@ -45,6 +46,9 @@ def starfinder(image,fwhm,sigma,zmin='INDEF',zmax='INDEF',
       (outfile) : Name of the output file, including .coo. By default, uses 
                   image name and adds .coo extension.
     '''
+    if path is not None:
+        originalpath=aux.chdir(path,save=True)
+    
     iraf.noao() #loads noao
     iraf.digiphot() #loads digiphot
     iraf.apphot() #loads apphot
@@ -62,34 +66,37 @@ def starfinder(image,fwhm,sigma,zmin='INDEF',zmax='INDEF',
     
     iraf.daofind.verify="no" #avoid checking parameters given 
     
-    if path is not None:
-        originalpath=aux.chdir(path,save=True)
-        
-
-    if (os.path.splitext(image)[-1] == '.fit' or
-        os.path.splitext(image)[-1] == '.fits'):
-        aux.default(outfile,image+'.coo',borrar=True)
-        #if single image, delete pre-existing coord files and if no output is
-        #given, generate a file with default output scheme.
-    else:    #if image input is a file list
-        if outfile is None :
-            aux.rm(image+'.coo') #delete .in.coo list if already exists
-            f=open(image+'.coo','a+')
-            imagelista=np.genfromtxt(image,dtype=None)
-            for im in imagelista:
-                f.append(im+'.coo')
-                aux.rm(im+'.coo') #delete all previous coord files if exist
-            f.close()
-            outfile='@'+image+'.coo'
-            # if there's no defined output, generates a .in list with 
-            #default output scheme.
-        else :
-            outfile='@'+outfile #adds @ to help iraf recognize the list
-        image = '@'+image
-        
+    aux.default(outfile,image+'.coo',borrar=True)
+    
     iraf.daofind.output=outfile
     iraf.daofind.image=image
     iraf.daofind()
         #execute iraf task 'daofind' 
     if path is not None:
         aux.chdir(originalpath)
+
+#%%
+    def multistarfinder(imagelist,farr,sarr,thold,zmin=None,zmax=None,
+               path=None,outfile=None):
+        
+        listaim=np.genfromtxt(imagelist,dtype=None)
+        
+        if zmin is None:
+            zmin=[]
+            for im in listaim:
+                zmin.append='INDEF'
+        if zmax is None:
+            zmax=[]
+            for im in listaim:
+                zmax.append('INDEF')
+        
+        if outfile is None :
+            outfile=[]
+            for im in listaim:
+                aux.rm(im+'.coo') #delete all previous coord files if exist
+                outfile.append(im+'.coo')
+        i=0
+        for im in listaim:
+            starfinder(im,farr[i],sarr[i],thold,zmin[i],zmax[i],
+               path,outfile[i])
+            i=i+1
