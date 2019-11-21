@@ -13,6 +13,16 @@ def main():
     '''
     from setmodules import setmodules
     setmodules()
+    import auxfunctions as aux
+    import reduc
+    from backup import backup
+    from filterseparator import filtersep2
+    import wheelee as wh
+    from starfinder import multisf
+    from photom import photom
+    from tablemaker import gentable
+    from cieloruidoso import skynoises
+    from fullwidth import multifull
 
 #%%
     '''
@@ -26,10 +36,10 @@ def main():
     Backup
     '''
     if data['backup']['dobackup']:
-        dirname=data['backup']['dirname']
+     
         path0=data['backup']['path']
-        formato=data['backup']['bformat']
-        backup(dirname,path0,formato)
+    
+        backup(path=path0)
     
 #%%
     '''
@@ -47,10 +57,6 @@ def main():
             reduc.masterdark(dark,path=path1)
         filters,flats=filtersep2(flat,path=path1)
         filters2,objs=filtersep2(imagenes,path=path1)
-        if not filters==filters2:
-            print "Los filtros de los flats y las imagenes de ciencia"
-            print "no coinciden."
-            print " Go home you're drunk"
         wh.flatw(filters,flats,dark=data['reducir']['opciones']['dark'],path=path1)
         wh.procw(filters2,objs,dark=data['reducir']['opciones']['dark'],path=path1)
         
@@ -66,7 +72,7 @@ def main():
             tel=data['fotometria']['opciones']['telescope']
             fw=multifull(images,tel,RF=data['fotometria']['opciones']['RF'],path=path2)
             tres=data['fotometria']['opciones']['tr']
-            multifinder(images,farr=fw,sarr=cielo,tres,path=path2)
+            multisf(images,farr=fw,sarr=cielo,thold=tres,path=path2)
             an=data['fotometria']['opciones']['annulus']
             dan=data['fotometria']['opciones']['dannulus']
             ap=data['fotometria']['opciones']['apertura']
@@ -74,8 +80,7 @@ def main():
 #%%
     if data['tabla']['dotabla']:
         path3=data['tabla']['path']
-        gentable(data['tabla']['phouts'],data['tabla']['opciones']['apertura'],
-                 formato=data['tabla']['opciones']['formato'],path=path3)
+        gentable(data['tabla']['phouts'],apertura=range(1,31),path=path3)
 #%%
   
 if __name__== "__main__":

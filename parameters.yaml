@@ -1,41 +1,39 @@
 
 
 backup:                # hacer backup
- dobackup: Yes
- dirname:
- path:
- bformat:              
-
+ dobackup: No
+ path: '/home/guevaran/20180601'
+ 
 reducir:
- imobj:                # lista de imagenes de ciencia
- doreducir : Yes       # hacer la reduccion
- path:
- imflat:               # lista de imagenes flat
- imbias:               # lista de imagenes bias
+ imobj: 'images.in'                # lista de imagenes de ciencia
+ doreducir : No       # hacer la reduccion
+ path: '/home/guevaran/20180601'
+ imflat: 'flats.in'              # lista de imagenes flat
+ imbias: 'bias.in'              # lista de imagenes bias
  opciones :
   dark: No             # correccion por dark
   imdark:              # lista de imagenes dark
   
 fotometria:
- imobj:                #
- dofotometria: Yes     # hacer fotometria
- path:
+ imobj: 'imphot.in'                #
+ dofotometria: No      # hacer fotometria
+ path: '/home/guevaran/20180601'
  opciones:
    buscarest: Yes      # buscar estrellas
    autofwhm: Yes       # buscar fwhm
-   telescope:          # HSH o JS
+   telescope: JS         # HSH o JS
    RF: No              # si se uso un reductor focal
    autocielo: Yes      # buscar desv estandar del cielo
-   tr:                 # treshold
-   annulus:
-   dannulus:
-   apertura:
+   tr: 5                # treshold
+   annulus: 30
+   dannulus: 5
+   apertura: range(1,31)
   
 tabla:
  dotabla: Yes          # generar tabla
- path:
- phouts:
+ path: '/home/guevaran/20180601'
+ phouts: 'imphot.in.phot'
  opciones:
   formato:
-  apertura:
+  apertura: range(1,31)
 
