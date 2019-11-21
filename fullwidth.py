@@ -5,6 +5,8 @@ Created on Thu Nov 14 15:57:23 2019
 
 @author: guevaran
 """
+import numpy as np
+import auxfunctions as aux
 #%%
 
 def fullwidth(obser,binning=1,RF=False):
@@ -25,3 +27,21 @@ def fullwidth(obser,binning=1,RF=False):
     
     full=seeing/(escala*binning)
     return full
+#%%
+def multifull(images,obser,path=None,RF=False):
+    if path is not None:
+        originalpath=aux.chdir(path,save=True)
+    
+    images=np.genfromtxt(images,dtype=None)
+    fwhm=[]
+    for im in images:
+       binn=aux.hselect(im,'CCDSUM') # gets binning of the image
+       binn=binn[0]  # access element 0 of the array
+       binn=binn[1]  # access first character
+       binn=int(binn)  # converts string to integer
+       fwhm.append(fullwidth(obser,binn,RF))
+      
+        
+    if path is not None:
+        aux.chdir(originalpath)
+    return(fwhm)
