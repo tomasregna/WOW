@@ -83,7 +83,7 @@ def photom(images,anillo,danillo,apertura,outfile=None,path=None,coords='coords.
         
         iraf.phot.image='@'+images
         iraf.phot.coords='@'+coords
-        outfile=aux.default(outfile,os.path.splitext(images)[0]+'_phots.in',borrar=True)
+        outfile=aux.default(outfile,images+'Phots.in',borrar=True)
         imagelista=np.genfromtxt(images,dtype=None)
         f=open(outfile,'a+')
         for im in imagelista :

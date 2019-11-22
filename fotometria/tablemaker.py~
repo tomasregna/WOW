@@ -81,7 +81,7 @@ def gentable(phouts,path=None,formato='commented_header'):
                     datarows=[]
                     rapert=[]
                     for j in range(1,nrapert+1):
-                        col=basicol + t.colnames[26+(8*(j-1)):25+8*j]
+                        col=basicol + t.colnames[25+(8*(i-1)):25+8*i]
                         rapert.append(t[t.colnames[25+(8*(j-1))]][i])
                         datarows.append(t[col][i])
                     tabla=Table(rows=datarows, names=basicol+rapcol)

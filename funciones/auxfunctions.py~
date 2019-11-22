@@ -33,7 +33,7 @@ def hedit(images,fields,value): # edits header of files
     '''
     Edits header of files.
     '''
-    iraf.hedit(images=images,fields=fields,value=value,add='yes',update='yes',ver='no',show='no')
+    iraf.hedit(images=images,fields=fields,value=value,add='yes',update='yes',ver='no')
 
 
 def rm(archivo): #if exist, removes file

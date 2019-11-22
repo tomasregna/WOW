@@ -13,16 +13,16 @@ def main():
     '''
     from setmodules import setmodules
     setmodules()
-    # import auxfunctions as aux
-    # import reduc
-    # from backup import backup
-    # from filterseparator import filtersep2
-    # import wheelee as wh
-    # from starfinder import multisf
-    # from photom import photom
-    # from tablemaker import gentable
-    # from cieloruidoso import skynoises
-    # from fullwidth import multifull
+    import funciones.auxfunctions as aux
+    from reduccion import reduc
+    from funciones.backup import backup
+    from reduccion.filterseparator import filtersep2
+    import reduccion.wheelee as wh
+    from fotometria.starfinder import multisf
+    from fotometria.photom import photom
+    from fotometria.tablemaker import gentable
+    from fotometria.cieloruidoso import skynoises
+    from fotometria.fullwidth import multifull
 
 #%%
     '''
@@ -80,7 +80,7 @@ def main():
 #%%
     if data['tabla']['dotabla']:
         path3=data['tabla']['path']
-        gentable(data['tabla']['phouts'],apertura=range(1,31),path=path3)
+        gentable(data['tabla']['phouts'],path=path3)
 #%%
   
 if __name__== "__main__":

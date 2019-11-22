@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 #%%
-import funciones.auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 import os
 import reduc
 import numpy as np

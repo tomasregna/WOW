@@ -1,13 +1,13 @@
 
 
 backup:                # hacer backup
- dobackup: No
- path: '/home/guevaran/20180601'
+ dobackup: Yes
+ path: '/home/natalia/20180601'
  
 reducir:
  imobj: 'images.in'                # lista de imagenes de ciencia
- doreducir : No       # hacer la reduccion
- path: '/home/guevaran/20180601'
+ doreducir : Yes       # hacer la reduccion
+ path: '/home/natalia/20180601'
  imflat: 'flats.in'              # lista de imagenes flat
  imbias: 'bias.in'              # lista de imagenes bias
  opciones :
@@ -16,8 +16,8 @@ reducir:
   
 fotometria:
  imobj: 'imphot.in'                #
- dofotometria: No      # hacer fotometria
- path: '/home/guevaran/20180601'
+ dofotometria: Yes      # hacer fotometria
+ path: '/home/natalia/20180601'
  opciones:
    buscarest: Yes      # buscar estrellas
    autofwhm: Yes       # buscar fwhm
@@ -27,13 +27,11 @@ fotometria:
    tr: 5                # treshold
    annulus: 30
    dannulus: 5
-   apertura: range(1,31)
+   apertura: "2:5:1"
   
 tabla:
  dotabla: Yes          # generar tabla
- path: '/home/guevaran/20180601'
- phouts: 'imphot.in.phot'
+ path: '/home/natalia/20180601'
+ phouts: 'imphot_phots.in'
  opciones:
   formato:
-  apertura: range(1,31)
-

@@ -8,7 +8,7 @@ Created on Tue Nov  5 10:45:15 2019
 #%%
 import os
 from pyraf import iraf
-import funciones.auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 import numpy as np
 
 #%%

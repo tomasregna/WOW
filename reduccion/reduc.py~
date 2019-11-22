@@ -58,7 +58,6 @@ def masterbias(biaslist,outfile=None,path=None):
     iraf.zerocombine.output=outfile # set outfile parameter
     iraf.zerocombine.input=bias  #set input file parameter
     iraf.ccdpro.noproc='no'
-    iraf.zerocombine.mode="ql"
     iraf.zerocombine() # creates masterbias
     if path is not None:
         aux.chdir(originalpath)
@@ -126,8 +125,7 @@ def masterdark(darklist,outfile=None,mastbia=None,path=None):
     
     iraf.darkcombine.output=outfile # set outfile parameter
     iraf.darkcombine.input=dark     # set input file parameter
-    iraf.ccdpro.noproc='no'
-    iraf.darkcombine.mode="ql"
+    iraf.ccdpro.noproc='no'  
     iraf.darkcombine() # creates masterdark
     if path is not None:
         aux.chdir(originalpath)
@@ -205,7 +203,6 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
     iraf.flatcombine.output=outfile # sets output file    
     iraf.flatcombine.input=flat    # sets input file
     iraf.ccdpro.noproc='no'
-    iraf.flatcombine.mode="ql"
     iraf.flatcombine()              # generates masterflats
        
     if path is not None:
@@ -299,7 +296,6 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
     iraf.ccdpro.output=output  #set outfile
     iraf.ccdpro.images=images  # set input file
     iraf.ccdpro.noproc='no'
-    iraf.ccdpro.mode="ql"
     iraf.ccdproc()    #runs ccdproc, reduces images
     if path is not None:
         aux.chdir(originalpath)
