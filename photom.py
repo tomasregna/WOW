@@ -9,9 +9,8 @@ Created on Thu Oct 17 13:09:36 2019
 
 import os
 from pyraf import iraf
-import auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 import numpy as np
-#os.system('ds9 -fifo dev/imt1 &')
 
 
 #%%
@@ -26,9 +25,10 @@ def photom(images,anillo,danillo,apertura,outfile=None,path=None,coords='coords.
                        es "coords.in"
       anillo   : ?
       danillo  : ??
-      apertura : Apretura de los radios, ingresada como una lista,
-                ej: [.5]+range(1,31) 
-      (outfile): Nombre de archivo(s) de salida.
+      apertura : Apretura de los radios, ingresada como un string
+                    ej: r1,r2:rn-1,rn
+      (outfile): Nombre de archivo(s) de salida. por defecto es el nombre de
+      images en extension phot
       (path)   : Línea que indica el camino al directorio de archivos.
     
      ------------------------------------------------------------------
@@ -66,11 +66,7 @@ def photom(images,anillo,danillo,apertura,outfile=None,path=None,coords='coords.
     iraf.fitskypars.annulus=anillo  # radio del anillo interior (cuentas obj - cuentas d cielo)
     iraf.fitskypars.dannulus=danillo  # radio del anillo exterior(cuentas cielo)
     iraf.photpars.apertures="0.5,1:30:1"
-    b=[]
-    for a in apertura:
-        b.append(str(a))
-    apert=','.join(b)
-    iraf.photpars.apertures= apert # intervalo de radios a tomar
+    iraf.photpars.apertures= apertura # intervalo de radios a tomar
     iraf.phot.interac='no'
     
     
@@ -78,7 +74,6 @@ def photom(images,anillo,danillo,apertura,outfile=None,path=None,coords='coords.
     if (os.path.splitext(images)[-1] == '.fit' or
         os.path.splitext(images)[-1] == '.fits'):
         iraf.phot.image=images
-        coords=np.genfromtxt(coords,stdout=1)
         iraf.phot.coords=coords
         outfile=aux.default(outfile,os.path.splitext(images)[0]+'.phot',borrar=True)        
         iraf.phot.output=outfile
