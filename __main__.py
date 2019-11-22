@@ -13,16 +13,16 @@ def main():
     '''
     from setmodules import setmodules
     setmodules()
-    import auxfunctions as aux
-    import reduc
-    from backup import backup
-    from filterseparator import filtersep2
-    import wheelee as wh
-    from starfinder import multisf
-    from photom import photom
-    from tablemaker import gentable
-    from cieloruidoso import skynoises
-    from fullwidth import multifull
+    # import auxfunctions as aux
+    # import reduc
+    # from backup import backup
+    # from filterseparator import filtersep2
+    # import wheelee as wh
+    # from starfinder import multisf
+    # from photom import photom
+    # from tablemaker import gentable
+    # from cieloruidoso import skynoises
+    # from fullwidth import multifull
 
 #%%
     '''

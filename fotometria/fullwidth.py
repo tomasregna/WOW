@@ -6,7 +6,7 @@ Created on Thu Nov 14 15:57:23 2019
 @author: guevaran
 """
 import numpy as np
-import auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 #%%
 
 def fullwidth(obser,binning=1,RF=False):

@@ -7,13 +7,13 @@ Created on Sun Nov 10 21:13:03 2019
 """
 
 from astropy.table import Table,Column
-import auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 from astropy.io import ascii
 import numpy as np
 import os
 
 #%%
-def gentable(phouts,apertura,path=None,formato='commented_header'):
+def gentable(phouts,path=None,formato='commented_header'):
     '''
      Dado uno o más archivos output de la tarea phot de IRAF, con extensión
     ",phot" y la apertura de los radios de las isofotas genera un objeto Table 
@@ -26,8 +26,6 @@ def gentable(phouts,apertura,path=None,formato='commented_header'):
        INPUT
         phouts   : Archivo .phot o lista de archivos .phot
         (path)   : camino al phouts.
-        apertura : Apertura de los radios de las isofotas.
-                   Deberá ser un array.
         formato  : formato de astropy.io.ascii
                        Por defecto usa commented_header 
     '''
@@ -45,6 +43,8 @@ def gentable(phouts,apertura,path=None,formato='commented_header'):
     if os.path.splitext(phouts)[-1] == '.phot': # si es una sola tabla
         t=Table.read(phouts,format='daophot') # lee la tabla
         nstar=len(t)  # numero de estrellas
+        ncol=len(t.columns) #numero de columnas
+        nrapert= (ncol-25)/8 #nro de radios de apertura.
                 
         # imprimiendo por estrella en diferentes archivos
         for i in range(nstar):
@@ -54,13 +54,14 @@ def gentable(phouts,apertura,path=None,formato='commented_header'):
             aux.rm(name)
             f=open(name,'w+')
             datarows=[]
-       
-            for j in range(1,len(apertura)+1): # para cada r_aper
+            rapert=[]
+            for j in range(1,nrapert+1): # para cada r_aper
                 # agrego las columnas que dependen del radio de apertura
-                col=basicol + t.colnames[25+(8*(j-1))+1:25+8*j]
+                col=basicol + t.colnames[26+(8*(j-1)):25+8*j]
+                rapert.append(t[t.colnames[25+(8*(j-1))]][i])
                 datarows.append(t[col][i])
             tabla=Table(rows=datarows, names=basicol+rapcol)
-            columna0=Column(name='RAPERT',data=apertura)
+            columna0=Column(name='RAPERT',data=rapert)
             tabla.add_column(columna0,0)
             ascii.write(tabla,f,format=formato)
     else:  # si es más de una tabla
@@ -76,11 +77,13 @@ def gentable(phouts,apertura,path=None,formato='commented_header'):
                     rapcol=['SUM','AREA','FLUX','MAG','MERR','PIER','PERROR']
                     f=open(name,'w+')
                     datarows=[]
-                    for j in range(1,len(apertura)+1):
+                    rapert=[]
+                    for j in range(1,nrapert+1):
                         col=basicol + t.colnames[25+(8*(i-1)):25+8*i]
+                        rapert.append(t[t.colnames[25+(8*(j-1))]][i])
                         datarows.append(t[col][i])
                     tabla=Table(rows=datarows, names=basicol+rapcol)
-                    columna0=Column(name='RAPERT',data=apertura)
+                    columna0=Column(name='RAPERT',data=rapert)
                     tabla.add_column(columna0,0)
                     ascii.write(tabla,f,format=formato)
 

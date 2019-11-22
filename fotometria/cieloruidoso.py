@@ -7,7 +7,7 @@ Created on Thu Nov 14 16:56:08 2019
 """
 from pyraf import iraf
 import random
-import auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 from scipy.stats import mode
 import numpy as np
 
@@ -111,11 +111,15 @@ def skynoise(image,path=None):
 def skynoises(images,path=None):
     '''
     Llama a skynoise para una lista de imagenes.
-    '''
+    '''   
+    if path is not None:
+        originalpath=aux.chdir(path,save=True)
     lista=np.genfromtxt(images,dtype=None)
     i=0
     sigmas=[]
     for im in lista:
         sigmas.append(skynoise(im,path))
         i=i+1
+    if path is not None:
+        aux.chdir(originalpath)
     return(sigmas)

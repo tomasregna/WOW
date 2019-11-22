@@ -8,10 +8,11 @@ Created on Thu Sep 19 13:06:43 2019
 
 """
 
+
 #%%
 import numpy as np 
 from pyraf import iraf
-import auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 #%%
 def masterbias(biaslist,outfile=None,path=None): 
     '''

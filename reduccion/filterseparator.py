@@ -6,7 +6,7 @@ Created on Wed Nov  6 16:46:46 2019
 @author: guevaran
 """
 
-import auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 import numpy as np
 import os
 

@@ -8,7 +8,7 @@ Created on Tue Nov  5 10:45:15 2019
 #%%
 import os
 from pyraf import iraf
-import auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 import numpy as np
 
 #%%
@@ -78,7 +78,8 @@ def unisf(image,fwhm,sigma,thold,zmin='INDEF',zmax='INDEF',
 #%% 
 def multisf(imagelist,farr,sarr,thold,zmin=None,zmax=None,
             path=None,outfile=None):     
-        
+    if path is not None:
+        originalpath=aux.chdir(path,save=True)        
     listaim=np.genfromtxt(imagelist,dtype=None)
     
     if zmin is None:
@@ -105,3 +106,5 @@ def multisf(imagelist,farr,sarr,thold,zmin=None,zmax=None,
         unisf(im,farr[i],sarr[i],thold,zmin[i],zmax[i],
            path,outfile[i])
         i=i+1
+    if path is not None:
+        aux.chdir(originalpath)

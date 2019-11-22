@@ -1,12 +1,12 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 #%%
-import auxfunctions as aux
+import WOW.funciones.auxfunctions as aux
 import os
 import reduc
 import numpy as np
 #%%
-def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
+def flatw(filters,listobj,path=None,mastbia=None,dark=False,
                mastdark=None):
     '''
       Dada una lista con los flats por filtro, realiza el masterflat en cada
@@ -47,14 +47,14 @@ def flatw(filters,listobj,path=None,mastbia=None,Dark=False,
     for x in filters:
         outfile=os.path.splitext(listobj[i])[0]+'.fits'
         f.write(outfile+'\n')
-        reduc.masterflat(listobj[i],outfile,mastbia,Dark,mastdark,path)
+        reduc.masterflat(listobj[i],outfile,mastbia,dark,mastdark,path)
         i=i+1
     f.close()
     
     if path is not None:
         aux.chdir(originalpath)
  #%%      
-def procw(filters,listobj,path=None,mastbia=None,Dark=False,
+def procw(filters,listobj,path=None,mastbia=None,dark=False,
                mastdark=None,flatin='mflatlist.in',prefix=None):
     '''
       Dada una lista con los flats por filtro, realiza el masterflat en cada
@@ -101,7 +101,7 @@ def procw(filters,listobj,path=None,mastbia=None,Dark=False,
         image=listobj[i]
         flat=flatlist[i]
 #        if 
-        reduc.process(image,path,Dark,mastbia,mastdark,flat,prefix)        
+        reduc.process(image,path,dark,mastbia,mastdark,flat,prefix)        
         i=i+1
         
     if path is not None:
