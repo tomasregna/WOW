@@ -1,15 +1,11 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-"""
-Created on Mon Nov 11 12:39:59 2019
-
-@author: intel
-"""
 import yaml
 #%%
 def main():
     '''
-    Setea modulos
+    Este archivo lee el archivo de parametros yaml y ejecuta cada proceso
+    segun este indicado.
     '''
     from setmodules import setmodules
     setmodules()
@@ -78,9 +74,14 @@ def main():
             ap=data['fotometria']['opciones']['apertura']
             photom(images,an,dan,ap,path=path2)
 #%%
+    '''
+    Tabla
+    '''
     if data['tabla']['dotabla']:
         path3=data['tabla']['path']
-        gentable(data['tabla']['phouts'],path=path3)
+        form=data['tabla']['opciones']['formato']
+        esque=data['tabla']['opciones']['esquema']
+        gentable(data['tabla']['phouts'],formato=form,tabesq=esque,path=path3)
 #%%
   
 if __name__== "__main__":

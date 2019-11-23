@@ -15,7 +15,7 @@ reducir:
   imdark:              # lista de imagenes dark
   
 fotometria:
- imobj: 'imphot.in'                #
+ imobj: 'imphot.in'                #imagenes
  dofotometria: Yes      # hacer fotometria
  path: '/home/natalia/20180601'
  opciones:
@@ -34,4 +34,5 @@ tabla:
  path: '/home/natalia/20180601'
  phouts: 'imphot_phots.in'
  opciones:
-  formato:
+  formato:                         # formato de tablas
+  esquema:                         # esquema de tablas

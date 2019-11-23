@@ -13,33 +13,43 @@ import numpy as np
 import os
 
 #%%
-def gentable(phouts,path=None,formato='commented_header'):
+def gentable(phouts,formato='commented_header',tabesq='imagen',path=None):
     '''
      Dado uno o más archivos output de la tarea phot de IRAF, con extensión
     ",phot" y la apertura de los radios de las isofotas genera un objeto Table 
     de astropy y devuelve uno o más archivos de salida en formato ascii.
     Si se ingresan varias tablas phot tendrá que ser en formato de filelist.
+    Se deberá ingresar cómo quiere que se organicen las tablas, si es una tabla
+    por imagen (cada fila una estrella, con sus radios de apertura) o una tabla
+    por estrella por imagen (cada fila un radio de apertura). 
     
-    En la versión 1.0 devuelve una tabla por estrella por imagen con todas las
-    columnas de phot versus radio de apertura.
     
-       INPUT
-        phouts   : Archivo .phot o lista de archivos .phot
-        (path)   : camino al phouts.
-        formato  : formato de astropy.io.ascii
-                       Por defecto usa commented_header 
+        INPUT
+        phouts     : Archivo .phot o lista de archivos .phot
+        (path)     : camino al phouts.
+        (formato)  : formato de astropy.io.ascii., por defecto usa
+                     "commented_header"
+        (tabfiles) : Esquema de generación de tablas. Por defecto, usa "imagen"
     '''
     
     if path is not None:
         originalpath=aux.chdir(path,save=True)
-# =============================================================================
-#     lo hice para que en principio tirara todas las columnas de la tabla
-#     mi idea es que no sea así, sino que te imprima opciones y elijas qué
-#    querés que tire.
-#     además (ida para ver 2.0) poder peedir que imprima por imagenes
-#    (solo valido para ciertos parametros que no dependen del r_aper)
-# =============================================================================
-    
+        
+    formato=aux.default(formato,'commented_header')
+    tabesq=aux.default(tabesq,'imagen')
+    if tabesq=='estrella':
+        tablestars(phouts,formato)
+    elif tabesq=='imagen':
+        tablesimg(phouts,formato)
+    if path is not None:
+        aux.chdir(originalpath)
+                
+#%%
+        
+def tablestars(phouts,formato='commented_header'):
+    '''
+    Hace una tabla por estrella, por imagen, con todos los radios de apertura.
+    '''
     if os.path.splitext(phouts)[-1] == '.phot': # si es una sola tabla
         t=Table.read(phouts,format='daophot') # lee la tabla
         nstar=len(t)  # numero de estrellas
@@ -90,9 +100,23 @@ def gentable(phouts,path=None,formato='commented_header'):
                     ascii.write(tabla,f,format=formato)
 
 
-
-
-    if path is not None:
-        aux.chdir(originalpath)
-                
-                
+#%%
+                    
+def tablesimg(phouts,formato='commented_header'):
+    '''
+    Hace una tabla por imagen, con todas las estrellas.
+    '''
+    if os.path.splitext(phouts)[-1] == '.phot': 
+        t=Table.read(phouts,format='daophot')
+        name=os.path.splitext(phouts)[0]+'.tab'
+        aux.rm(name)
+        f=open(name,'w+')
+        ascii.write(t,f,format=formato)
+    else:
+        listaphot=np.genfromtxt(phouts,dtype=None)
+        for ph in listaphot:
+                t=Table.read(ph,format='daophot')
+                name=os.path.splitext(ph)[0]+'.tab'
+                aux.rm(name)
+                f=open(name,'w+')
+                ascii.write(t,f,format=formato)
