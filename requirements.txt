@@ -123,7 +123,7 @@ Pygments==2.2.0
 pygobject==3.22.0
 pyinotify==0.9.6
 PyNaCl==1.0.1
-pyOpenSSL==16.2.0
+pyOpenSSL==17.5.0
 PyPDF2==1.26.0
 pyserial==3.2.1
 Pyste==0.9.10
