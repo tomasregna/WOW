@@ -132,7 +132,7 @@ python-debian==0.1.30
 python-openid==2.2.5
 python-snappy==0.5
 pyxdg==0.25
-PyYAML==3.12
+PyYAML==5.1
 qrcode==5.3
 quantities==0.12.3
 quodlibet==3.7.1
