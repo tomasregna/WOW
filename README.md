@@ -1,27 +1,31 @@
-# WOW: Wow Observational Work
-# Trabajo Final de Astronomía Observacional
+# WOW: Wow Observational Work ![](http://carina.fcaglp.unlp.edu.ar/~guevaran/wow/wowlogo2.png)
+### _Trabajo Final de Astronomía Observacional_
 
-Esquema de trabajo:
+Esquema del programa main:
 
 
-**1.Backup de archivos en crudo.**
+* **Backup de archivos en crudo.**
 
-**2.Pre-reducción de imágenes.**
+* **Pre-reducción de imágenes.**
 
-  2.a.MasterBias.
+  + MasterBias.
 
-  2.b.MasterDark.
+  + MasterDark.
 
-  2.c.MasterFlat.
-
-  2.d.Procesamiento.
-
-**3.Fotometría de apertura.**
+  + Separar por filtros a los flats y las imagenes de ciencia.
   
-  3.a.Estimación de FWHM y StdevSky.
-  
-  3.b.Identificación de estrellas y sus coordenadas.
-  
-  3.c.Fotometría propiamente dicha con Phot.
+    - MasterFlat por filtro.
 
-**4.Formateo de tablas .phot.**
+    - Procesamiento de imagenes de ciencia por filtro.
+
+* **Fotometría de apertura.**
+  
+  + Estimación de FWHM y StdevSky.
+  
+  + Identificación de estrellas y sus coordenadas.
+  
+  + Fotometría de apertura con Phot.
+
+* **Formateo de tablas .phot.**
+  
+Para más detalles, ver la [web del proyecto](http://carina.fcaglp.unlp.edu.ar/~guevaran/wow).
