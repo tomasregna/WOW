@@ -1,4 +1,4 @@
-# WOW: Wow Observational Work ![](http://carina.fcaglp.unlp.edu.ar/~guevaran/wow/wowlogo2.png)
+# WOW: Wow Observational Work ![](http://carina.fcaglp.unlp.edu.ar/~guevaran/wow/wowlogo4.png)
 ### _Trabajo Final de Astronomía Observacional_
 
 Esquema del programa main:
@@ -28,4 +28,4 @@ Esquema del programa main:
 
 * **Formateo de tablas .phot.**
   
-Para más detalles, ver la [web del proyecto](http://carina.fcaglp.unlp.edu.ar/~guevaran/wow).
+Para más detalles, ver la [web del proyecto](http://carina.fcaglp.unlp.edu.ar/~guevaran/wow/md_README.html).
