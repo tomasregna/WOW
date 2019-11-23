@@ -199,7 +199,7 @@ Theano==1.0.3
     - numpy [required: >=1.8.2, installed: 1.16.3]
   - six [required: >=1.9.0, installed: 1.12.0]
 trollius==2.0.1
-Twisted==16.6.0
+Twisted==19.7.0
 txaio==2.5.1
 uTidylib==0.3
 vboxapi==1.0
