@@ -28,4 +28,29 @@ Esquema del programa main:
 
 * **Formateo de tablas .phot.**
   
+  
+  
+  # Instalación
+  
+  Correr en una terminal :
+  ```
+  cd $HOME
+  git clone https://github.com/tomasregna/WOW.git
+  cd WOW
+  ```
+  Para hacerlo ejecutable:
+  ```
+  mv wow $HOME"/bin"
+  mv wowconfig $HOME"/bin"
+  chmod +x  $HOME"/bin/wow" $HOME"/bin/wowconfig"
+  ```
+  
+  # Uso
+  
+  Este programa ejecutará la lista de tareas indicada en el archivo _parameters.yaml_, osea, se deberá editar de antemano ese archivo, puede hacerse con el comando *wowconfig*
+ Una vez seteado, se correrá utilizando el comando *wow* en una terminal que tenga los permisos suficientes para correr los módulos requeridos del programa.
+ 
+ >> Nota, en la Sala Informatizada de Carina, este programa debe correrse desde un _xterm_ y en un entorno de _anaconda_ que contenga _pyraf_.
+ 
+ 
 Para más detalles, ver la [web del proyecto](http://carina.fcaglp.unlp.edu.ar/~guevaran/wow/md_README.html).
