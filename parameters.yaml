@@ -1,38 +1,36 @@
-
-
-backup:                # hacer backup
- dobackup: Yes
- path: '/home/natalia/20180601'
+backup:
+ dobackup:             # hacer backup (Yes/No)
+ path:                 # camino a los archivos para backup (string)
  
 reducir:
- imobj: 'images.in'                # lista de imagenes de ciencia
- doreducir : Yes       # hacer la reduccion
- path: '/home/natalia/20180601'
- imflat: 'flats.in'              # lista de imagenes flat
- imbias: 'bias.in'              # lista de imagenes bias
- opciones :
-  dark: No             # correccion por dark
-  imdark:              # lista de imagenes dark
+ doreducir :           # hacer la reduccion (Yes/No)
+ imobj:                # lista de imagenes de ciencia (string)
+ path:                 # camino a imobj,imflat,imbias,imdark (string)
+ imflat:               # lista de imagenes flat (string)
+ imbias:               # lista de imagenes bias (string)
+ opciones:
+  dark: No             # hacer correccion por dark (Yes/No)
+  imdark:              # lista de imagenes dark (string)
   
 fotometria:
- imobj: 'imphot.in'                #imagenes
- dofotometria: Yes      # hacer fotometria
- path: '/home/natalia/20180601'
+ dofotometria:         # hacer fotometria (Yes/No)
+ imobj:                # imagenes para hacer fotometria (string)
+ path:                 # camino a imobj (string)
  opciones:
-   buscarest: Yes      # buscar estrellas
-   autofwhm: Yes       # buscar fwhm
-   telescope: JS         # HSH o JS
-   RF: No              # si se uso un reductor focal
-   autocielo: Yes      # buscar desv estandar del cielo
-   tr: 5                # treshold
-   annulus: 30
-   dannulus: 5
-   apertura: "2:5:1"
+   buscarest:          # buscar estrellas automaticamente (Yes/No)
+   autofwhm:           # buscar fwhm automaticamente (Yes/No)
+   telescope:          # telescopio usado (HSH o JS)
+   RF:                 # si se uso un reductor focal (Yes/No)
+   autocielo:          # buscar desv estandar del cielo automaticante (Yes/No)
+   tr:                 # treshold       (entero)
+   annulus:            # annulus radio  (entero)
+   dannulus:           # dannulus radio (entero)
+   apertura:           # radios de apertura (string en formato iraf)
   
 tabla:
- dotabla: Yes          # generar tabla
- path: '/home/natalia/20180601'
- phouts: 'imphot_phots.in'
+ dotabla:              # generar tabla (Yes/No)
+ phouts:               # tabla o tablas para formatear (string) 
+ path:                 # camino a phots (string) 
  opciones:
-  formato:                         # formato de tablas
-  esquema:                         # esquema de tablas
+  formato:             # formato de tablas (string, formatos de astropy.Tables)
+  esquema:             # esquema de tablas (imagen,estrella)
