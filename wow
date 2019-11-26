@@ -1,5 +1,5 @@
-!/bin/bash
-pwd > $cwd
+#!/bin/bash
+cwd=$PWD
 cd $HOME
 cd WOW
 yes "" | python -W ignore __main__.py
