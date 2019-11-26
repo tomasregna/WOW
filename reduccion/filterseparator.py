@@ -12,7 +12,7 @@ import os
 
 #%%
 
-def filtersep(images,path=None):
+def filtersep(images,path=None,field=None):
     '''
     Dada una lista de imágenes y el parámetro del header de las mismas, busca
     el flitro de cada imágen, las separa por filtro en listas, en archivos
@@ -40,7 +40,7 @@ def filtersep(images,path=None):
     #   le agrego un arroba
     # para pasarlo como argumento en iraf 
     imagesl='@'+images
-    field='FILTER02'
+    field=aux.default(field,'FILTER02')
     listafull = aux.hselect(imagesl,field) # genera lista de todos los filtros       
 #     excluyo el filtro 1 que es ningùn filtro.
 
@@ -56,8 +56,8 @@ def filtersep(images,path=None):
     listasisi=[]
     for x in listafull2:
         if not('Free' in x or 'Libre' in x or 'free' in x or'libre' in x):
-            listasisi.append(x)    
-    print listasisi
+            listasisi.append(x)
+   # print listasisi             
     listafull2=listasisi                              
     # separa individualmente x filtro
     listadefiltros = np.unique(listafull+listafull2) 
@@ -118,8 +118,9 @@ def filtersep(images,path=None):
     return listadefiltros,listadearchivos
 
 #%%
-def filtersep2(images,path=None):
-    field='FILTER02'
+def filtersep2(images,field=None,path=None):
+    
+    field=aux.default(field,'FILTER02')
     imagesl='@'+images
 
     if path is not None: # moves to path, saves working directory
