@@ -51,8 +51,9 @@ def main():
         reduc.masterbias(bias,path=path1)
         if data['reducir']['opciones']['dark']:
             reduc.masterdark(dark,path=path1)
-        filters,flats=filtersep2(flat,path=path1)
-        filters2,objs=filtersep2(imagenes,path=path1)
+        fieldfilt=data['reducir']['opciones']['filterfield']
+        filters,flats=filtersep2(flat,path=path1,field=fieldfilt)
+        filters2,objs=filtersep2(imagenes,path=path1,field=fieldfilt)
         wh.flatw(filters,flats,dark=data['reducir']['opciones']['dark'],path=path1)
         wh.procw(filters2,objs,dark=data['reducir']['opciones']['dark'],path=path1)
         
@@ -60,20 +61,44 @@ def main():
     '''
     Fotometria
     '''
-    if data['fotometria']['dofotometria']:
-        images=data['fotometria']['imobj']
-        path2=data['fotometria']['path']
-        if data['fotometria']['opciones']['buscarest']:
-            cielo=skynoises(images,path=path2)
-            tel=data['fotometria']['opciones']['telescope']
-            fw=multifull(images,tel,RF=data['fotometria']['opciones']['RF'],path=path2)
-            tres=data['fotometria']['opciones']['tr']
+    if data['fotometria']['dofotometria']:  # if dofotometria
+        images=data['fotometria']['imobj']  # get images
+        path2=data['fotometria']['path']    # get path
+        if data['fotometria']['opciones']['buscarest']:   # if buscar est
+
+            if data['fotometria']['opciones']['autocielo']: # if autocielo
+                cielo=skynoises(images,path=path2)
+            else:                                           # else lee file
+                cielo=data['fotometria']['opciones']['cielo']
+
+            if data['fotometria']['opciones']['autofwhm']:  # if autofwhm
+                tel=data['fotometria']['opciones']['telescopio']  # get obser
+                redf=data['fotometria']['opciones']['RF']         # get rf
+                fw=multifull(images,tel,RF=redf,path=path2)      
+            else:                                           # else lee file
+                fw=data['fotometria']['opciones']['fwhm']
+                
+            tres=data['fotometria']['opciones']['tr']       # get treshold
+
             multisf(images,farr=fw,sarr=cielo,thold=tres,path=path2)
-            an=data['fotometria']['opciones']['annulus']
-            dan=data['fotometria']['opciones']['dannulus']
-            ap=data['fotometria']['opciones']['apertura']
+            
+            an=data['fotometria']['opciones']['annulus']    # get annulus
+            dan=data['fotometria']['opciones']['dannulus']  # get dannulus
+            if data['fotometria']['opciones']['autoapertura']:   # if auto aper
+                ap=str(fw)+','+str(2*fw)
+            else:
+                ap=data['fotometria']['opciones']['apertura']    # else lee file
             photom(images,an,dan,ap,path=path2)
-#%%
+        else:                                               # else lee file
+            an=data['fotometria']['opciones']['annulus']   
+            dan=data['fotometria']['opciones']['dannulus']
+            if data['fotometria']['opciones']['autoapertura']:
+                ap=str(fw)+','+str(2*fw)
+            else:
+                ap=data['fotometria']['opciones']['apertura']
+            cords=data['fotometria']['opciones']['coords']
+            photom(images,an,dan,ap,path=path2,coords=cords)
+            #%%
     '''
     Tabla
     '''
