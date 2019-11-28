@@ -9,7 +9,6 @@ reducir:
  imflat:               # lista de imagenes flat (string)
  imbias:               # lista de imagenes bias (string)
  opciones:
-  filterfield:         # campo del header donde esta el filtro (string)
   dark: No             # hacer correccion por dark (Yes/No)
   imdark:              # lista de imagenes dark (string)
   
@@ -19,18 +18,14 @@ fotometria:
  path:                 # camino a imobj (string)
  opciones:
    buscarest:          # buscar estrellas automaticamente (Yes/No)
-   coords:             # ingresar archivo de coordenadas manualmente (string)
    autofwhm:           # buscar fwhm automaticamente (Yes/No)
-   telescopio:         # telescopio usado (HSH o JS)
+   telescope:          # telescopio usado (HSH o JS)
    RF:                 # si se uso un reductor focal (Yes/No)
-   fwhm:                 # FWHM si se quiere ingresar manualmente (float)
    autocielo:          # buscar desv estandar del cielo automaticante (Yes/No)
-   cielo:              # desv est del cielo si se quiere ingresar manualmente (float)
-   tr:                 # treshold       (float)
-   annulus:            # annulus radio  (float)
-   dannulus:           # dannulus radio (float)
-   autoapertura:       # setea dos radios de apertura, de FWHM y 2FWHM (Yes/No)
-   apertura:           # radios de apertura manuales(string en formato iraf)
+   tr:                 # treshold       (entero)
+   annulus:            # annulus radio  (entero)
+   dannulus:           # dannulus radio (entero)
+   apertura:           # radios de apertura (string en formato iraf)
   
 tabla:
  dotabla:              # generar tabla (Yes/No)
