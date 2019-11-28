@@ -40,18 +40,23 @@ def backup(dirname=None,path=None,bformat="tar"):
                            #crea uno
     now=datetime.now()
     
+    if dirname is not None:
+        if os.path.exists(backpath+"/"+dirname):
+            dirname=str(now.year)+str(now.day)+str(now.month)
+            i=0
+            while (os.path.exists(backpath+'/'+dirname+'.'+bformat)):
+                i=i+1
+                dirname=str(now.year)+str(now.day)+str(now.month)+'-'+str(i)
     if dirname is None:
         dirname=str(now.year)+str(now.day)+str(now.month)
         i=0
         while (os.path.exists(backpath+'/'+dirname+'.'+bformat)):
             i=i+1
             dirname=str(now.year)+str(now.day)+str(now.month)+'-'+str(i)
-    
-    out=backpath+"/"+dirname #archivo concatenado al camino entero
-    
-    if os.path.exists(out) is False:
-        sh.make_archive(out,bformat,backpath,path) #si no existe el
+  
+    sh.make_archive(dirname,bformat,backpath,path) #si no existe el
         #backup, genera uno con una tarea de shutil 
     
+    sh.move(path+'/'+dirname+'.'+bformat,backpath+'/'+dirname+'.'+bformat)
     
     
