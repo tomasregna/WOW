@@ -52,20 +52,20 @@ Esquema del programa main:
  
  >> Nota: En la Sala Informatizada de Carina, para correr este programa, se debe proceder de la siguiente manera:
  ```
- cd $HOME
- xterm -ls &
+    cd $HOME
+    xterm -ls &
  ```
  >> Una vez dentro del xterm:
  ```
- conda_init
+    conda_init
  ```
  >> Si usted no tiene un entorno de python en anaconda, puede crear uno de la siguiente manera:
  ```
- conda create -n python2.7 python=2.7 anaconda
+    conda create -n python2.7 python=2.7 anaconda
  ```
  >> Luego, abra el entorno de python:
  ```
- conda activate python2.7
+    conda activate python2.7
  ```
  >> Y yá podrá correr el programa sin inconvenientes.
  
