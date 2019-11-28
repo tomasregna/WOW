@@ -4,11 +4,13 @@
 import shutil as sh
 import os
 from datetime import datetime
+import auxfunctions as aux
 
 #%%
 def backup(dirname=None,path=None,bformat="tar"):
     '''
-     Dado un directorio con archivos, genera un backup en el home.
+     Dado un directorio con archivos, genera un backup en el home, en la 
+     carpeta "Backups".
       
       INPUT
       dirname  : Nombre del archivo comprimido que contendrá el backup
@@ -27,8 +29,9 @@ def backup(dirname=None,path=None,bformat="tar"):
                  backup.
       bformat  : Compression format of the backup file.
     '''    
-    if path is None:
-        path=os.getcwd() #si no conoce el path, usa la posición actual
+        
+    if path is not None:
+        originalpath=aux.chdir(path,save=True) # moves towards path
       
     username=os.getenv('USER') #pide el nombre de usuario para poder
                                #concatenarlo al /home
@@ -40,23 +43,27 @@ def backup(dirname=None,path=None,bformat="tar"):
                            #crea uno
     now=datetime.now()
     
-    if dirname is not None:
-        if os.path.exists(backpath+"/"+dirname):
-            dirname=str(now.year)+str(now.day)+str(now.month)
+    if dirname is not None:   # antes ignoraba el entry de aca
+        if os.path.exists(backpath+"/"+dirname):  
+            add=str(now.year)+str(now.day)+str(now.month) 
             i=0
-            while (os.path.exists(backpath+'/'+dirname+'.'+bformat)):
+            while (os.path.exists(backpath+'/'+dirname+add+'.'+bformat)):
                 i=i+1
-                dirname=str(now.year)+str(now.day)+str(now.month)+'-'+str(i)
-    if dirname is None:
+                add=str(now.year)+str(now.day)+str(now.month)+'-'+str(i)
+            dirname=dirname+add
+    else:   
         dirname=str(now.year)+str(now.day)+str(now.month)
         i=0
         while (os.path.exists(backpath+'/'+dirname+'.'+bformat)):
             i=i+1
             dirname=str(now.year)+str(now.day)+str(now.month)+'-'+str(i)
   
-    sh.make_archive(dirname,bformat,backpath,path) #si no existe el
+
+    sh.make_archive(dirname,bformat,path)#si no existe el
         #backup, genera uno con una tarea de shutil 
+        
+    here=os.getcwd()
+    sh.move(here+'/'+dirname+'.'+bformat,backpath+'/'+dirname+'.'+bformat)
     
-    sh.move(path+'/'+dirname+'.'+bformat,backpath+'/'+dirname+'.'+bformat)
-    
-    
+    if path is not None:  # vuelve al directorio principal.
+        aux.chdir(originalpath)
