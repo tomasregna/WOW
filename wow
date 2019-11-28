@@ -4,4 +4,3 @@ cd $HOME
 cd WOW
 yes "" | python -W ignore __main__.py
 cd $cwd
-
