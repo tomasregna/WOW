@@ -80,7 +80,7 @@ def main():
                 
             tres=data['fotometria']['opciones']['tr']       # get treshold
 
-            multisf(images,farr=fw,sarr=cielo,thold=tres,path=path2)
+            multisf(images,farr=2*fw,sarr=cielo,thold=tres,path=path2)
             
             an=data['fotometria']['opciones']['annulus']    # get annulus
             dan=data['fotometria']['opciones']['dannulus']  # get dannulus
