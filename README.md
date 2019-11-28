@@ -50,7 +50,24 @@ Esquema del programa main:
   Este programa ejecutará la lista de tareas indicada en el archivo _parameters.yaml_, osea, se deberá editar de antemano ese archivo, puede hacerse con el comando *wowconfig*
  Una vez seteado, se correrá utilizando el comando *wow* en una terminal que tenga los permisos suficientes para correr los módulos requeridos del programa.
  
- >> Nota, en la Sala Informatizada de Carina, este programa debe correrse desde un _xterm_ y en un entorno de _anaconda_ que contenga _pyraf_.
+ >> Nota: En la Sala Informatizada de Carina, para correr este programa, se debe proceder de la siguiente manera:
+ ```
+ cd $HOME
+ xterm -ls &
+ ```
+ >> Una vez dentro del xterm:
+ ```
+ conda_init
+ ```
+ >> Si usted no tiene un entorno de python en anaconda, puede crear uno de la siguiente manera:
+ ```
+ conda create -n python2.7 python=2.7 anaconda
+ ```
+ >> Luego, abra el entorno de python:
+ ```
+ conda activate python2.7
+ ```
+ >> Y yá podrá correr el programa sin inconvenientes.
  
  
 Para más detalles, ver la [web del proyecto](http://carina.fcaglp.unlp.edu.ar/~guevaran/wow/md_README.html).
