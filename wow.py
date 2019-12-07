@@ -4,7 +4,6 @@
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
-# WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -457,7 +456,7 @@ class Ui_WOW(object):
         self.buttons.addWidget(self.Close)
 
         self.retranslateUi(WOW)
-        self.MainWindow.setCurrentIndex(3)
+        self.MainWindow.setCurrentIndex(0)
         self.formatoselect.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(WOW)
 
