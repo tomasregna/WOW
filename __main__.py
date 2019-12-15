@@ -35,7 +35,7 @@ def main():
      
         path0=data['backup']['path']
         formato=data['backup']['formato']
-        nombre=data['backup']['nombre']
+        nombre=data['backup']['filename']
         backup(dirname=nombre,path=path0,bformat=formato)
     
 #%%
@@ -44,19 +44,21 @@ def main():
     '''
     if data['reducir']['doreducir']:
         imagenes=data['reducir']['imobj']
-        path1=data['reducir']['path']
+        pathim=data['reducir']['pathim']
         bias=data['reducir']['imbias']
+        pathbi=data['reducir']['pathbi']
         flat=data['reducir']['imflat']
+        pathfl=data['reducir']['pathfl']
         dark=data['reducir']['opciones']['imdark']
-        
-        reduc.masterbias(bias,path=path1)
+        pathdk=dara['reducir']['opciones']['pathdk']
+        reduc.masterbias(bias,path=pathbi)
         if data['reducir']['opciones']['dark']:
-            reduc.masterdark(dark,path=path1)
+            reduc.masterdark(dark,path=pathdk)
         fieldfilt=data['reducir']['opciones']['filterfield']
-        filters,flats=filtersep2(flat,path=path1,field=fieldfilt)
-        filters2,objs=filtersep2(imagenes,path=path1,field=fieldfilt)
-        wh.flatw(filters,flats,dark=data['reducir']['opciones']['dark'],path=path1)
-        wh.procw(filters2,objs,dark=data['reducir']['opciones']['dark'],path=path1)
+        filters,flats=filtersep2(flat,path=pathfl,field=fieldfilt)
+        filters2,objs=filtersep2(imagenes,path=pathim,field=fieldfilt)
+        wh.flatw(filters,flats,dark=data['reducir']['opciones']['dark'],path=pathfl)
+        wh.procw(filters2,objs,dark=data['reducir']['opciones']['dark'],path=pathim)
         
 #%%  
     '''
@@ -98,7 +100,8 @@ def main():
             else:
                 ap=data['fotometria']['opciones']['apertura']
             cords=data['fotometria']['opciones']['coords']
-            photom(images,an,dan,ap,path=path2,coords=cords)
+            pathc=data['fotometria']['opciones']['pathc']
+            photom(images,an,dan,ap,path=pathc,coords=cords)
             #%%
     '''
     Tabla
