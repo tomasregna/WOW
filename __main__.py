@@ -34,8 +34,8 @@ def main():
     if data['backup']['dobackup']:
      
         path0=data['backup']['path']
-        formato=data['backup']['formato']
-        nombre=data['backup']['filename']
+        formato=data['backup']['opciones']['formato']
+        nombre=data['backup']['opciones']['filename']
         backup(dirname=nombre,path=path0,bformat=formato)
     
 #%%
@@ -50,7 +50,7 @@ def main():
         flat=data['reducir']['imflat']
         pathfl=data['reducir']['pathfl']
         dark=data['reducir']['opciones']['imdark']
-        pathdk=dara['reducir']['opciones']['pathdk']
+        pathdk=data['reducir']['opciones']['pathdk']
         reduc.masterbias(bias,path=pathbi)
         if data['reducir']['opciones']['dark']:
             reduc.masterdark(dark,path=pathdk)

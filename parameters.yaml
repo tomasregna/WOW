@@ -1,12 +1,12 @@
 backup:
   dobackup: true
   opciones:
-    filename: ''
+    filename: null
     formato: zip
-  path: ''
+  path: null
 fotometria:
   dofotometria: false
-  imobj: ''
+  imobj: null
   opciones:
     RF: false
     annulus: 0.0
@@ -16,30 +16,30 @@ fotometria:
     autofwhm: true
     buscarest: true
     cielo: 0.0
-    coords: ''
+    coords: null
     dannulus: 0.0
     fwhm: 0.0
-    pathc: ''
+    pathc: null
     telescopio: JS
     tr: 0.0
-  path: ''
+  path: null
 reducir:
   doreducir: false
-  imbias: ''
-  imflat: ''
-  imobj: ''
+  imbias: null
+  imflat: null
+  imobj: null
   opciones:
     dark: false
-    filterfield: ''
-    imdark: ''
-    pathdk: ''
-  pathbi: ''
-  pathfl: ''
-  pathim: ''
+    filterfield: null
+    imdark: null
+    pathdk: null
+  pathbi: null
+  pathfl: null
+  pathim: null
 tabla:
-  dotabla: false
+  dotabla: true
   opciones:
     esquema: imagen
-    formato: aastex
-  path: ''
-  phouts: ''
+    formato: fixed_width
+  path: /home/natalia/20180601
+  phouts: imphot_phots.in

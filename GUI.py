@@ -305,33 +305,33 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         #######
         #backup
         maindict['backup']['dobackup']=self.hacerbackupCheckBox.isChecked()
-        maindict['backup']['path']= str(self.pathcarpeta.text())
-        maindict['backup']['opciones']['formato']=str(self.formatoselect.currentText())
-        maindict['backup']['opciones']['filename']=str(self.nombreDelArchivoLineEdit.text())
+        maindict['backup']['path']= self.strn(self.pathcarpeta.text())
+        maindict['backup']['opciones']['formato']=self.strn(self.formatoselect.currentText())
+        maindict['backup']['opciones']['filename']=self.strn(self.nombreDelArchivoLineEdit.text())
         #######
         #reduccion
         maindict['reducir']['doreducir']=self.Reducircheck.isChecked()
         fileandpath=os.path.split(str(self.lineedit_obj.text()))
-        maindict['reducir']['pathim']=fileandpath[0]
-        maindict['reducir']['imobj']=fileandpath[-1]
+        maindict['reducir']['pathim']=self.strn(fileandpath[0])
+        maindict['reducir']['imobj']=self.strn(fileandpath[-1])
         fileandpath=os.path.split(str(self.lineEdit_bias.text()))
-        maindict['reducir']['imbias']=fileandpath[-1]
-        maindict['reducir']['pathbi']=fileandpath[0]
+        maindict['reducir']['imbias']=self.strn(fileandpath[-1])
+        maindict['reducir']['pathbi']=self.strn(fileandpath[-0])
         fileandpath=os.path.split(str(self.lineEdit_flats.text()))
-        maindict['reducir']['imflat']=fileandpath[-1]
-        maindict['reducir']['pathfl']=fileandpath[0]
+        maindict['reducir']['imflat']=self.strn(fileandpath[-1])
+        maindict['reducir']['pathfl']=self.strn(fileandpath[-0])
         
         maindict['reducir']['opciones']['dark']=self.hacereldark.isChecked()
-        maindict['reducir']['opciones']['filterfield']=str(self.lineEdit_keyword.text())
+        maindict['reducir']['opciones']['filterfield']=self.strn(self.lineEdit_keyword.text())
         fileandpath=os.path.split(str(self.editdark.text()))
-        maindict['reducir']['opciones']['imdark']=fileandpath[-1]
-        maindict['reducir']['opciones']['pathdk']=fileandpath[0]
+        maindict['reducir']['opciones']['imdark']=self.strn(fileandpath[-1])
+        maindict['reducir']['opciones']['pathdk']=self.strn(fileandpath[0])
         #######
         #fotometria
         maindict['fotometria']['dofotometria']=self.hacerphot_2.isChecked()
         fileandpath=os.path.split(str(self.imagenesedit_2.text()))
-        maindict['fotometria']['imobj']=fileandpath[-1]
-        maindict['fotometria']['path']=fileandpath[0]
+        maindict['fotometria']['imobj']=self.strn(fileandpath[-1])
+        maindict['fotometria']['path']=self.strn(fileandpath[0])
         
         maindict['fotometria']['opciones']['RF']=self.redfocal_3.isChecked()
         maindict['fotometria']['opciones']['annulus']=float(
@@ -346,11 +346,11 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         maindict['fotometria']['opciones']['cielo']=float(
             self.ruidoDeCieloLineEdit_2.text())
         fileandpath=os.path.split(str(self.coordenadasLineEdit_2.text()))
-        maindict['fotometria']['opciones']['coords']=fileandpath[-1]
-        maindict['fotometria']['opciones']['pathc']=fileandpath[0]
+        maindict['fotometria']['opciones']['coords']=self.strn(fileandpath[-1])
+        maindict['fotometria']['opciones']['pathc']=self.strn(fileandpath[-0])
         maindict['fotometria']['opciones']['fwhm']=float(
             self.fWHMLineEdit_2.text())
-        maindict['fotometria']['opciones']['telescopio']=str(
+        maindict['fotometria']['opciones']['telescopio']=self.strn(
             self.selectelescopi_3.currentText())
         maindict['fotometria']['opciones']['tr']=float(self.trinput_2.text())
         maindict['fotometria']['opciones']['autoapertura']=self.aperturaAtumTicaCheckBox_2.isChecked()
@@ -359,24 +359,21 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
 
         maindict['tabla']['dotabla']=self.hacerTablaCheckBox.isChecked()
         fileandpath=os.path.split(str(self.tablasPhotLineEdit.text()))
-        maindict['tabla']['path']=fileandpath[0]
-        maindict['tabla']['phouts']=fileandpath[1]
-        maindict['tabla']['opciones']['esquema']=str(
+        maindict['tabla']['path']=self.strn(fileandpath[0])
+        maindict['tabla']['phouts']=self.strn(fileandpath[-1])
+        maindict['tabla']['opciones']['esquema']=self.strn(
             self.esquemaComboBox.currentText())
-        maindict['tabla']['opciones']['formato']=str(
+        maindict['tabla']['opciones']['formato']=self.strn(
             self.formatoDeSalidaComboBox.currentText())
         
         return maindict
-
-        
-        
-        
-        
-        
-        
-        a=self.aperturaLineEdit_2.text()
-        print 'notyet',a
-        
+    def strn(self,x):
+        if x=='':
+            a=None
+        else:
+            a=str(x)
+        return a
+            
 
         
 
