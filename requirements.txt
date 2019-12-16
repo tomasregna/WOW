@@ -143,7 +143,7 @@ scour==0.32
 service-identity==16.0.0
 snakefood==1.4
 Tempita==0.5.2
-tensorflow==1.12.0
+tensorflow==1.15.0
   - absl-py [required: >=0.1.6, installed: 0.6.1]
     - enum34 [required: Any, installed: 1.1.6]
     - six [required: Any, installed: 1.12.0]
