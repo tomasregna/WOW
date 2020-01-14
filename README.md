@@ -49,7 +49,7 @@ Esquema del programa main:
   
   # Uso
   
-  Este programa ejecutará la lista de tareas indicada en el archivo _parameters.yaml_, osea, se deberá editar de antemano ese archivo, puede hacerse con el comando *wowconfig*
+  Este programa ejecutará la lista de tareas indicada en el archivo _parameters.yaml_, se puede editar manualmente este archivo o utilizar la GUI. Esto puede hacerse con el comando *wowconfig*, si se realizó correctamente la instalación.
  Una vez seteado, se correrá utilizando el comando *wow* en una terminal que tenga los permisos suficientes para correr los módulos requeridos del programa.
  
  * Nota: En la Sala Informatizada de Carina (FCAG), para correr este programa, se debe proceder de la siguiente manera*
