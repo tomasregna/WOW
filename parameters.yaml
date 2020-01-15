@@ -1,41 +1,47 @@
 backup:
- dobackup:             # hacer backup (Yes/No)
- path:                 # camino a los archivos para backup (string)
- 
-reducir:
- doreducir :           # hacer la reduccion (Yes/No)
- imobj:                # lista de imagenes de ciencia (string)
- path:                 # camino a imobj,imflat,imbias,imdark (string)
- imflat:               # lista de imagenes flat (string)
- imbias:               # lista de imagenes bias (string)
- opciones:
-  filterfield:         # campo del header donde esta el filtro (string)
-  dark: No             # hacer correccion por dark (Yes/No)
-  imdark:              # lista de imagenes dark (string)
-  
+  dobackup: true
+  opciones:
+    filename: null
+    formato: tar
+  path: /home/natalia/20180601
 fotometria:
- dofotometria:         # hacer fotometria (Yes/No)
- imobj:                # imagenes para hacer fotometria (string)
- path:                 # camino a imobj (string)
- opciones:
-   buscarest:          # buscar estrellas automaticamente (Yes/No)
-   coords:             # ingresar archivo de coordenadas manualmente (string)
-   autofwhm:           # buscar fwhm automaticamente (Yes/No)
-   telescopio:         # telescopio usado (HSH o JS)
-   RF:                 # si se uso un reductor focal (Yes/No)
-   fwhm:                 # FWHM si se quiere ingresar manualmente (float)
-   autocielo:          # buscar desv estandar del cielo automaticante (Yes/No)
-   cielo:              # desv est del cielo si se quiere ingresar manualmente (float)
-   tr:                 # treshold       (float)
-   annulus:            # annulus radio  (float)
-   dannulus:           # dannulus radio (float)
-   autoapertura:       # setea dos radios de apertura, de FWHM y 2FWHM (Yes/No)
-   apertura:           # radios de apertura manuales(string en formato iraf)
-  
+  dofotometria: false
+  imobj: imphot.in
+  opciones:
+    RF: false
+    annulus: 30.0
+    apertura: 0.0
+    autoapertura: true
+    autocielo: true
+    autofwhm: true
+    buscarest: true
+    cielo: 0.0
+    coords: null
+    dannulus: 5.0
+    fwhm: 0.0
+    pathc: null
+    telescopio: JS
+    tr: 4.0
+  path: /home/natalia/20180601
+reducir:
+  doreducir: true
+  imbias: bias.in
+  imflat: flats.in
+  imobj: images.in
+  opciones:
+    dark: false
+    filterfield: null
+    imdark: null
+    pathdk: null
+  overscan: '[1:409, 410:410]'
+  pathbi: /home/natalia/20180601
+  pathfl: /home/natalia/20180601
+  pathim: /home/natalia/20180601
+  trim: '[10:400,10:400]'
 tabla:
- dotabla:              # generar tabla (Yes/No)
- phouts:               # tabla o tablas para formatear (string) 
- path:                 # camino a phots (string) 
- opciones:
-  formato:             # formato de tablas (string, formatos de astropy.Tables)
-  esquema:             # esquema de tablas (imagen,estrella)
+  dotabla: false
+  opciones:
+    esquema: estrella
+    formato: aastex
+  path: /home/natalia/20180601
+  phouts: imphot_phots.in
