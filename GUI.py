@@ -4,6 +4,9 @@ from GUIesqueleto import *
 import sys
 import yaml
 import os
+import subprocess
+
+import wow
 
 #%%
 '''
@@ -28,7 +31,8 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         self.Close.clicked.connect(self.close) # cierra
         # esta funcion ya se reconoce porque esta definida.
         self.Save.clicked.connect(self.guardar) # guarda
-        # voy a tener que definir guardar mas adelante.
+        # voy a tener que definir guardar mas adelante en el codigo 
+        self.Run.clicked.connect(self.correr)  # guarda y corre
 
         '''
 -----------------------------------------------------
@@ -315,6 +319,8 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
             habilita=False
         self.grouptablas.setEnabled(habilita)
             
+        
+        
         #  funciones que sirven para volcar los inputs en 
         # variables y en un archivo yaml.
     def guardar(self):   # defino que significa guardar
@@ -322,7 +328,11 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         f=open('parameters.yaml','w+')
         yaml.dump(data3,f)
         f.close()
-
+        
+    def correr(self):
+        self.guardar()
+        wow.main()
+        
     def savedata(self):
         g=open('parameters.yaml','r') # opens yaml file read only
         maindict=yaml.load(g)   # loads yaml dict
@@ -337,31 +347,23 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         maindict['backup']['opciones']['filename']=self.strn(self.nombreDelArchivoLineEdit.text())
         #######
         #reduccion
-        maindict['reducir']['doreducir']=self.Reducircheck.isChecked()
-        fileandpath=os.path.split(self.strn(self.lineedit_obj.text()))
-        maindict['reducir']['pathim']=self.strn(fileandpath[0])
-        maindict['reducir']['imobj']=self.strn(fileandpath[-1])
-        fileandpath=os.path.split(self.strn(self.lineEdit_bias.text()))
-        maindict['reducir']['imbias']=self.strn(fileandpath[-1])
-        maindict['reducir']['pathbi']=self.strn(fileandpath[-0])
-        fileandpath=os.path.split(self.strn(self.lineEdit_flats.text()))
-        maindict['reducir']['imflat']=self.strn(fileandpath[-1])
-        maindict['reducir']['pathfl']=self.strn(fileandpath[-0])
+        maindict['reducir']['doreducir']=self.Reducircheck.isChecked()      
+        maindict['reducir']['pathim'],maindict['reducir']['imobj']=self.filpath(self.lineedit_obj.text())
+        maindict['reducir']['pathbi'],maindict['reducir']['imbias']=self.filpath(self.lineEdit_bias.text())
+        maindict['reducir']['pathf'],maindict['reducir']['limflat']=self.filpath(self.lineEdit_flats.text())
         
         maindict['reducir']['overscan']=self.strn(self.secciNDeOverscanLineEdit.text())
         maindict['reducir']['trim']=self.strn( self.secciNDeTrimmingLineEdit.text())
 
         maindict['reducir']['opciones']['dark']=self.hacereldark.isChecked()
         maindict['reducir']['opciones']['filterfield']=self.strn(self.lineEdit_keyword.text())
-        fileandpath=os.path.split(self.strn(self.editdark.text()))
-        maindict['reducir']['opciones']['imdark']=self.strn(fileandpath[-1])
-        maindict['reducir']['opciones']['pathdk']=self.strn(fileandpath[0])
+        maindict['reducir']['opciones']['pathdk'], maindict['reducir']['opciones']['imdark']=self.filpath(self.editdark.text())
+      
         #######
         #fotometria
         maindict['fotometria']['dofotometria']=self.hacerphot_2.isChecked()
-        fileandpath=os.path.split(self.strn(self.imagenesedit_2.text()))
-        maindict['fotometria']['imobj']=self.strn(fileandpath[-1])
-        maindict['fotometria']['path']=self.strn(fileandpath[0])
+        
+        maindict['fotometria']['path'],maindict['fotometria']['imobj']=self.filpath(self.imagenesedit_2.text())
         
         maindict['fotometria']['opciones']['RF']=self.redfocal_3.isChecked()
         maindict['fotometria']['opciones']['annulus']=float(
@@ -375,9 +377,9 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         maindict['fotometria']['opciones']['buscarest']=self.buscestre_2.isChecked()
         maindict['fotometria']['opciones']['cielo']=float(
             self.ruidoDeCieloLineEdit_2.text())
-        fileandpath=os.path.split(self.strn(self.coordenadasLineEdit_2.text()))
-        maindict['fotometria']['opciones']['coords']=self.strn(fileandpath[-1])
-        maindict['fotometria']['opciones']['pathc']=self.strn(fileandpath[-0])
+        
+        maindict['fotometria']['opciones']['pathc'], maindict['fotometria']['opciones']['coords']=self.filpath(self.coordenadasLineEdit_2.text())
+
         maindict['fotometria']['opciones']['fwhm']=float(
             self.fWHMLineEdit_2.text())
         maindict['fotometria']['opciones']['telescopio']=self.strn(
@@ -388,9 +390,8 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         # tablemaker
 
         maindict['tabla']['dotabla']=self.hacerTablaCheckBox.isChecked()
-        fileandpath=os.path.split(self.strn(self.tablasPhotLineEdit.text()))
-        maindict['tabla']['path']=self.strn(fileandpath[0])
-        maindict['tabla']['phouts']=self.strn(fileandpath[-1])
+        maindict['tabla']['path'], maindict['tabla']['phouts']=self.filpath(self.tablasPhotLineEdit.text())
+
         maindict['tabla']['opciones']['esquema']=self.strn(
             self.esquemaComboBox.currentText())
         maindict['tabla']['opciones']['formato']=self.strn(
@@ -419,7 +420,7 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
      
         self.secciNDeOverscanLineEdit.setText(self.strn(maindict['reducir']['overscan']))
         self.secciNDeTrimmingLineEdit.setText(self.strn(maindict['reducir']['trim']))
-        fileandpath=self.strn(maindict['reducir']['pathim'])+'/'+ self.strn(maindict['reducir']['imobj'])
+        fileandpath=str(maindict['reducir']['pathim'])+'/'+ str(maindict['reducir']['imobj'])
         self.lineedit_obj.setText(fileandpath)
         fileandpath=str(maindict['reducir']['pathbi'])+'/'+str(maindict['reducir']['imbias'])
         self.lineEdit_bias.setText(fileandpath)
@@ -435,7 +436,7 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         #fotometria
   #      self.hacerphot_2.setChecked(maindict['fotometria']['dofotometria'])
         
-        fileandpath=self.strn(maindict['fotometria']['path'])+'/'+self.strn(maindict['fotometria']['imobj'])
+        fileandpath=str(maindict['fotometria']['path'])+'/'+str(maindict['fotometria']['imobj'])
         self.imagenesedit_2.setText(fileandpath)
 
         self.redfocal_3.setChecked(maindict['fotometria']['opciones']['RF'])
@@ -474,7 +475,15 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         else:
             a=str(x)
         return a
-            
+    def filpath(self,text):
+        if text == '' or text == 'null' or text=='None' or text is None:
+            a=None
+            b=None
+        else:
+            c=os.path.split(str(text))
+            a=c[0]
+            b=c[-1]
+        return a,b
 
         
 
@@ -486,3 +495,4 @@ if __name__ == "__main__":
     window = MainWindow()
     window.show()
     app.exec_()
+

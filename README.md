@@ -10,10 +10,10 @@ Esquema del programa main:
 
 * **Pre-reducción de imágenes.**
 
-  + Overscan
-  
   + Trimming
 
+  + Overscan
+  
   + MasterBias.
 
   + MasterDark.
@@ -52,9 +52,10 @@ Esquema del programa main:
   ```
   
   # Uso
-  
-  Este programa ejecutará la lista de tareas indicada en el archivo _parameters.yaml_, osea, se deberá editar de antemano ese archivo, puede hacerse con el comando *wowconfig*
- Una vez seteado, se correrá utilizando el comando *wow* en una terminal que tenga los permisos suficientes para correr los módulos requeridos del programa.
+
+  Corriendo en una terminal *wowconfig* se abrirá la interfaz gráfica para editar los parámetros del archivo de configuración. Desde allí se puede correr el programa.
+  Adicionalmente, se puede corrier *wow* desde una terminal. Así,el programa ejecutará la lista de tareas indicada en el archivo _parameters.yaml_.
+
  
  * Nota: En la Sala Informatizada de Carina (FCAG), para correr este programa, se debe proceder de la siguiente manera*
   ```

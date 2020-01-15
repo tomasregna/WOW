@@ -11,7 +11,7 @@ import funciones.auxfunctions as aux
 from astropy.io import ascii
 import numpy as np
 import os
-
+from colorama import Fore
 #%%
 def gentable(phouts,formato='commented_header',tabesq='imagen',path=None):
     '''
@@ -41,6 +41,9 @@ def gentable(phouts,formato='commented_header',tabesq='imagen',path=None):
         tablestars(phouts,formato)
     elif tabesq=='imagen':
         tablesimg(phouts,formato)
+        
+    
+    print(Fore.RED +'Tablas completas')
     if path is not None:
         aux.chdir(originalpath)
                 

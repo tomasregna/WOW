@@ -3,10 +3,10 @@ backup:
   opciones:
     filename: null
     formato: tar
-  path: /home/natalia/20180601
+  path: null
 fotometria:
   dofotometria: false
-  imobj: imphot.in
+  imobj: None
   opciones:
     RF: false
     annulus: 30.0
@@ -16,32 +16,34 @@ fotometria:
     autofwhm: true
     buscarest: true
     cielo: 0.0
-    coords: null
+    coords: None
     dannulus: 5.0
     fwhm: 0.0
-    pathc: null
+    pathc: None
     telescopio: JS
     tr: 4.0
-  path: /home/natalia/20180601
+  path: None
 reducir:
-  doreducir: true
-  imbias: bias.in
-  imflat: flats.in
-  imobj: images.in
+  doreducir: false
+  imbias: None
+  imflat: null
+  imobj: None
+  limflat: None
   opciones:
     dark: false
     filterfield: null
-    imdark: null
-    pathdk: null
-  overscan: '[1:409, 410:410]'
-  pathbi: /home/natalia/20180601
-  pathfl: /home/natalia/20180601
-  pathim: /home/natalia/20180601
-  trim: '[10:400,10:400]'
+    imdark: None
+    pathdk: None
+  overscan: null
+  pathbi: None
+  pathf: None
+  pathfl: null
+  pathim: None
+  trim: null
 tabla:
   dotabla: false
   opciones:
     esquema: estrella
-    formato: aastex
-  path: /home/natalia/20180601
-  phouts: imphot_phots.in
+    formato: latex
+  path: None
+  phouts: None
