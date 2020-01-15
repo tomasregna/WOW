@@ -119,6 +119,8 @@ def filtersep(images,path=None,field=None):
 
 #%%
 def filtersep2(images,field=None,path=None):
+
+    
     
     field=aux.default(field,'FILTER02')
     imagesl='@'+images
@@ -128,19 +130,28 @@ def filtersep2(images,field=None,path=None):
                                
     listafull = aux.hselect(imagesl,field)
     imagelist= np.genfromtxt(images,dtype=None)
-    
-    j=0
-    filt=[]
-    for x in listafull:
-        var=str(x)[-2]
-        if var == 'e' :
-            filt.append('U')
-            aux.hedit(imagelist[j],fields="FILTNEW",value='U')
-        else:
-            filt.append(var)
-            aux.hedit(imagelist[j],fields="FILTNEW",value=var)
-        j=j+1
-    
+
+    if field == 'FILTER02':
+        j=0
+        filt=[]
+        for x in listafull:
+            var=str(x)[-2]
+            if var == 'e' :
+                filt.append('U')
+                aux.hedit(imagelist[j],fields="FILTNEW",value='U')
+            else:
+                filt.append(var)
+                aux.hedit(imagelist[j],fields="FILTNEW",value=var)
+            j=j+1
+    else:
+        filt=[]
+        j=0
+        for x in listafull:
+            filt.append(x)
+            aux.hedit(imagelist[j],fields='FILTNEW',value=x)
+            j=j+1
+        
+            
     filt1=np.unique(filt)
     
     listadearchivos=[]
