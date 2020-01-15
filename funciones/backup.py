@@ -32,7 +32,10 @@ def backup(dirname=None,path=None,bformat="tar"):
         
     if path is not None:
         originalpath=aux.chdir(path,save=True) # moves towards path
-      
+
+# =============================================================================
+#   CREATES BACKUP FOLDER IF NECESARY      
+# =============================================================================
     username=os.getenv('USER') #pide el nombre de usuario para poder
                                #concatenarlo al /home
                                
@@ -43,6 +46,9 @@ def backup(dirname=None,path=None,bformat="tar"):
                            #crea uno
     now=datetime.now()
     
+# =============================================================================
+#     CREATES DIRNAME
+# =============================================================================
     if dirname is not None:   # antes ignoraba el entry de aca
         if os.path.exists(backpath+"/"+dirname):  
             add=str(now.year)+str(now.day)+str(now.month) 
@@ -58,12 +64,14 @@ def backup(dirname=None,path=None,bformat="tar"):
             i=i+1
             dirname=str(now.year)+str(now.day)+str(now.month)+'-'+str(i)
   
-
+# =============================================================================
+#       MAKE COMPRESS FILE
+# =============================================================================
     sh.make_archive(dirname,bformat,path)#si no existe el
         #backup, genera uno con una tarea de shutil 
         
-    here=os.getcwd()
-    sh.move(here+'/'+dirname+'.'+bformat,backpath+'/'+dirname+'.'+bformat)
+    here=os.getcwd() # gets current path 
+    sh.move(here+'/'+dirname+'.'+bformat,backpath)
     
     if path is not None:  # vuelve al directorio principal.
         aux.chdir(originalpath)
