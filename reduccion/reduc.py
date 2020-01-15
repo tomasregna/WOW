@@ -13,8 +13,9 @@ Created on Thu Sep 19 13:06:43 2019
 import numpy as np 
 from pyraf import iraf
 import funciones.auxfunctions as aux
+import rdgain as rg
 #%%
-def masterbias(biaslist,outfile=None,path=None): 
+def masterbias(biaslist,outfile=None,path=None,area=None,sec=None): 
     '''
      Dada una lista de bias, genera un masterbias.
 
@@ -57,6 +58,14 @@ def masterbias(biaslist,outfile=None,path=None):
 
     iraf.zerocombine.output=outfile # set outfile parameter
     iraf.zerocombine.input=bias  #set input file parameter
+    
+    over(sec)
+    trim(area)
+   
+    rdnoise,gain=rg.getrdga(biaslist)
+    iraf.zerocombine.rdnoise=rdnoise
+    iraf.zerocombine.gain=gain
+    
     iraf.ccdpro.noproc='no'
     iraf.zerocombine.mode="ql"
     iraf.zerocombine() # creates masterbias
@@ -66,7 +75,7 @@ def masterbias(biaslist,outfile=None,path=None):
     
     
     
-def masterdark(darklist,outfile=None,mastbia=None,path=None):
+def masterdark(darklist,outfile=None,mastbia=None,path=None,area=None,sec=None):
     '''
    Dada una lista de darks, genera un masterdark.
      
@@ -121,8 +130,13 @@ def masterdark(darklist,outfile=None,mastbia=None,path=None):
     iraf.ccdproc.zero='yes' #indica que hay que usar el bias
     iraf.ccdpro.zero=mastbia # indica cual es el masterbias
     iraf.ccdproc.fixpix='no'
-    iraf.ccdproc.overscan='no'
-    iraf.ccdproc.trim='no' #no disponible trim, overs ni fixpix en la v1.0
+    
+    over(sec)
+    trim(area)
+
+    rdnoise,gain=rg.getrdga(darklist)
+    iraf.darkcombine.rdnoise=rdnoise
+    iraf.darkcombine.gain=gain
     
     iraf.darkcombine.output=outfile # set outfile parameter
     iraf.darkcombine.input=dark     # set input file parameter
@@ -136,7 +150,7 @@ def masterdark(darklist,outfile=None,mastbia=None,path=None):
  
  
 def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
-               mastdark=None,path=None):  
+               mastdark=None,path=None,area=None,sec=None):  
     '''
       Dada una lista de flats, genera el masterflat de cada set de flat, por
       filtro.
@@ -200,8 +214,14 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
 
     iraf.flatcombine.process='yes'
     iraf.ccdproc.fixpix='no'
-    iraf.ccdproc.overscan='no'
-    iraf.ccdproc.trim='no' #no disponible trim, overs ni fixpix en la v1.0
+    
+    over(sec)
+    trim(area)
+    
+    rdnoise,gain=rg.getrdga(flatlist)
+    iraf.flatcombine.rdnoise=rdnoise
+    iraf.flatcombine.gain=gain
+    
     iraf.flatcombine.output=outfile # sets output file    
     iraf.flatcombine.input=flat    # sets input file
     iraf.ccdpro.noproc='no'
@@ -214,7 +234,7 @@ def masterflat(flatlist,outfile=None,mastbia=None,Dark=False,
 #%%
     
 def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
-            ,mastflat=None,prefix=None):
+            ,mastflat=None,prefix=None,area=None,sec=None):
     '''
      Dada una lista de imágenes de ciencia, las reduce.
      
@@ -294,9 +314,14 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
         aux.rm(letrita+x)
         
     iraf.ccdproc.fixpix='no'
-    iraf.ccdproc.overscan='no'
-    iraf.ccdproc.trim='no' #no disponible trim, overs ni fixpix en la v1.0
+    
+    over(sec)
+    trim(area)
+    
+    
     iraf.ccdpro.output=output  #set outfile
+    
+    
     iraf.ccdpro.images=images  # set input file
     iraf.ccdpro.noproc='no'
     iraf.ccdpro.mode="ql"
@@ -305,3 +330,16 @@ def process(imagelist,path=None,Dark=False,mastbia=None,mastdark=None
         aux.chdir(originalpath)
 #%%
      
+def trim(area):
+    if area is not None:
+        iraf.ccdproc.trim='yes'
+        iraf.ccdproc.trimsec=area  # IRAF format
+    else:
+        iraf.ccdproc.trim='no'            
+        
+def over(sec):
+    if sec is not None:
+        iraf.ccdproc.overscan='yes'
+        iraf.ccdproc.biassec=sec
+    else:
+        iraf.ccdproc.overscan='no'

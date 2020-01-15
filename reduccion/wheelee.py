@@ -5,9 +5,10 @@ import funciones.auxfunctions as aux
 import os
 import reduc
 import numpy as np
+import rdgain as rg
 #%%
 def flatw(filters,listobj,path=None,mastbia=None,dark=False,
-               mastdark=None):
+               mastdark=None,area=None,sec=None):
     '''
       Dada una lista con los flats por filtro, realiza el masterflat en cada
       filtro de dicha lista.
@@ -47,7 +48,7 @@ def flatw(filters,listobj,path=None,mastbia=None,dark=False,
     for x in filters:
         outfile=os.path.splitext(listobj[i])[0]+'.fits'
         f.write(outfile+'\n')
-        reduc.masterflat(listobj[i],outfile,mastbia,dark,mastdark,path)
+        reduc.masterflat(listobj[i],outfile,mastbia,dark,mastdark,path,area,sec)
         i=i+1
     f.close()
     
@@ -55,7 +56,7 @@ def flatw(filters,listobj,path=None,mastbia=None,dark=False,
         aux.chdir(originalpath)
  #%%      
 def procw(filters,listobj,path=None,mastbia=None,dark=False,
-               mastdark=None,flatin='mflatlist.in',prefix=None):
+               mastdark=None,flatin='mflatlist.in',prefix=None,area=None,sec=None):
     '''
       Dada una lista con los flats por filtro, realiza el masterflat en cada
       filtro de dicha lista.
@@ -101,7 +102,8 @@ def procw(filters,listobj,path=None,mastbia=None,dark=False,
         image=listobj[i]
         flat=flatlist[i]
 #        if 
-        reduc.process(image,path,dark,mastbia,mastdark,flat,prefix)        
+        rg.fillheader(image)
+        reduc.process(image,path,dark,mastbia,mastdark,flat,prefix,area,sec)        
         i=i+1
         
     if path is not None:
