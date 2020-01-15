@@ -10,6 +10,10 @@ Esquema del programa main:
 
 * **Pre-reducción de imágenes.**
 
+  + Overscan
+  
+  + Trimming
+
   + MasterBias.
 
   + MasterDark.
