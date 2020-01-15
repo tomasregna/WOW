@@ -1,1 +1,6 @@
-emacs $HOME"/WOW/parameters.yaml"
+#!/bin/bash
+cwd=$PWD
+cd $HOME
+cd WOW
+python -W ignore GUI.py
+cd $cwd
