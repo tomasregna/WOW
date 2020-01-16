@@ -23,8 +23,8 @@ def photom(images,anillo,danillo,apertura,outfile=None,path=None,coords='coords.
       images   : Lista de imágenes .in o archivo .fits
       (coords)   : Archivo con las coordenadas de los objetos, por defecto
                        es "coords.in"
-      anillo   : ?
-      danillo  : ??
+      anillo   : radio annulus
+      danillo  : radio dannulus
       apertura : Apretura de los radios, ingresada como un string
                     ej: r1,r2:rn-1,rn
       (outfile): Nombre de archivo(s) de salida. por defecto es el nombre de
@@ -65,7 +65,7 @@ def photom(images,anillo,danillo,apertura,outfile=None,path=None,coords='coords.
  #    setea parámetros de la fotometría   
     iraf.fitskypars.annulus=anillo  # radio del anillo interior (cuentas obj - cuentas d cielo)
     iraf.fitskypars.dannulus=danillo  # radio del anillo exterior(cuentas cielo)
-    iraf.photpars.apertures="0.5,1:30:1"
+#    iraf.photpars.apertures="0.5,1:30:1"
     iraf.photpars.apertures= apertura # intervalo de radios a tomar
     iraf.phot.interac='no'
     iraf.phot.verify='no'

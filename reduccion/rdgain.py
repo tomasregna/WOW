@@ -7,14 +7,33 @@ Created on Tue Jan 14 18:21:49 2020
 """
 import numpy as np 
 from pyraf import iraf
+import os
+#%%
 import funciones.auxfunctions as aux
 #%%
-def telescopefinder(image):
-    telfield=aux.hselect(image,'TELESCOP')
-    if 'HSH' in telfield:
-        telescopio='HSH'
+def telescopefinder(image,path=None):
+    if path is not None:
+        originalpath=aux.chdir(path,save=True)
+    a=os.path.splitext(image)[-1]
+ 
+    if a=='.fit' or a=='.fits':
+    
+        telfield=aux.hselect(image,'TELESCOP')
+        if 'HSH' in telfield:
+            telescopio='HSH'
+        else:
+            telescopio='JS'
     else:
-        telescopio='JS'
+        lista=np.genfromtxt(image,dtype=None)
+        im=lista[0]
+        telfield=aux.hselect(im,'TELESCOP')
+        if 'HSH' in telfield:
+            telescopio='HSH'
+        else:
+            telescopio='JS'     
+            
+    if path is not None:
+        aux.chdir(originalpath)
     return telescopio
 
 #%% 
@@ -58,3 +77,45 @@ def fillheader(images):
         for im in lista:
             aux.hedit(im,'tel',tel)
              
+#%%%%%%%%%
+        
+def RF(images,path=None):
+    if path is not None:
+        originalpath=aux.chdir(path,save=True)
+    
+    ext=os.path.splitext(images)[-1]
+    tel=telescopefinder(images)
+    if ext=='.fit' or ext=='.fits':
+        
+        if tel=='JS':
+            comnt=aux.hselect(images,'COMMENT')
+            
+            criterio="c/Red. Focal"
+            if criterio in comnt[0]:
+                redF=True
+            else:
+                redF=False          
+            
+        else:
+            redf=False
+            
+    else:
+        im=np.genfromtxt(images,dtype=None)[0]
+        
+        if tel=='JS':
+            comnt=aux.hselect(im,'COMMENT')
+            comnt=comnt[0]
+            criterio="c/Red. Focal"
+            if criterio in comnt:
+                redF=True
+            else:
+                redF=False          
+            
+        else:
+            redF=False
+    if path is not None:
+        aux.chdir(originalpath)
+    return redF
+
+            
+        

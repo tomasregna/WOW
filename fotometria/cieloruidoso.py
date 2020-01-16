@@ -38,7 +38,12 @@ def skynoise(image,path=None):
     binn=binn[1]  # access first character
     binn=int(binn)  # converts string to integer
 
-    limits=aux.hselect(image,'CCDSIZE') # gets ccd pixel size
+    #------------------------------------------------------------------
+    ccdsec=aux.hselect(image,'CCDSEC') # para agarrar imagenes con trim
+    if ccdsec[0]=='':
+        limits=aux.hselect(image,'CCDSIZE') # gets ccd pixel size
+    else:
+        limits=aux.hselect(image,'BIASSEC')
     limit=limits[0]  # gets element 0 of the array
     limit=limit.strip() # removes white space
     dd=[]  # stores position of double dot
@@ -50,21 +55,29 @@ def skynoise(image,path=None):
         elif x==',': # if character is ,
             c.append(i) #stores index
         i=i+1
+    #-----------------------------------------------------------------
+#   
+#    x1=int(limit[1:dd[0]])  # saves first limit
+#    y1=int(limit[c[0]+1:dd[1]]) #saves las limit
 
-    l1=int(limit[dd[0]+1:c[0]])/int(binn) # limit one of ccd / binning
-    l2=int(limit[dd[1]+1:-1])/int(binn)  # limit two  of ccd/ binning
+    x2=int(limit[dd[0]+1:c[0]]) 
+    y2=int(limit[dd[1]+1:-1])  
     
-    # set random numbers aux file
+    l1=x2/binn # limit one 
+
+    l2=y2/binn # limit two  
+    # set random numbers aux file   
     aux.rm('ruidoceleste.coo') #delete if already exists
     output='ruidoceleste.coo'
   
     
     coords=[]
     nrandom=int((l1**2)/100.) #quadratic growth
+    
     f=open(output,'a+') # creates outfile
     for i in range(nrandom): # creates l1/10 random coordinates
-        x=random.randint(1,l1) # random x coord, from 1 to l1
-        y=random.randint(1,l2) # random y coord, from 1 to l2
+        x=random.randint(1,l1) # random x coord, from x1 to l1
+        y=random.randint(1,l2) # random y coord, from y1 to l2
         coords.append([x,y])
         print >> f,x,y  # writes coords in file 
     f.close()

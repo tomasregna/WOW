@@ -5,7 +5,7 @@ import sys
 import yaml
 import os
 import subprocess
-
+from colorama import Fore, Style
 import wow
 
 #%%
@@ -24,7 +24,7 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
 
         self.setWindowIcon(QtGui.QIcon('wowlogo5.png'))
         
-       
+
         '''
         Ahora voy a definir las funcionalidades de los botones principales
         '''
@@ -172,18 +172,20 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         self.buscarcoordenadas_2.clicked.connect(self.coordbrow)
         self.findphots_2.clicked.connect(self.imbrow)
         #---------------
+#        EN V1.2 ya no existe esto
         # seteo lista de telescopios
-        self.selectelescopi_3.addItems(('JS','HSH'))
+#        self.selectelescopi_3.addItems(('JS','HSH'))
         #todo: if telescopio X habilitar el RF
 
         # dejo estos valores x defecto
-        self.fWHMLineEdit_2.setText('0')
-        self.ruidoDeCieloLineEdit_2.setText('0')
-        self.aperturaLineEdit_2.setText('0')
-        self.trinput_2.setText('0')
-        self.aperturaLineEdit_2.setText('0')
-        self.annulusLineEdit_2.setText('0')
-        self.dannulusLineEdit_2.setText('0')
+        # desactualizado V1.1
+#        self.fWHMLineEdit_2.setText('0')
+#        self.ruidoDeCieloLineEdit_2.setText('0')
+#        self.aperturaLineEdit_2.setText('0')
+#        self.trinput_2.setText('0')
+#        self.aperturaLineEdit_2.setText('0')
+#        self.annulusLineEdit_2.setText('0')
+#        self.dannulusLineEdit_2.setText('0')
         
         '''
 -----------------------------------------------------
@@ -272,7 +274,7 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         self.coordenadasLabel_2.setEnabled(habilita2)
         self.buscarcoordenadas_2.setEnabled(habilita2)
         self.buscestrelabel_2.setEnabled(habilita)
-        self.grouptelescop_2.setEnabled(habilita3)
+#        self.grouptelescop_2.setEnabled(habilita3)
         self.grupobuscestrellas_2.setEnabled(habilita)
         self.grouptres_2.setEnabled(habilita)
         
@@ -295,7 +297,7 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
             habilita=True
         self.fWHMLineEdit_2.setEnabled(habilita)
         self.fWHMLabel_2.setEnabled(habilita)
-        self.grouptelescop_2.setEnabled(not habilita)   
+#        self.grouptelescop_2.setEnabled(not habilita)   
     def checkautocielo(self,int):
         if self.calcularRuidoDelCieloCheckBox_2.isChecked():
             habilita=False
@@ -365,7 +367,7 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         
         maindict['fotometria']['path'],maindict['fotometria']['imobj']=self.filpath(self.imagenesedit_2.text())
         
-        maindict['fotometria']['opciones']['RF']=self.redfocal_3.isChecked()
+#        maindict['fotometria']['opciones']['RF']=self.redfocal_3.isChecked()
         maindict['fotometria']['opciones']['annulus']=float(
             self.annulusLineEdit_2.text())
         maindict['fotometria']['opciones']['dannulus']=float(
@@ -382,8 +384,8 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
 
         maindict['fotometria']['opciones']['fwhm']=float(
             self.fWHMLineEdit_2.text())
-        maindict['fotometria']['opciones']['telescopio']=self.strn(
-            self.selectelescopi_3.currentText())
+#        maindict['fotometria']['opciones']['telescopio']=self.strn(
+#            self.selectelescopi_3.currentText())
         maindict['fotometria']['opciones']['tr']=float(self.trinput_2.text())
         maindict['fotometria']['opciones']['autoapertura']=self.aperturaAtumTicaCheckBox_2.isChecked()
         ########
@@ -439,7 +441,7 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         fileandpath=str(maindict['fotometria']['path'])+'/'+str(maindict['fotometria']['imobj'])
         self.imagenesedit_2.setText(fileandpath)
 
-        self.redfocal_3.setChecked(maindict['fotometria']['opciones']['RF'])
+#        self.redfocal_3.setChecked(maindict['fotometria']['opciones']['RF'])
         self.annulusLineEdit_2.setText(self.strn(maindict['fotometria']['opciones']['annulus']))
         self.dannulusLineEdit_2.setText(self.strn(maindict['fotometria']['opciones']['dannulus']))
         self.aperturaLineEdit_2.setText(self.strn(maindict['fotometria']['opciones']['apertura']))
@@ -450,7 +452,7 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
         fileandpath=str(maindict['fotometria']['opciones']['pathc'])+'/'+str(maindict['fotometria']['opciones']['coords'])
         self.coordenadasLineEdit_2.setText(fileandpath)
         self.fWHMLineEdit_2.setText(self.strn(maindict['fotometria']['opciones']['fwhm']))
-        self.selectelescopi_3.setCurrentIndex(('JS','HSH').index(maindict['fotometria']['opciones']['telescopio']))
+#        self.selectelescopi_3.setCurrentIndex(('JS','HSH').index(maindict['fotometria']['opciones']['telescopio']))
         self.trinput_2.setText(self.strn(maindict['fotometria']['opciones']['tr']))
         self.aperturaAtumTicaCheckBox_2.setChecked(maindict['fotometria']['opciones']['autoapertura'])
 
@@ -491,6 +493,8 @@ class MainWindow(QtWidgets.QDialog, Ui_WOW):
 
 
 if __name__ == "__main__":
+    print(Fore.MAGENTA + 'Bienvenidx a la versión fancy de WOW!')
+    print(Style.RESET_ALL)
     app = QtWidgets.QApplication([])
     window = MainWindow()
     window.show()

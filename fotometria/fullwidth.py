@@ -7,6 +7,7 @@ Created on Thu Nov 14 15:57:23 2019
 """
 import numpy as np
 import funciones.auxfunctions as aux
+from reduccion.rdgain import telescopefinder,RF
 #%%
 
 def fullwidth(obser,binning=1,RF=False):
@@ -28,10 +29,12 @@ def fullwidth(obser,binning=1,RF=False):
     full=seeing/(escala*binning)
     return full
 #%%
-def multifull(images,obser,path=None,RF=False):
+def multifull(images,path=None):
     if path is not None:
         originalpath=aux.chdir(path,save=True)
     
+    obser=telescopefinder(images,path)
+    redf=RF(images,path)
     images=np.genfromtxt(images,dtype=None)
     fwhm=[]
     for im in images:
@@ -39,7 +42,7 @@ def multifull(images,obser,path=None,RF=False):
        binn=binn[0]  # access element 0 of the array
        binn=binn[1]  # access first character
        binn=int(binn)  # converts string to integer
-       fwhm.append(fullwidth(obser,binn,RF))
+       fwhm.append(fullwidth(obser,binn,redf))
       
         
     if path is not None:

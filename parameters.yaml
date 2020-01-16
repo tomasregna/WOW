@@ -1,14 +1,13 @@
 backup:
-  dobackup: true
+  dobackup: false
   opciones:
     filename: null
     formato: tar
   path: null
 fotometria:
   dofotometria: false
-  imobj: None
+  imobj: Robj.in
   opciones:
-    RF: false
     annulus: 30.0
     apertura: 0.0
     autoapertura: true
@@ -20,9 +19,8 @@ fotometria:
     dannulus: 5.0
     fwhm: 0.0
     pathc: None
-    telescopio: JS
     tr: 4.0
-  path: None
+  path: /home/natalia/Documentos/Materias/Sistemas/DatosCASLEO/Sistemas19/data/20190906/CCD_Directo
 reducir:
   doreducir: false
   imbias: None
@@ -41,9 +39,9 @@ reducir:
   pathim: None
   trim: null
 tabla:
-  dotabla: false
+  dotabla: true
   opciones:
-    esquema: estrella
-    formato: latex
-  path: None
-  phouts: None
+    esquema: imagen
+    formato: html
+  path: /home/natalia/Documentos/Materias/Sistemas/DatosCASLEO/Sistemas19/data/20190906/CCD_Directo
+  phouts: Robj_phots.in
