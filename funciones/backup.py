@@ -5,6 +5,7 @@ import shutil as sh
 import os
 from datetime import datetime
 import auxfunctions as aux
+from colorama import Fore
 
 #%%
 def backup(dirname=None,path=None,bformat="tar"):
@@ -50,7 +51,7 @@ def backup(dirname=None,path=None,bformat="tar"):
 #     CREATES DIRNAME
 # =============================================================================
     if dirname is not None:   # antes ignoraba el entry de aca
-        if os.path.exists(backpath+"/"+dirname):  
+        if os.path.exists(backpath+"/"+dirname+'.'+bformat):  
             add=str(now.year)+str(now.day)+str(now.month) 
             i=0
             while (os.path.exists(backpath+'/'+dirname+add+'.'+bformat)):
@@ -72,6 +73,10 @@ def backup(dirname=None,path=None,bformat="tar"):
         
     here=os.getcwd() # gets current path 
     sh.move(here+'/'+dirname+'.'+bformat,backpath)
+    
+    
+    
+    print(Fore.RED +'Backup completo')
     
     if path is not None:  # vuelve al directorio principal.
         aux.chdir(originalpath)
