@@ -1,41 +1,47 @@
 backup:
- dobackup:             # hacer backup (Yes/No)
- path:                 # camino a los archivos para backup (string)
- 
-reducir:
- doreducir :           # hacer la reduccion (Yes/No)
- imobj:                # lista de imagenes de ciencia (string)
- path:                 # camino a imobj,imflat,imbias,imdark (string)
- imflat:               # lista de imagenes flat (string)
- imbias:               # lista de imagenes bias (string)
- opciones:
-  filterfield:         # campo del header donde esta el filtro (string)
-  dark: No             # hacer correccion por dark (Yes/No)
-  imdark:              # lista de imagenes dark (string)
-  
+  dobackup: false
+  opciones:
+    filename: null
+    formato: tar
+  path: null
 fotometria:
- dofotometria:         # hacer fotometria (Yes/No)
- imobj:                # imagenes para hacer fotometria (string)
- path:                 # camino a imobj (string)
- opciones:
-   buscarest:          # buscar estrellas automaticamente (Yes/No)
-   coords:             # ingresar archivo de coordenadas manualmente (string)
-   autofwhm:           # buscar fwhm automaticamente (Yes/No)
-   telescopio:         # telescopio usado (HSH o JS)
-   RF:                 # si se uso un reductor focal (Yes/No)
-   fwhm:                 # FWHM si se quiere ingresar manualmente (float)
-   autocielo:          # buscar desv estandar del cielo automaticante (Yes/No)
-   cielo:              # desv est del cielo si se quiere ingresar manualmente (float)
-   tr:                 # treshold       (float)
-   annulus:            # annulus radio  (float)
-   dannulus:           # dannulus radio (float)
-   autoapertura:       # setea dos radios de apertura, de FWHM y 2FWHM (Yes/No)
-   apertura:           # radios de apertura manuales(string en formato iraf)
-  
+  dofotometria: false
+  imobj: Robj.in
+  opciones:
+    annulus: 30.0
+    apertura: 0.0
+    autoapertura: true
+    autocielo: true
+    autofwhm: true
+    buscarest: true
+    cielo: 0.0
+    coords: None
+    dannulus: 5.0
+    fwhm: 0.0
+    pathc: None
+    tr: 4.0
+  path: /home/natalia/Documentos/Materias/Sistemas/DatosCASLEO/Sistemas19/data/20190906/CCD_Directo
+reducir:
+  doreducir: false
+  imbias: None
+  imflat: null
+  imobj: None
+  limflat: None
+  opciones:
+    dark: false
+    filterfield: null
+    imdark: None
+    pathdk: None
+  overscan: null
+  pathbi: None
+  pathf: None
+  pathfl: null
+  pathim: None
+  trim: null
 tabla:
- dotabla:              # generar tabla (Yes/No)
- phouts:               # tabla o tablas para formatear (string) 
- path:                 # camino a phots (string) 
- opciones:
-  formato:             # formato de tablas (string, formatos de astropy.Tables)
-  esquema:             # esquema de tablas (imagen,estrella)
+  dotabla: true
+  opciones:
+    esquema: imagen
+    formato: html
+  path: /home/natalia/Documentos/Materias/Sistemas/DatosCASLEO/Sistemas19/data/20190906/CCD_Directo
+  phouts: Robj_phots.in

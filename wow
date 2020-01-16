@@ -2,5 +2,5 @@
 cwd=$PWD
 cd $HOME
 cd WOW
-yes "" | python -W ignore __main__.py
+yes "" | python -W ignore wow.py
 cd $cwd

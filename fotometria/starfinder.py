@@ -95,8 +95,9 @@ def multisf(imagelist,farr,sarr,thold,zmin=None,zmax=None,
     if outfile is None :
         outfile=[]
         for im in listaim:
-            aux.rm(im+'.coo') #delete all previous coord files if exist
-            outfile.append(im+'.coo')
+            imn=os.path.splitext(im)[0]
+            aux.rm(imn+'.coo') #delete all previous coord files if exist
+            outfile.append(imn+'.coo')
     f=open('coords.in','w+')
     for out in outfile:
       print >> f,out

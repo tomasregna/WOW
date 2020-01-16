@@ -11,7 +11,7 @@ import funciones.auxfunctions as aux
 from astropy.io import ascii
 import numpy as np
 import os
-
+from colorama import Fore
 #%%
 def gentable(phouts,formato='commented_header',tabesq='imagen',path=None):
     '''
@@ -41,6 +41,9 @@ def gentable(phouts,formato='commented_header',tabesq='imagen',path=None):
         tablestars(phouts,formato)
     elif tabesq=='imagen':
         tablesimg(phouts,formato)
+        
+    
+    print(Fore.RED +'Tablas completas')
     if path is not None:
         aux.chdir(originalpath)
                 
@@ -107,12 +110,14 @@ def tablesimg(phouts,formato='commented_header'):
     Hace una tabla por imagen, con todas las estrellas.
     '''
     if os.path.splitext(phouts)[-1] == '.phot': 
+        # si hay tabla unica
         t=Table.read(phouts,format='daophot')
         name=os.path.splitext(phouts)[0]+'.tab'
         aux.rm(name)
         f=open(name,'w+')
         ascii.write(t,f,format=formato)
     else:
+        #varias tablas
         listaphot=np.genfromtxt(phouts,dtype=None)
         for ph in listaphot:
                 t=Table.read(ph,format='daophot')

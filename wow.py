@@ -1,7 +1,8 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 import yaml
-from colorama import Fore
+from colorama import Fore, Style
+import numpy as np
 #%%
 def main():
     '''
@@ -22,7 +23,9 @@ def main():
     from fotometria.fullwidth import multifull
 
 
-    print(Fore.MAGENTA + 'Bienvenidx a WOW!')
+#    print(Fore.MAGENTA + 'So astronomy')
+#    print(Style.RESET_ALL)
+
 #%%
     '''
     Lee archivo de parametros
@@ -76,40 +79,38 @@ def main():
         images=data['fotometria']['imobj']  # get images
         path2=data['fotometria']['path']    # get path
         if data['fotometria']['opciones']['buscarest']:   # if buscar est
-
+            #busca estrellas
+            
             if data['fotometria']['opciones']['autocielo']: # if autocielo
-                cielo=skynoises(images,path=path2)
+                cielo=skynoises(images,path=path2) #obtiene array de skynoise
             else:                                           # else lee file
                 cielo=data['fotometria']['opciones']['cielo']
 
             if data['fotometria']['opciones']['autofwhm']:  # if autofwhm
-                tel=data['fotometria']['opciones']['telescopio']  # get obser
-                redf=data['fotometria']['opciones']['RF']         # get rf
-                fw=multifull(images,tel,RF=redf,path=path2)      
+                fw=multifull(images,path=path2)             #calcula array fwhm
             else:                                           # else lee file
                 fw=data['fotometria']['opciones']['fwhm']
                 
             tres=data['fotometria']['opciones']['tr']       # get treshold
-
-            multisf(images,farr=2*fw,sarr=cielo,thold=tres,path=path2)
             
-            an=data['fotometria']['opciones']['annulus']    # get annulus
-            dan=data['fotometria']['opciones']['dannulus']  # get dannulus
-            if data['fotometria']['opciones']['autoapertura']:   # if auto aper
-                ap=str(fw)+','+str(2*fw)
-            else:
-                ap=data['fotometria']['opciones']['apertura']    # else lee file
-            photom(images,an,dan,ap,path=path2)
-        else:                                               # else lee file
-            an=data['fotometria']['opciones']['annulus']   
-            dan=data['fotometria']['opciones']['dannulus']
-            if data['fotometria']['opciones']['autoapertura']:
-                ap=str(fw)+','+str(2*fw)
-            else:
-                ap=data['fotometria']['opciones']['apertura']
-            cords=data['fotometria']['opciones']['coords']
-            pathc=data['fotometria']['opciones']['pathc']
-            photom(images,an,dan,ap,path=pathc,coords=cords)
+            # busca las estrellaas.
+            multisf(images,farr=2*fw,sarr=cielo,thold=tres,path=path2)
+            cords='coords.in'   # auto value
+            pathc=path2         # auto value
+        else:                                      # else lee file para coords
+            cords=data['fotometria']['opciones']['coords']   # user input
+            pathc=data['fotometria']['opciones']['pathc']    # user input             
+            
+        an=data['fotometria']['opciones']['annulus']    # get annulus
+        dan=data['fotometria']['opciones']['dannulus']  # get dannulus
+        if data['fotometria']['opciones']['autoapertura']:   # if auto aper
+            fwhm=np.unique(fw)
+            fwhm=round(fwhm[0],1)
+            ap=str(fwhm)+','+str(2*fwhm)  # redondeo a un decimal
+            
+        else:
+            ap=data['fotometria']['opciones']['apertura']    # else lee file
+        photom(images,an,dan,ap,path=pathc,coords=cords)
             #%%
     '''
     Tabla
@@ -121,8 +122,11 @@ def main():
         gentable(data['tabla']['phouts'],formato=form,tabesq=esque,path=path3)
         
         
-    print(Fore.YELLOW + 'WOW')
+    print('\n' + Fore.YELLOW + 'WOW')
+    print(Style.RESET_ALL)
 #%%
   
 if __name__== "__main__":
+    print(Fore.MAGENTA + 'Bienvenidx a la versión vintage de WOW!')
+    print(Style.RESET_ALL)
     main()
